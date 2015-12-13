@@ -1,0 +1,639 @@
+<!Doctype HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  <script src="/Users/BAlKhamissi/Documents/Badr Projects/Web Development/jQuery.js"></script>
+  <script type="text/javascript" src=""></script>
+  <link href="" rel="stylesheet" type="text/css" />
+  <title>Badr AlKhamissi</title>
+
+  <style type="text/css">
+/*
+Colors:
+Greenish Blue: #21CDB1 | #2CA39E
+Bkackish Brown: #434242 (text)
+Yellowish Orange: #F3EFE1
+*/
+
+  html {
+    font-family: sans-serif;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  article, aside, details, figcaption, figure, footer, header, hgroup,
+  main, nav, section, summary {
+    display: block
+  }
+
+  nav{
+    text-align: center;
+  }
+
+  nav ul li{
+    display: inline-block;
+    color: white;
+    padding:20px;
+    font-family: "proxima-nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 1px;
+    font-family: "proxima-nova";
+    font-size: 17px;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 2px;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1em;
+    color: rgba(255, 255, 255, .8)
+    -webkit-transition:all 0.5s ease-in-out;
+    -moz-transition:all 0.5s ease-in-out;
+    -o-transition:all 0.5s ease-in-out;
+    transition:all 0.5s ease-in-out;
+  }
+
+  h1, p{
+    color: white;
+  }
+
+  td{
+    font-weight: lighter;
+  }
+
+  td p{
+    color:black;
+  }
+
+  .bordered {
+    border-bottom: 1px solid #000;
+  }
+
+  a {
+    color: gray;
+    text-decoration: none;
+    background: transparent
+  }
+
+  a:focus {
+    outline: thin dotted
+  }
+
+  a:hover, a:active {
+    color:white;
+    outline: 0
+  }
+
+  body{
+    background-color: black;
+  }
+
+  hr{
+    margin: 40px 0px;
+    border-color: #727878;
+    opacity: 0.2;
+  }
+
+
+  #welcome{
+    /*background-image: url('/Users/BAlKhamissi/Desktop/bg.png');*/
+    background-image:  url('https://scontent-cai1-1.xx.fbcdn.net/hphotos-xpf1/v/t1.0-9/10419463_10206034834687923_6138604360982787886_n.jpg?oh=d523a35cde8b9be8c3b48e82b3c92e60&oe=5687E39B');
+    background-size: cover;
+    height: 500px;
+    padding-top: 100px;
+    width: 100%;
+    text-align: center;
+    font-size: 2em;
+    margin: .67em 0
+  }
+
+ #projects{
+   height: auto;
+   width: 100%;
+   background-color: lightgray;
+ }
+
+  #resume{
+    height: auto;
+    width: 100%;
+    background-color: #F3EFE1;
+  }
+
+  #skills{
+    height: auto;
+    width: 100%;
+    background-color: white;
+  }
+
+  .resumeTitle{
+    width: 50%; font-size:17px; font-weight:bold; text-align: left;
+    color: #2CA39E;
+  }
+
+  .resumeTitle p{
+    font-size:13px;
+    text-align: left;
+    color: black;
+  }
+
+  .resumeDesc{
+    text-align: left;
+    padding:0;
+    margin: 0;
+    font-size:15px;
+    color:#434242;
+  }
+
+  .resumeDesc a{
+    color: #2CA39E;
+  }
+
+  .star:hover{
+    width: 60px;
+    height: 60px;
+    background-color: default ;
+    -moz-box-shadow:  0 0 50px yellow;
+    -webkit-box-shadow:  0 0 50px yellow;
+    box-shadow: 0 0 50px yellow;
+  }
+
+  #star:hover{
+    background-color: lightgray;
+  }
+
+  footer{
+    background-color: rgb(51,51,51);
+    width: 100%;
+    height: auto;
+    margin: auto 0;
+    position: relative;
+    color: white;
+  }
+
+  td li{
+    list-style-type: none;
+  }
+
+  p #slide1_controls, p #slide2_controls {
+    text-align:center;
+  }
+  #slide1_controls span, #slide2_controls span{
+    padding-right:2em;
+    cursor:pointer;
+  }
+
+  #slide2_container{
+    width:600px;
+    height:300px;
+    overflow:hidden; /* So the sliding bit doesn't stick out. */
+    margin:0 auto;
+    -webkit-transition:all 1.0s ease-in-out;
+    -moz-transition:all 1.0s ease-in-out;
+    -o-transition:all 1.0s ease-in-out;
+    transition:all 1.0s ease-in-out;
+  }
+
+  #slide1_container{
+    width:600px;
+    height:250px;
+    overflow:hidden; /* So the sliding bit doesn't stick out. */
+    margin:0 auto;
+    -webkit-transition:all 1.0s ease-in-out;
+    -moz-transition:all 1.0s ease-in-out;
+    -o-transition:all 1.0s ease-in-out;
+    transition:all 1.0s ease-in-out;
+  }
+
+  #slide2_images{
+    width:1800px;
+    -webkit-transition:all 1.0s ease-in-out;
+    -moz-transition:all 1.0s ease-in-out;
+    -o-transition:all 1.0s ease-in-out;
+    transition:all 1.0s ease-in-out;
+  }
+
+  #slide1_images{
+    width:1200px;
+    -webkit-transition:all 1.0s ease-in-out;
+    -moz-transition:all 1.0s ease-in-out;
+    -o-transition:all 1.0s ease-in-out;
+    transition:all 1.0s ease-in-out;
+  }
+
+  #slide2_images .resumeTable {
+      float:left; /* All the images are in a row next to each other. */
+      padding:0;
+      margin:0;
+      width:33%;
+  }
+
+  #slide1_images .skillsTable {
+    float:left; /* All the images are in a row next to each other. */
+    padding:0;
+    margin:0;
+    width:50%;
+  }
+
+  #menu{
+    background-color: rgba(0, 0, 0, 0.9);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+  }
+
+  #f1_container {
+    position: relative;
+    margin: 10px auto;
+    width: 300px;
+    height: 300px;
+    z-index: 1;
+  }
+
+  #f1_card {
+    width: 100%;
+    height: 100%;
+  }
+
+  #f1_container:hover #f1_card {
+    transform: rotateY(180deg);
+    box-shadow: -5px 5px 5px #aaa;
+  }
+  .face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
+  .face.back {
+    transform: rotateY(180deg);
+    display: block;
+    box-sizing: border-box;
+    padding: 10px;
+    color: white;
+    text-align: center;
+    background-color: #aaa;
+  }
+
+  </style>
+  <script type="text/javascript">
+
+  window.addEventListener("scroll", function(event) {
+    var top = this.scrollY, left =this.scrollX;
+    var welcomeTop = $('#welcome').offset().top;
+    var resumeTop = $('#resume').offset().top;
+    var skillsTop = $('#skills').offset().top;
+    var projectsTop = $('#projects').offset().top;
+    var contactsTop = $('#contact').offset().top;
+
+    if(top>=contactsTop-400){
+      // Contacts
+      $("#r").css("background-color", "");
+      $("#p").css("background-color", "");
+      $("#s").css("background-color", "");
+      $("#c").css("background-color", "white");
+    }else if(top>=projectsTop-200){
+      // Projects
+      $("#r").css("background-color", "");
+      $("#c").css("background-color", "");
+      $("#s").css("background-color", "");
+      $("#p").css("background-color", "white");
+    }else if(top>=skillsTop-200){
+      // Skills
+      $("#r").css("background-color", "");
+      $("#c").css("background-color", "");
+      $("#p").css("background-color", "");
+      $("#s").css("background-color", "white");
+    }else if(top>=resumeTop-200){
+      // Resume
+      $("#c").css("background-color", "");
+      $("#p").css("background-color", "");
+      $("#s").css("background-color", "");
+      $("#r").css("background-color", "white");
+    }else if(top>=welcomeTop-100){
+      // Me
+      $("#c").css("background-color", "");
+      $("#p").css("background-color", "");
+      $("#r").css("background-color", "");
+      $("#s").css("background-color", "");
+    }
+  }, false);
+
+  $(document).ready(function() {
+    $('#slide1_controls').on('click', 'span', function(){
+      $("#slide1_images").css("transform","translateX("+$(this).index() * -600+"px)");
+      $("#slide1_controls span").removeClass("selected");
+      $("#slide1_controls span").css('background-color',"white");
+      $("#slide1_controls span").css('color',"black");
+
+      if(this.id == "tools"){
+        $("#slide1_container").css('height',"400px");
+      }else{
+        $("#slide1_container").css('height',"250px");
+      }
+
+      $(this).addClass("selected");
+      $(this).css('background-color',"gray");
+      $(this).css('color',"white");
+    });
+  });
+
+  $(document).ready(function() {
+    $('#slide2_controls').on('click', 'span', function(){
+      $("#slide2_images").css("transform","translateX("+$(this).index() * -600+"px)");
+      $("#slide2_controls span").removeClass("selected");
+      $("#slide2_controls span").css('background-color',"#F3EFE1");
+      $("#slide2_controls span").css('color',"black");
+      if(this.id == "activities"){
+        $("#slide2_container").css('height',"660px");
+      }else{
+        $("#slide2_container").css('height',"300px");
+      }
+      $(this).addClass("selected");
+      $(this).css('background-color',"#21CDB1");
+      $(this).css('color',"white");
+    });
+  });
+
+  </script>
+</head>
+<body>
+  <div id="page">
+    <div id="menu">
+      <nav>
+        <ul>
+          <li id="w"><a href="#welcome">Me</a></li>
+          <li id="r"><a href="#resume">Resumé</a></li>
+          <li id="s"><a href="#skills">Skills</a></li>
+          <li id="p"><a href="#projects">Projects</a></li>
+          <li id="b"><a href="">Blog</a></li>
+          <li id="c"><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div id="welcome">
+      <h1>Badr AlKhamissi</h1>
+      <p>Interactive Resumé | Projects | Blog | Me</p>
+    </div>
+    <div id="resume">
+      <table width="50%" cellSpacing="10px" cellPadding="5px;" align="center" border="0">
+        <tr>
+          <td style="text-align:center; color:#434242; font-size:50px; padding:10px;">Interactive Resumé</td>
+        </tr>
+        <tr>
+          <td>
+            <p style="color:black; text-align:center;" id="slide2_controls">
+              <span style="border-radius: 10px; background-color: #21CDB1; color:white; padding:10px; text-align:center" class="selected">Education</span>
+              <span style="border-radius: 10px; padding: 10px; text-align:center" class="">Experience</span>
+              <span style="border-radius: 10px; padding: 10px; text-align:center" id="activities" class="">Activities & Volunteering</span>
+            </p>
+          </td>
+        </tr>
+      </table>
+      <div id="slide2_container">
+        <div id="slide2_images" style="transform: translateX(0px);">
+          <div class="resumeTable">
+            <table cellSpacing="10px" cellPadding="5px" text-align="left" border="0">
+              <div class="resumeSection">
+                <tr>
+                  <td class="resumeTitle" style="">
+                    American Univeristy in Cairo
+                    <span><p>Bachelor of Engineering</p></span>
+                    <span><p>September 2014 - Present</p></span>
+                    <span><p>Cairo, Egypt</p></span>
+                  </td>
+                  <td class="resumeDesc"><li>Expecting to graduate in May 2019</li><li>Current GPA:  4.0</li>
+                    <li>Majoring in Computer Engineering</li><li>Additional coursework in: Computer Science and Humanities</li>
+                  </td>
+                </tr>
+              </div>
+              <div class="resumeSection">
+                <tr>
+                  <td class="resumeTitle">
+                    Manor House School
+                    <span><p>High School I.G.C.S.E, June 2014</p></span>
+                    <span><p>Cairo, Egypt</p></span>
+                  </td>
+                  <td class="resumeDesc"><li>General Certificate of Education</li>
+<li>AL Computing A*</li>
+<li>AL Mathematics:  A</li>
+<li>AL Arabic: A</li>
+<li>AS Physics:  A</li>
+<li>AS Chemistry:  A</li>
+                  </td>
+                </tr>
+              </div>
+            </table>
+          </div>
+          <div class="resumeTable">
+            <table cellSpacing="10px" cellPadding="0" border="0">
+              <div class="resumeSection">
+                <tr>
+                  <td class="resumeTitle" >
+                    Summer Intern SDE, Microsoft Advance Techonology Lab in Cairo (ATLC)
+                    <span><p>June 2015 - August 2015</p></span>
+                    <span><p>Cairo, Egypt</p></span>
+                  </td>
+                  <td class="resumeDesc">Designed and Implemented a feature; Application importing and exporting in Microsoft Language Understanding Intelligent Service (LUIS).
+                    <span><p><a href="https://www.luis.ai">Check LUIS</a></p></span>
+                  </td>
+                </tr>
+              </div>
+              <div class="resumeSection">
+                <tr>
+                  <td class="resumeTitle" style="">
+                    Undergrad Teaching Assistant American University in Cairo
+                    <span><p>September 2015 - Present</p></span>
+                    <span><p>Cairo, Egypt</p></span>
+                  </td>
+                  <td class="resumeDesc">Assist instructor of Programming Fundamentals class in setting the syllabus, designing exams, grading assignments and projects . Hold regular office hours to help students.
+                  </td>
+                </tr>
+              </div>
+            </table>
+          </div>
+          <div class="resumeTable">
+            <table  cellSpacing="10px" cellPadding="5px" border="0">
+              <div class="resumeSection">
+                <tr>
+                  <td class="resumeTitle" style="">
+                    Organizer, Computer Science and Engineering Association
+                    <span><p>Fall 2015</p></span>
+                    <span><p>Cairo, Egypt</p></span>
+                  </td>
+                  <td class="resumeDesc">Member in the academic committee, assist in organizing workshops, sessions and talks related to different fields in Computer Science.</td>
+                </tr>
+              </div>
+              <div class="resumeSection">
+                <tr>
+                  <td class="resumeTitle" style="">
+                    Organizer, Astronomy Club in AUC
+                    <span><p >Fall 2014</p></span>
+                    <span><p>Cairo, Egypt</p></span>
+                  </td>
+                  <td class="resumeDesc">As part of the academic committee of the astronomy club, assisted in the organization of the 2nd Astronomy Conference in AUC.</td>
+                </tr>
+              </div>
+              <div class="resumeSection">
+                <tr>
+                  <td class="resumeTitle" style="">
+                  Volunteer, Doum Cultural Foundation
+                    <span><p>2012-Present</p></span>
+                    <span><p>Cairo, Egypt</p></span>
+                  </td>
+                  <td class="resumeDesc">Developed a Database System for the Organization using MS Access VB and SQL. Sending HTML emails for Doum’s News-list. Managing their website and their digital presence.</td>
+                </tr>
+              </div>
+              <div class="resumeSection">
+                <tr>
+                  <td class="resumeTitle" style="">
+                  Water Polo Player, Gezira Sporting Club
+                    <span><p>2009-2013</p></span>
+                    <span><p>Cairo, Egypt</p></span>
+                  </td>
+                  <td class="resumeDesc">Participated in the Egyptian National Tournament</td>
+                </tr>
+              </div>
+              <div class="resumeSection">
+                <tr>
+                  <td class="resumeTitle" style="">
+                  Delegate, CISV
+                    <span><p>Summer 2010</p></span>
+                    <span><p>Paris, France</p></span>
+                  </td>
+                  <td class="resumeDesc">A member of the Egyptian delegation who participated in organizing a summer camp in Paris, basing activities on 4 educational pillars; diversity, conflict resolution, sustainable development and human rights through experiential learning.</td>
+                </tr>
+              </div>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div id="skills">
+        <table width="50%" cellSpacing="10px" cellPadding="5px;" align="center" border="0">
+          <tr class="bordered">
+            <td style="text-align:center; font-size:50px; padding:10px;">Skills</td>
+          </tr>
+          <tr>
+            <td>
+              <p style="color:black; text-align:center;" id="slide1_controls">
+                <span style="border-radius: 10px; background-color: gray; color:white; padding:10px; text-align:center" class="selected">Programming Languages</span>
+                <span style="border-radius: 10px; padding: 10px; text-align:center" id="tools" class="">Tools & Technologies</span>
+              </p>
+            </td>
+          </tr>
+        </table>
+        <div id="slide1_container">
+          <div id="slide1_images" style="transform: translateX(0px);">
+            <div class="skillsTable">
+              <table cellSpacing="10px" cellPadding="5px" border="0">
+                <tr>
+                  <div id="star"><td style="font-size:20px">C++</td><td style="border-right: 0.5px solid"><img src="5_star.png"/></td></div>
+                  <td style="font-size:20px">Swift</td><td><img src="4_star.png"/></td>
+                </tr>
+                <tr>
+                  <td style="font-size:20px">HTML/CSS</td><td style="border-right: 0.5px solid"><img src="5_star.png"/></td>
+                  <td style="font-size:20px">Javascript/jQuery</td><td><img src="4_star.png"/></td>
+                </tr>
+                <tr>
+                  <td style="font-size:20px">C#</td><td style="border-right: 0.5px solid"><img  src="2_star.png"/></td>
+                  <td style="font-size:20px">Java</td><td><img src="2_star.png"/></td>
+                </tr>
+                <tr>
+                  <td style="font-size:20px">Visual Basic</td><td style="border-right: 0.5px solid"><img border="0" src="2_star.png"/></td>
+                  <td style="font-size:20px">Python</td><td><img border="0" src="1_star.png"/></td>
+                </tr>
+              </table>
+            </div>
+            <div class="skillsTable">
+              <table cellSpacing="10px" cellPadding="5px" border="0">
+                <tr>
+                  <td style="font-size:20px">Xcode</td><td  style="border-right: 0.5px solid"><img border="0" src="5_star.png"/></td>
+                  <td style="font-size:20px">Visual Studio</td><td  ><img border="0" src="4_star.png"/></td>
+                </tr>
+                <tr>
+                  <td style="font-size:20px">iOS Development</td><td   style="border-right: 0.5px solid"><img border="0" src="4_star.png"/></td>
+                  <td style="font-size:20px">Windows Phone Development</td><td  ><img border="0" src="1_star.png"/></td>
+                </tr>
+                <tr>
+                  <td style="font-size:20px">Processing</td><td style="border-right: 0.5px solid"><img    border="0" src="5_star.png"/></td>
+                  <td style="font-size:20px">SFML</td><td><img   border="0" src="5_star.png"/></td>
+                </tr>
+                <tr>
+                  <td style="font-size:20px">LiveCode</td><td style="border-right: 0.5px solid"><img border="0" src="4_star.png"/></td>
+                  <td style="font-size:20px">Arduino</td><td><img   border="0" src="2_star.png"/></td>
+                </tr>
+                <tr>
+                  <td style="font-size:20px">Unity</td><td style="border-right: 0.5px solid"><img   border="0" src="1_star.png"/></td>
+                  <td style="font-size:20px">Ruby on Rails</td><td><img   border="0" src="3_star.png"/></td>
+                </tr>
+                <tr>
+                  <td style="font-size:20px">Machine Learning</td><td style="border-right: 0.5px solid"><img   border="0" src="1_star.png"/></td>
+                  <td style="font-size:20px">Final Cut ProX</td><td><img  border="0" src="4_star.png"/></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="projects">
+        <table width="50%" cellSpacing="5px" cellPadding="1px;" align="center" border="0">
+          <tr>
+            <td colspan="2" style="text-align:center; font-size:50px; padding:50px;">Projects</td>
+          </tr>
+          <tr>
+            <td><p style="font-weight:lighter; text-align:center">Website is still in development, so previous projects will be added in the future</p></td>
+          </tr>
+          <tr>
+            <td style="text-align:center;">
+                <h2 style="font-weight:lighter; text-align:center">iOS - صح ولا غلط</h2>
+                <img width="240" height="auto" src="Doum_Trivia_GIF.gif">
+                <h3>Description: </h3>
+                <p >Trivia iOS App for Doum Cultural Foundation</p>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <footer id="contact">
+        <table width="50%" cellSpacing="10px" cellPadding="10px" align="center" border="0">
+          <tr>
+            <td colspan="5" style="text-align:center; color:white; font-size:50px; padding:10px;">Contact</td>
+          </tr>
+          <tr>
+            <td width="25%">
+              <a href="" target="_blank">
+                <img height="45px" width="45px" alt="Facebook" border="0" src="https://lh6.googleusercontent.com/-3e1qcDJeoA4/Ulq2h0AscnI/AAAAAAAAAXc/IZn7xiC0sJU/w210-h209-p-no/Facebook+Round.png">
+              </a>
+            </td>
+            <td width="25%">
+              <a href="">
+                <img height="45px" width="45px" alt="Twitter" border="0" src="https://lh3.googleusercontent.com/-LyHGaj_nAXQ/Ulq2i-cpVUI/AAAAAAAAAX4/XpMziaZSRJE/s209-p-no/Twitter+round.png">
+              </a>
+            </td>
+            <td width="25%">
+              <a href="">
+                <img height="45px" width="45px" alt="Google+" border="0" src="https://lh5.googleusercontent.com/-5allD5DDUpg/Ulq2iC3mGQI/AAAAAAAAAXo/ibBj_MkusKc/s209-p-no/Google+plus+round.png">
+              </a>
+            </td>
+            <td width="25%">
+              <a href="">
+                <img height="45px" width="45px" alt="YouTube" border="0" src="https://lh4.googleusercontent.com/-jidSzSRLr-I/Ulq2kGC9nAI/AAAAAAAAAX8/lm59F4iE20o/s209-p-no/Youtube+round.png">
+              </a>
+            </td>
+            <td width="25%">
+              <a style="text-decoration: none" href="mailto:badr@khamissi.com">
+                <img height="45px" width="45px" src="email-icon.png" alt="email" border="0">
+              </a>
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align:center" colspan="5">&copy; Badr AlKhamissi</td>
+          </tr>
+        </table>
+      </footer>
+    </div>
+  </body>
+  </html>
