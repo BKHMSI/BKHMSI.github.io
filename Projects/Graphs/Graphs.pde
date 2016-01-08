@@ -31,8 +31,7 @@ void setup() {
   buttons = new Button[btnSz];
   createButtons();
   adjMatrix = new int[sz][sz];
-  for(int i = 0; i<sz; i++) for(int j = 0; j<sz; j++) adjMatrix[i][j] = 0;
-  
+  for (int i = 0; i<sz; i++) for (int j = 0; j<sz; j++) adjMatrix[i][j] = 0;
   for (int i = 0; i<sz; i++) {
     nodes[i] = new Vertex(-100, -100, i+1);
   }
@@ -58,15 +57,16 @@ void draw() {
       isTraversing = false;
       dfsFlag = false;
       status = "Algorithm Finished Running";
+      printStatus("Algorithm Finished Running");
     }
   }
-
-  drawStatus();
-
-  // Draw Buttons
-  for (int i = 0; i<btnSz; i++) {
-   // buttons[i].display();
-  }
+  //
+  //  drawStatus();
+  //
+  //  // Draw Buttons
+  //  for (int i = 0; i<btnSz; i++) {
+  //    buttons[i].display();
+  //  }
 }
 
 void drawStatus() {
@@ -78,13 +78,15 @@ void drawStatus() {
 }
 
 void createButtons() {
-  String[] title = {"Add Node", "Add Edge", "Clear", "Tree", "Graph", "DFS", "BFS", "DIJ", "KRU"};
+  String[] title = {
+    "Add Node", "Add Edge", "Clear", "Tree", "Graph", "DFS", "BFS", "DIJ", "KRU"
+  };
   float x = 100, y = height-50;
   for (int i = 0; i<btnSz; i++) {
-    if(i%5==0 && i!=0) x = 150;
-    if(i<5){
+    if (i%5==0 && i!=0) x = 150;
+    if (i<5) {
       buttons[i] = new Button(x, y - 50, 90, 40.0, title[i]);
-    }else{
+    } else {
       buttons[i] = new Button(x, y, 90, 40.0, title[i]);
     }
     x+=100;
@@ -128,6 +130,13 @@ void printAdjMatrix() {
   }
 }
 
+void setEdgeWeight(int w) {
+  edges[eSz++] = new Edge(ex, ey, exx, eyy, eSt, eEnd, w);
+  addingEdge = false;
+  addToMatrix(eSt-1, eEnd-1, w);
+  printStatus("Edge added");
+}
+
 void keyPressed() {
   if (key == 'e' || key == 'E') {
     addingEdge = true;
@@ -136,9 +145,10 @@ void keyPressed() {
     edges[eSz++] = new Edge(ex, ey, exx, eyy, eSt, eEnd, keyCode-48);
     addingEdge = false;
     addToMatrix(eSt-1, eEnd-1, keyCode-48);
+    printStatus("Edge added");
     status = "Edge added";
   } else if (keyCode == RETURN || keyCode == ENTER ) {
-      addNode();
+    addNode();
   } else if (key == 'p' || key == 'P') {
     printAdjMatrix();
   } else if (key == 'd' || key == 'D') {
@@ -148,7 +158,7 @@ void keyPressed() {
     dfs(0);
   } else if (key == 'g' || key == 'G') {
     generateGraph();
-  }else if (key == 't' || key == 'T') {
+  } else if (key == 't' || key == 'T') {
     generateTree();
   }
 }
@@ -157,56 +167,64 @@ void mousePressed() {
   // Adding Edge
   if (addingEdge && eSz+2<sz)
     addEdge();
-
-  for (int i = 0; i<btnSz; i++) {
-    if (buttons[i].overRect()) {
-      switch(i) {
-      case 0:
-         addNode();
-        break;
-      case 1:
-        addingEdge = true;
-        status = "Adding edge, select parent vertex";
-        break;
-      case 2:
-         clearCanvas();
-         status = "Canvas Cleared";
-        break;
-      case 3:
-         generateTree();
-         status = "Binary Tree Added";
-        break;
-      case 4:
-        generateGraph();
-        status = "Graph Added";
-        break;
-      case 5:
-        status = "Running DFS";
-        dfs(0);
-        break;
-      case 6:
-        isTraversing = true;
-        bfs(0);
-        break;
-       case 7:
-        status = "Dijkestra still not available";
-//        isTraversing = true;
-//        status = "Running Dijkestra";
-//        stopwatch = millis();
-//        dij(0);
-        break;
-       case 8:
-        status = "Kruskal still not available";
-        break;
-      }
-    }
-  }
+  //
+  //  for (int i = 0; i<btnSz; i++) {
+  //    if (buttons[i].overRect()) {
+  //      switch(i) {
+  //      case 0:
+  //         addNode();
+  //        break;
+  //      case 1:
+  //        printStatus("Adding edge, select parent vertex");
+  //        status = "Adding edge, select parent vertex";
+  //        break;
+  //      case 2:
+  //         clearCanvas();
+  //         printStatus("Canvas Cleared");
+  //         status = "Canvas Cleared";
+  //        break;
+  //      case 3:
+  //         generateTree();
+  //         printStatus( "Binary Tree Added");
+  //         status = "Binary Tree Added";
+  //        break;
+  //      case 4:
+  //        generateGraph();
+  //        printStatus("Graph Added");
+  //        status = "Graph Added";
+  //        break;
+  //      case 5:
+  //        printStatus("Running DFS");
+  //        status = "Running DFS";
+  //        dfs(0);
+  //        break;
+  //      case 6:
+  //        isTraversing = true;
+  //        bfs(0);
+  //        break;
+  //       case 7:
+  //        status = "Dijkestra still not available";
+  ////        isTraversing = true;
+  ////        status = "Running Dijkestra";
+  ////        stopwatch = millis();
+  ////        dij(0);
+  //        break;
+  //       case 8:
+  //        status = "Kruskal still not available";
+  //        break;
+  //      }
+  //    }
+  //  }
 }
 
 void mouseReleased() {
   for (int i = 0; i<sz; i++) {
     nodes[i].isDragged = false;
   }
+}
+
+void setAddingEdge(boolean flag) {
+  addingEdge = flag;
 }
 
 void addEdge() {
@@ -217,6 +235,7 @@ void addEdge() {
         ey = nodes[i].y;
         eSt = nodes[i].tag;
         nodes[i].isDragged = true;
+        printStatus("Vertex "+nodes[i].tag+" selected, then select child vertex");
         status = "Vertex "+nodes[i].tag+" selected, then select child vertex";
       } else {
         exx = nodes[i].x;
@@ -224,9 +243,12 @@ void addEdge() {
         eEnd = nodes[i].tag;
         nodes[i].isDragged = true;
         if (eEnd == eSt) {
+          printStatus("You must choose another vertex");
           status = "You must choose another vertex";
         } else {
+          printStatus("Vertex "+nodes[i].tag+" selected, enter a weight to add edge");
           status = "Vertex "+nodes[i].tag+" selected, choose a weight (1 to 9) to add edge";
+          displayWeight(true);
         }
       }
       nodeSelected = !nodeSelected;
@@ -234,9 +256,10 @@ void addEdge() {
   }
 }
 
-void addNode(){
-    nodes[vSz++].setPos(random(width), random(height-200));
-    status = "Node "+vSz+" added";
+void addNode() {
+  nodes[vSz++].setPos(random(width), random(height-200));
+  printStatus("Node "+vSz+" added");
+  status = "Node "+vSz+" added";
 }
 
 void readAdjMatrix() {
@@ -263,11 +286,11 @@ void generateGraph() {
   addToMatrix(1, 3, 4);
 }
 
-void generateTree(){
+void generateTree() {
   int startY = 150;
   nodes[vSz++].setPos(width/2, startY);
   nodes[vSz++].setPos(width/2-100, startY+100);
-  nodes[vSz++].setPos(width/2+100,startY+100);
+  nodes[vSz++].setPos(width/2+100, startY+100);
   nodes[vSz++].setPos(width/4, startY+200);
   nodes[vSz++].setPos(width/4+120, startY+200);
   nodes[vSz++].setPos((3*width/4)-120, startY+200);
@@ -288,10 +311,11 @@ void generateTree(){
   addToMatrix(2, 6, 1);
 }
 
-void clearCanvas(){
+void clearCanvas() {
   vSz = eSz = 0;
-    for(int i = 0; i<sz; i++) for(int j = 0; j<sz; j++) adjMatrix[i][j] = 0;
+  for (int i = 0; i<sz; i++) for (int j = 0; j<sz; j++) adjMatrix[i][j] = 0;
 }
+
 boolean dfsFlag = false;
 
 void dfs(int node) {
