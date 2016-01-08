@@ -47,9 +47,9 @@ $(document).ready(function() {
     $("#slide1_controls span").css('color',"black");
 
     if(this.id == "tools"){
-      $("#slide1_container").css('height',"400px");
+      $("#slide1_container").css('height',"350px");
     }else{
-      $("#slide1_container").css('height',"250px");
+      $("#slide1_container").css('height',"220px");
     }
 
     $(this).addClass("selected");
@@ -60,7 +60,7 @@ $(document).ready(function() {
 
 $(document).ready(function() {
   $('#slide2_controls').on('click', 'span', function(){
-    $("#slide2_images").css("transform","translateX("+$(this).index() * -600+"px)");
+    $("#slide2_images").css("-webkit-transform","translateX("+$(this).index() * -600+"px)");
     $("#slide2_controls span").removeClass("selected");
     $("#slide2_controls span").css('background-color',"#F3EFE1");
     $("#slide2_controls span").css('color',"black");
@@ -73,4 +73,31 @@ $(document).ready(function() {
     $(this).css('background-color',"#21CDB1");
     $(this).css('color',"white");
   });
+});
+
+$(document).ready(function() {
+  $('#iOS_Apps').on('click', 'div', function(){
+    console.log($("#iOS_Apps").height());
+    if($("#iOS_Apps").height() == 100){
+      $("#iOS_Apps").css('height',"800px");
+    }else{
+      $("#iOS_Apps").css('height',"100px");
+    }
+  });
+  $('#Processing_Apps').on('click', 'div', function(){
+    console.log($("#Processing_Apps").height());
+    if($("#Processing_Apps").height() == 100){
+      $("#Processing_Apps").css('height',"200px");
+    }else{
+      $("#Processing_Apps").css('height',"100px");
+    }
+  });
+});
+
+// Edit to start and play gif changes static image to gif
+$(document).ready(function () {
+    $('#targetDIV_three').bind('click mousedown', function () {
+        srcToGif2 = "http://demo.pink-squid.co.uk/christmas/s3.gif";
+        $("#divthree_three").attr('src', srcToGif2);
+    });
 });

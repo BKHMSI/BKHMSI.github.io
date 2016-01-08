@@ -224,6 +224,17 @@ Yellowish Orange: #F3EFE1
     width:50%;
   }
 
+  .App_Projects{
+    width:100%;
+    height:100px;
+    overflow:hidden; /* So the sliding bit doesn't stick out. */
+    margin:0 auto;
+    -webkit-transition:all 1.0s ease-in-out;
+    -moz-transition:all 1.0s ease-in-out;
+    -o-transition:all 1.0s ease-in-out;
+    transition:all 1.0s ease-in-out;
+  }
+
   #menu{
     background-color: rgba(0, 0, 0, 0.9);
     position: fixed;

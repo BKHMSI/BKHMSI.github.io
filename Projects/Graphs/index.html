@@ -39,6 +39,27 @@
 		outline: 0px;
 		margin-bottom: 1.5em;
 	}
+	button {
+	  background-color: #f2580b;
+	  border: none;
+	  color: #fff;
+	  cursor: pointer;
+	  font-size: 14px;
+	  margin-top: 10px;
+	  padding: 12px 24px;
+		width:150px;
+		height:50px;
+	  transition: background-color 0.5s;
+	}
+	button:hover {
+	  background-color: #c24609;
+	  transition: background-color 0.5s;
+	}
+
+	#status{
+		margin: 50px auto 0px auto; padding: 25px 25px 15px 25px;
+	}
+
 	#content {
 		margin: 50px auto 0px auto; padding: 25px 25px 15px 25px;
 		width: 700px; min-width: 300px; overflow: auto;
@@ -46,22 +67,63 @@
 		border-right: 1px solid #333; border-bottom: 1px solid #333;
 		background-color: #3d3d3d;
 	}
-		</style>
-		<!--[if lt IE 9]>
+	</style>
+			<!--[if lt IE 9]>
 			<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
 		<![endif]-->
 		<script src="processing.js" type="text/javascript"></script>
-		<script type="text/javascript">
+		<script type="application/javascript">
 // convenience function to get the id attribute of generated sketch html element
 function getProcessingSketchId () { return 'Graphs'; }
+var processingInstance;
+
+function checkProcessing(){
+	if (!processingInstance) {
+			processingInstance = Processing.getInstanceById('Graphs');
+	}
+}
+
+function addNode(){ checkProcessing();processingInstance.addNode();}
+function addEdge(){ checkProcessing();processingInstance.addEdge();}
+function clearCanvas(){ checkProcessing();processingInstance.clearCanvas();}
+function buildTree(){ checkProcessing();processingInstance.generateTree();}
+function buildGraph(){ checkProcessing();processingInstance.generateGraph();}
+function buildGraph(){ checkProcessing();processingInstance.generateGraph();}
+function runDFS(){checkProcessing();processingInstance.dfs(0);}
+function runBFS(){checkProcessing();processingInstance.bfs(0);}
+function startSketch() { switchSketchState(true);}
+function stopSketch() { switchSketchState(false);}
+function switchSketchState(on) {
+      if (on) processingInstance.loop();  // call Processing loop() function
+     else processingInstance.noLoop(); // stop animation, call noLoop()
+}
+
 </script>
 
 	</head>
 	<body>
+		<div style="float:"><h1>Status: </h1></div>
+		<div style="float:left;">
+			<ul style="list-style-type: none;">
+				<li><h2>Actions: </h2></li>
+				<li><button onclick="addNode();">Add Node</button></li>
+				<li><button onclick="addEdge();">Add Edge</button></li>
+				<li><button onclick="clearCanvas();">Clear</button></li>
+				<br>
+				<li><h2>Presets: </h2></li>
+				<li><button onclick="buildTree();">Binary Tree</button></li>
+				<li><button onclick="buildGraph()">Graph</button></li>
+				<br>
+				<li><h2>Algorithms: </h2></li>
+				<li><button onclick="runDFS()">Run DFS</button></li>
+				<li><button onclick="runBFS()">Run BFS</button></li>
+				<li><button>Run DIJ</button></li>
+				<li><button>Run KRU</button></li>
+			</ul>
+		</div>
 		<div id="content">
 			<div>
-				<canvas id="Graphs" data-processing-sources="Graphs.pde"
-						width="700" height="600">
+				<canvas id="Graphs" data-processing-sources="Graphs.pde" width="700" height="600">
 					<p>Your browser does not support the canvas tag.</p>
 					<!-- Note: you can put any alternative content here. -->
 				</canvas>
@@ -69,11 +131,6 @@ function getProcessingSketchId () { return 'Graphs'; }
 					<p>JavaScript is required to view the contents of this page.</p>
 				</noscript>
 	    	</div>
-			<h1>Graph Builder by Badr</h1>
-			<h3>Instructions</h3>
-    		<p id="description">Actions: Add Node | Add Edge | Clear Canvas</p>
-				<p id="description">Presets: Build Tree | Build Graph</p>
-				<p id="description">Current Algorithms: DFS | BFS</p>
-		</div>
+			</div>
 	</body>
 </html>

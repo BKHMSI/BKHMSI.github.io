@@ -56,6 +56,7 @@ void draw() {
     if (counter>order) {
       order = counter = 0;
       isTraversing = false;
+      dfsFlag = false;
       status = "Algorithm Finished Running";
     }
   }
@@ -64,7 +65,7 @@ void draw() {
 
   // Draw Buttons
   for (int i = 0; i<btnSz; i++) {
-    buttons[i].display();
+   // buttons[i].display();
   }
 }
 
@@ -180,16 +181,11 @@ void mousePressed() {
         status = "Graph Added";
         break;
       case 5:
-        isTraversing = true;
-        stopwatch = millis();
-        falseVis();
         status = "Running DFS";
         dfs(0);
         break;
       case 6:
         isTraversing = true;
-        status = "Running BFS";
-        stopwatch = millis();
         bfs(0);
         break;
        case 7:
@@ -296,7 +292,10 @@ void clearCanvas(){
   vSz = eSz = 0;
     for(int i = 0; i<sz; i++) for(int j = 0; j<sz; j++) adjMatrix[i][j] = 0;
 }
+boolean dfsFlag = false;
+
 void dfs(int node) {
+  if(!dfsFlag){isTraversing = true;falseVis();stopwatch = millis();dfsFlag = true;}
   vis[node] = true;
   val[order++] = node;
   for (int i = 0; i<vSz; i++) {
@@ -311,6 +310,8 @@ void bfs(int node){
    falseVis();
    q.push(node);
    vis[node] = true;
+   isTraversing = true;
+   stopwatch = millis();
    order = 0;
    while(!q.isEmpty()){
      int k = q.front();
