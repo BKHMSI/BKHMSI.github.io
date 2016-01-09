@@ -87,7 +87,7 @@ $(document).ready(function() {
   $('#Processing_Apps').on('click', 'div', function(){
     console.log($("#Processing_Apps").height());
     if($("#Processing_Apps").height() == 100){
-      $("#Processing_Apps").css('height',"550px");
+      $("#Processing_Apps").css('height',"1100px");
     }else{
       $("#Processing_Apps").css('height',"100px");
     }
