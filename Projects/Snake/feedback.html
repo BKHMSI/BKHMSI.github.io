@@ -1,0 +1,81 @@
+  <!DOCTYPE html>
+      <head>
+          <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+          <meta http-equiv="X-UA-Compatible" content="IE=edge">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+           <link rel="stylesheet" href="styles.css">
+          <title>Snake * حنش</title>
+          <link rel="icon"  type="image/x-icon" href="Snake_2.png" />
+      </head>
+      <body>
+              <div id='cssmenu'>
+  <ul>
+     <li class='active'><a href='index.html'><span>Snake</span></a></li>
+     <li><a href='donate.html'><span>Donate</span></a></li>
+     <li><a href='#'><span>Feedback</span></a></li>
+     <li class='last'><a href='about.html'><span>About</span></a></li>
+  </ul>
+        </div>     
+         <form name="feedback" method="post" action="emails.php" accept-charset="utf-8">
+          <fieldset>
+            <legend><h1 id="white"> Feedback </h1> </legend>
+            <table border="0" cellpadding="10px" cellspacing=0 color="white">
+              <tr>
+                <td>
+                  <label class="label-name">Name: </label> <input type="text" name="name" placeholder="Write your name" id="first"/>
+                </td>
+                <td>
+                  <label class="label-name">Email: </label> <input id="first" type="email" name="email" placeholder="Write your email"/>
+                </td>
+              </tr>
+            </table>
+                <table border="0" cellpadding="5px" cellspacing=0 color="white">
+               <tr>
+                <td id="white">
+                  <p></p>
+                </td>
+              </tr>
+              <tr>
+                <td id="white">
+                  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  Worst Game Ever ---------- Awesome Game
+                </td>
+              </tr>
+                 <tr>
+                <td id="displayResult">
+                  Rating: &nbsp;             
+                  1<input type="radio" name="eval" Value="1"/>
+                  2<input type="radio" name="eval" Value="2"/>
+                  3<input type="radio" name="eval" Value="3"/>
+                  4<input type="radio" name="eval" Value="4"/>
+                  5<input type="radio" name="eval" Value="5"/>
+                  6<input type="radio" name="eval" Value="6"/>
+                  7<input type="radio" name="eval" Value="7"/>
+                  8<input type="radio" name="eval" Value="8"/>
+                  9<input type="radio" name="eval" Value="9"/>
+                  10<input type="radio" name="eval" Value="10"/>
+                </td>
+                   <td>
+                     <p>&nbsp;</p>
+                   </td>
+              </tr>
+              <tr>
+             <td colspan="2">
+               <label class="label-name">Your Feedback: </label>
+            <textarea rows="8" cols="60" name="comments" id="comments" placeholder="Your feedback is important to us"></textarea>
+            <td>
+             </tr>
+              <tr>
+                <td> <input type="submit" value="Send" name="submit" class="pure-button-success"/>
+              </tr>
+            </table>
+    </fieldset>
+  </form>
+         <p>&nbsp;</p>
+        <footer>
+        <div id ="footer">
+          <center><h1>&copy; Badr AlKhamissi and Aly Sultan</h1></center>
+        </div>
+        </footer>
+  
+      </body>
+  </html>
