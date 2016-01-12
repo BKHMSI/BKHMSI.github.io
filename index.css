@@ -86,8 +86,7 @@ Yellowish Orange: #F3EFE1
 
 
   #welcome{
-    /*background-image: url('/Users/BAlKhamissi/Desktop/bg.png');*/
-    background-image:  url('https://scontent-cai1-1.xx.fbcdn.net/hphotos-xpf1/v/t1.0-9/10419463_10206034834687923_6138604360982787886_n.jpg?oh=d523a35cde8b9be8c3b48e82b3c92e60&oe=5687E39B');
+    background-image: url('Images/bg.jpg');
     background-size: cover;
     height: 500px;
     padding-top: 100px;
