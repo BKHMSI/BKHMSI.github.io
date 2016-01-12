@@ -279,6 +279,23 @@ Yellowish Orange: #F3EFE1
     cursor: pointer;
   }
 
+  .download-btn{
+    background: #349a8a; /* this is a green */
+    color: white;
+    border-radius: 4px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    font-size: 100%;
+    padding: 1em 1.5em;
+    border: 0 rgba(0,0,0,0);
+    text-decoration: none;
+    -webkit-transition: .1s linear -webkit-box-shadow;
+    -moz-transition: .1s linear -moz-box-shadow;
+    -ms-transition: .1s linear box-shadow;
+    -o-transition: .1s linear box-shadow;
+    transition: .1s linear box-shadow;
+    cursor: pointer;
+  }
+
   .face {
     position: absolute;
     width: 100%;

@@ -87,9 +87,17 @@ $(document).ready(function() {
   $('#Processing_Apps').on('click', 'div', function(){
     console.log($("#Processing_Apps").height());
     if($("#Processing_Apps").height() == 100){
-      $("#Processing_Apps").css('height',"1100px");
+      $("#Processing_Apps").css('height',"1500px");
     }else{
       $("#Processing_Apps").css('height',"100px");
+    }
+  });
+  $('#Extension_Apps').on('click', 'div', function(){
+    console.log($("#Extension_Apps").height());
+    if($("#Extension_Apps").height() == 100){
+      $("#Extension_Apps").css('height',"450");
+    }else{
+      $("#Extension_Apps").css('height',"100px");
     }
   });
 });
