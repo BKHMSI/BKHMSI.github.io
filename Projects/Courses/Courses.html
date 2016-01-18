@@ -1,0 +1,93 @@
+<!Doctype HTML>
+<html>
+    <head>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script type="text/javascript" src="Courses.js"></script>
+        <script type="text/javascript" src="../jQuery.js"></script>
+        <link href="Courses.css" rel="stylesheet" type="text/css" />
+
+
+        <title>Find Matching Courses</title>
+        <style type="text/css">
+        #choice{ padding-top: 25%; }
+        </style>
+
+        <script type="text/javascript">
+
+        function beginSearch(){
+          // $.ajax({
+          //   url: "/Users/BAlKhamissi/Documents/Badr Projects/Web Development/Courses/getHTML.py",
+          //   data: {
+          //     link1: "http://catalog.aucegypt.edu/preview_program.php?catoid=15&poid=1663",
+          //     link2: "http://catalog.aucegypt.edu/preview_program.php?catoid=15&poid=1781"
+          //   },
+          //   success: function(response){
+          //     //here you do whatever you want with the response variable
+          //     window.open("commonCrs.html");
+          //     console.log(response);
+          //   },
+          //   error: function(err){
+          //     console.log(err);
+          //   }
+          // })
+
+          var e1 = document.getElementById("c1");
+          var e2 = document.getElementById("c2");
+          var fLink = e1.options[e1.selectedIndex].value;
+          var sLink = e2.options[e2.selectedIndex].value;
+
+          $.ajax({
+            type: "POST",
+            url: "/Users/BAlKhamissi/Documents/Badr Projects/Web Development/Courses/getHTML.py",
+            data: { link1: fLink, link2: sLink}
+          }).done(function(response) {
+                  // do something
+                  console.log(response);
+            });
+        }
+
+        $('#searchBtn').click(function(){
+
+        });
+
+        function openCrs(){
+            window.open("commonCrs.html")
+        }
+        </script>
+
+    </head>
+
+    <body>
+        <table  width="50%" id="choice" cellSpacing="10px" cellPadding="5px;" align="center" border="0">
+        <tr>
+            <td id ="big-text">Compare</td>
+            <td>
+        <select class="list" id="c1">
+            <option value="http://catalog.aucegypt.edu/preview_program.php?catoid=15&poid=1663">Anthropology</option>
+            <option value="http://catalog.aucegypt.edu/preview_program.php?catoid=15&poid=1694&returnto=474">Computer Science</option>
+            <option value="http://catalog.aucegypt.edu/preview_program.php?catoid=15&poid=1693&returnto=474">Computer Engineering</option>
+            <option value="http://catalog.aucegypt.edu/preview_program.php?catoid=4&poid=337&returnto=58">Electronics Engineering</option>
+            <option value="http://catalog.aucegypt.edu/preview_program.php?catoid=15&poid=1781">Sociology</option>
+        </select>
+        </td>
+        <td id ="big-text">With</td>
+        <td>
+        <select class="list" id="c2" >
+            <option value="http://catalog.aucegypt.edu/preview_program.php?catoid=15&poid=1663">Anthropology</option>
+            <option value="http://catalog.aucegypt.edu/preview_program.php?catoid=15&poid=1694&returnto=474">Computer Science</option>
+            <option value="http://catalog.aucegypt.edu/preview_program.php?catoid=15&poid=1693&returnto=474">Computer Engineering</option>
+            <option value="http://catalog.aucegypt.edu/preview_program.php?catoid=4&poid=337&returnto=58">Electronics Engineering</option>
+            <option value="http://catalog.aucegypt.edu/preview_program.php?catoid=15&poid=1781">Sociology</option>
+        </select>
+        </td>
+        </tr>
+        <tr>
+        <td colspan="4" style="text-align:center">
+          <button id="searchBtn" onclick="beginSearch();" class="pure-button-success">Search</button>
+        </td>
+        </tr>
+        </table>
+      </br>
+    </body>
+</html>
