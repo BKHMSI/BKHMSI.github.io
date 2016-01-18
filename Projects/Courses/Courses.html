@@ -4,7 +4,7 @@
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <script type="text/javascript" src="Courses.js"></script>
-        <script type="text/javascript" src="../../jQuery.js"></script>
+        <script type="text/javascript" src="../../../jQuery.js"></script>
         <link href="Courses.css" rel="stylesheet" type="text/css" />
 
 
@@ -39,7 +39,7 @@
 
           $.ajax({
             type: "POST",
-            url: "/getHTML.py",
+            url: "/getHtml.py",
             data: { link1: fLink, link2: sLink}
           }).done(function(response) {
                   // do something
