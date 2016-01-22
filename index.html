@@ -1,4 +1,4 @@
-<!Doctype HTML>
+`  <!Doctype HTML>
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -24,6 +24,7 @@
       </nav>
     </div>
     <div id="welcome">
+      <!-- TODO: AUTOMATIC HORIZONTAL SCROLL IN WELCOME FOR RECENT PROJECTS -->
       <h1>Badr AlKhamissi</h1>
       <p>Interactive Resumé | Projects | Blog | Me</p>
     </div>
@@ -36,7 +37,7 @@
           <td>
             <p style="color:black; text-align:center;" id="slide2_controls">
               <span style="border-radius: 10px; background-color: #21CDB1; color:white; padding:10px; text-align:center" class="selected">Education</span>
-              <span style="border-radius: 10px; padding: 10px; text-align:center" class="">Experience</span>
+              <span style="border-radius: 10px; padding: 10px; text-align:center" id="experience" class="">Experience</span>
               <span style="border-radius: 10px; padding: 10px; text-align:center" id="activities" class="">Activities & Volunteering</span>
             </p>
           </td>
@@ -79,15 +80,15 @@
             </table>
           </div>
           <div class="resumeTable">
-            <table cellSpacing="10px" cellPadding="0" border="0">
+            <table cellSpacing="10px" cellPadding="5px" border="0">
               <div class="resumeSection">
                 <tr>
                   <td class="resumeTitle" >
-                    Summer Intern SDE, Microsoft Advance Techonology Lab in Cairo (ATLC)
-                    <span><p>June 2015 - August 2015</p></span>
+                    SDE Intern, Microsoft Advance Techonology Lab in Cairo (ATLC)
+                    <span><p>Jan 2016</p></span>
                     <span><p>Cairo, Egypt</p></span>
                   </td>
-                  <td class="resumeDesc">Designed and Implemented a feature; Application importing and exporting in Microsoft Language Understanding Intelligent Service (LUIS).
+                  <td class="resumeDesc"> Code Refactoring and Optimization in Microsoft Language Understanding Intelligent Service (LUIS) <!-- Replacing an Azure Service they were using with something I implemented for the Search feature -->
                     <span><p><a href="https://www.luis.ai">Check LUIS</a></p></span>
                   </td>
                 </tr>
@@ -100,6 +101,18 @@
                     <span><p>Cairo, Egypt</p></span>
                   </td>
                   <td class="resumeDesc">Assist instructor of Programming Fundamentals class in setting the syllabus, designing exams, grading assignments and projects . Hold regular office hours to help students.
+                  </td>
+                </tr>
+              </div>
+              <div class="resumeSection">
+                <tr>
+                  <td class="resumeTitle" >
+                     SDE Summer Intern, Microsoft Advance Techonology Lab in Cairo (ATLC)
+                    <span><p>June 2015 - August 2015</p></span>
+                    <span><p>Cairo, Egypt</p></span>
+                  </td>
+                  <td class="resumeDesc">Designed and Implemented a feature; Application importing and exporting in Microsoft Language Understanding Intelligent Service (LUIS).
+                    <span><p><a href="https://www.luis.ai">Check LUIS</a></p></span>
                   </td>
                 </tr>
               </div>
@@ -234,127 +247,132 @@
         </div>
       </div>
     </div>
-  </div>
-  <div id="projects">
-    <table width="50%" cellSpacing="5px" cellPadding="1px;" align="center" border="0">
-      <tr>
-        <td colspan="2" style="text-align:center; font-size:50px; padding:10px;">Personal Projects</td>
-      </tr>
-      <tr>
-        <td><h3 style="font-weight:lighter; text-align:center">Click on each category to expand and explore projects</h3></td>
-      </tr>
-      <tr>
-        <td><p style="font-weight:lighter; text-align:center">Website is still in development, so previous projects will be added in the future</p></td>
-      </tr>
-    </table>
-    <div id="iOS_Apps" class="App_Projects">
-      <div style="background-color:#2d504b; height:80px">
-        <h1 style="color:white; padding:20px; padding-left:100px">iOS Applications</h1>
-      </div>
+    <div id="projects">
       <table width="50%" cellSpacing="5px" cellPadding="1px;" align="center" border="0">
         <tr>
-          <td style="text-align:center; padding:25px;">
-            <h2 style="font-weight:lighter; text-align:center">صح ولا غلط</h2>
-            <img width="240" height="auto" src="Images/Trivia_iPhone.png">
-            <h3>Description:</h3>
-            <p>Trivia iOS App for Doum Cultural Foundation <br><br> Still in Development</p>
-          </td>
+          <td colspan="2" style="text-align:center; font-size:50px; padding:10px;">Personal Projects</td>
+        </tr>
+        <tr>
+          <td><h3 style="font-weight:lighter; text-align:center">Click on each category to expand and explore projects</h3></td>
+        </tr>
+        <tr>
+          <td><p style="font-weight:lighter; text-align:center">Website is still in development, so previous projects will be added in the future</p></td>
         </tr>
       </table>
-    </div>
-    <div id="Processing_Apps" class="App_Projects">
-      <div style="background-color:rgba(50, 16, 85, 0.87); height:80px">
-        <h1 style="color:white; padding:20px; padding-left:100px">Processing</h1>
-      </div>
-      <table width="100%" cellSpacing="5px" cellPadding="1px;" align="center" border="0">
-        <tr>
-          <td width="50%" style="text-align:center; padding:25px;">
-            <h2 height="32px" style="font-weight:lighter; text-align:center">Photo Generator</h2>
-            <a href="http://bkhmsi.github.io/Projects/Snake/index">
-            <img src="Images/PhotoGenerator.png"/>
-          </a>
-        </td><td>
-          <h3>Description: </h3>
-          <p>Generates a photo from a selection of different photos
-            <br><br>
-            <button class="download-btn">Download Mac</button>
-            <button class="download-btn">Download PC</button>
-          </p>
-        </td>
-      </tr>
-        <tr>
-          <td width="50%" style="text-align:center; padding:25px;">
-            <h2 height="32px" style="font-weight:lighter; text-align:center">Snake - حنش</h2>
-            <a href="http://bkhmsi.github.io/Projects/Snake/index">
-            <img src="Images/Snake_2.png"/>
-          </a>
-          <h3>Description:</h3>
-          <p>Snake Re-imagined <a style="color:blue" href="http://bkhmsi.github.io/Projects/Snake/index">Try it yourself</a></p>
-          </td>
-          <td width="50%" style="text-align:center; padding:25px;">
-            <h2 style="font-weight:lighter; text-align:center; height:32px">Graph Builder</h2>
-            <a href="http://bkhmsi.github.io/Projects/Graphs/index">
-            <img height="250px" src="Images/Graph_Builder.png"/>
-          </a>
-          <h3>Description:</h3>
-          <p>Build your own graph, <br> and run algorithms such as DFS or BFS on it, <a style="color:blue" href="http://bkhmsi.github.io/Projects/Graphs/index">Try it yourself</a></p>
-          </td>
-          </tr>
+      <div id="iOS_Apps" class="App_Projects">
+        <div style="background-color:#2d504b; height:80px">
+          <h1 style="color:white; padding:20px; padding-left:100px">iOS Applications</h1>
+        </div>
+        <table width="50%" cellSpacing="5px" cellPadding="1px;" align="center" border="0">
           <tr>
-            <td width="50%" style="text-align:center; padding:25px;">
-              <h2 height="32px" style="font-weight:lighter; text-align:center">Falling</h2>
-              <a href="http://bkhmsi.github.io/Projects/Falling/index">
-              <img src="Images/Falling.png"/>
-            </a>
-            <h3>Description:</h3>
-            <p>Quick Game <a style="color:blue" href="http://bkhmsi.github.io/Projects/Falling/index">Try it yourself</a></p>
+            <td style="text-align:center; padding:25px;">
+              <h2 style="font-weight:lighter; text-align:center; padding-top:18px">صح ولا غلط</h2>
+              <img width="240" height="auto" class="boxV" id="TriviaApp" src="Images/Trivia_iPhone.png">
+              <h3>Description:</h3>
+              <p>Trivia iOS App for Doum Cultural Foundation <br><br> Still in Development (90% Complete)</p>
             </td>
-            <td width="50%" style="text-align:center; padding:25px;">
-              <h2 style="font-weight:lighter; text-align:center; height:32px">Driving</h2>
-              <a href="http://bkhmsi.github.io/Projects/Driving/index">
-              <img height="250px" src="Images/Driving.png"/>
-            </a>
-            <h3>Description:</h3>
-            <p>Quick Game <a style="color:blue" href="http://bkhmsi.github.io/Projects/Driving/index">Try it yourself</a></p>
+            <td style="text-align:center; padding:25px;">
+              <h2 style="font-weight:lighter; text-align:center">AUC Carpooling</h2>
+              <img width="240" height="auto" class="boxV" id="TriviaApp" src="Images/Carpooling.png">
+              <h3>Description:</h3>
+              <p>Carpooling App -- an atempt to join people together to carpool <br><br> Still in Development</p>
             </td>
-            </tr>
+          </tr>
         </table>
       </div>
-      <div id="Extension_Apps" class="App_Projects">
-        <div style="background-color:#9f4719; height:80px">
-          <h1 style="color:white; padding:20px; padding-left:100px">Extensions</h1>
+      <div id="Processing_Apps" class="App_Projects">
+        <div style="background-color:rgba(50, 16, 85, 0.87); height:80px">
+          <h1 style="color:white; padding:20px; padding-left:100px">Processing</h1>
         </div>
         <table width="100%" cellSpacing="5px" cellPadding="1px;" align="center" border="0">
           <tr>
-            <td style="text-align:center; padding:25px;">
-              <h2 style="font-weight:lighter; text-align:center">Quicky - Chrome Extension</h2>
-              <a href="https://chrome.google.com/webstore/detail/quicky/kjcffaoelnehhcdgfnmdeomnmafmiomj">
-              <img height="auto" src="Images/Quicky_Logo-128.png">
+            <td width="50%" style="text-align:center; padding:25px;">
+              <h2 height="32px" style="font-weight:lighter; text-align:center">Photo Generator</h2>
+              <a href="http://bkhmsi.github.io/Projects/Snake/index">
+              <img class="boxH" src="Images/PhotoGenerator.png"/>
+            </a>
+          </td><td>
+            <h3>Description: </h3>
+            <p>Generates a photo from a selection of different photos
+              <br><br>
+              <button class="download-btn">Download Mac</button>
+              <button class="download-btn">Download PC</button>
+            </p>
+          </td>
+        </tr>
+          <tr>
+            <td width="50%" style="text-align:center; padding:25px;">
+              <h2 height="32px" style="font-weight:lighter; text-align:center">Snake - حنش</h2>
+              <a href="http://bkhmsi.github.io/Projects/Snake/index">
+              <img class="box" src="Images/Snake_2.png"/>
+            </a>
+            <h3>Description:</h3>
+            <p>Snake Re-imagined <a style="color:blue" href="http://bkhmsi.github.io/Projects/Snake/index">Try it yourself</a></p>
+            </td>
+            <td width="50%" style="text-align:center; padding:25px;">
+              <h2 style="font-weight:lighter; text-align:center; height:32px">Graph Builder</h2>
+              <a href="http://bkhmsi.github.io/Projects/Graphs/index">
+              <img class="box" height="250px" src="Images/Graph_Builder.png"/>
+            </a>
+            <h3>Description:</h3>
+            <p>Build your own graph, <br> and run algorithms such as DFS or BFS on it, <a style="color:blue" href="http://bkhmsi.github.io/Projects/Graphs/index">Try it yourself</a></p>
+            </td>
+            </tr>
+            <tr>
+              <td width="50%" style="text-align:center; padding:25px;">
+                <h2 height="32px" style="font-weight:lighter; text-align:center">Falling</h2>
+                <a href="http://bkhmsi.github.io/Projects/Falling/index">
+                <img class="box" src="Images/Falling.png"/>
               </a>
               <h3>Description:</h3>
-              <p>Quicky is an extension that allows you to share links and quick posts on the fly
-              <br><br>
-              <a style="color:blue" href="https://chrome.google.com/webstore/detail/quicky/kjcffaoelnehhcdgfnmdeomnmafmiomj">
-                Check it on the Chrome Store</a>
-              </p>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div id="SFML_Apps" class="App_Projects">
-        <div style="background-color:rgba(59, 37, 4, 0.96); height:80px">
-          <h1 style="color:white; padding:20px; padding-left:100px">SFML</h1>
+              <p>Quick Game <a style="color:blue" href="http://bkhmsi.github.io/Projects/Falling/index">Try it yourself</a></p>
+              </td>
+              <td width="50%" style="text-align:center; padding:25px;">
+                <h2 style="font-weight:lighter; text-align:center; height:32px">Driving</h2>
+                <a href="http://bkhmsi.github.io/Projects/Driving/index">
+                <img class="box" height="250px" src="Images/Driving.png"/>
+              </a>
+              <h3>Description:</h3>
+              <p>Quick Game <a style="color:blue" href="http://bkhmsi.github.io/Projects/Driving/index">Try it yourself</a></p>
+              </td>
+              </tr>
+          </table>
         </div>
-        <table width="50%" cellSpacing="5px" cellPadding="1px;" align="center" border="0">
-        </table>
-      </div>
-      <div id="RubyOnRails_Apps" class="App_Projects">
-        <div style="background-color:rgba(169, 18, 41, 0.96);; height:80px">
-          <h1 style="color:white; padding:20px; padding-left:100px">Ruby on Rails</h1>
+        <div id="Extension_Apps" class="App_Projects">
+          <div style="background-color:#9f4719; height:80px">
+            <h1 style="color:white; padding:20px; padding-left:100px">Extensions</h1>
+          </div>
+          <table width="100%" cellSpacing="5px" cellPadding="1px;" align="center" border="0">
+            <tr>
+              <td style="text-align:center; padding:25px;">
+                <h2 style="font-weight:lighter; text-align:center">Quicky - Chrome Extension</h2>
+                <a href="https://chrome.google.com/webstore/detail/quicky/kjcffaoelnehhcdgfnmdeomnmafmiomj">
+                <img height="auto" src="Images/Quicky_Logo-128.png">
+                </a>
+                <h3>Description:</h3>
+                <p>Quicky is an extension that allows you to share links and quick posts on the fly
+                <br><br>
+                <a style="color:blue" href="https://chrome.google.com/webstore/detail/quicky/kjcffaoelnehhcdgfnmdeomnmafmiomj">
+                  Check it on the Chrome Store</a>
+                </p>
+              </td>
+            </tr>
+          </table>
         </div>
-        <table width="50%" cellSpacing="5px" cellPadding="1px;" align="center" border="0">
-        </table>
-      </div>
+        <div id="SFML_Apps" class="App_Projects">
+          <div style="background-color:rgba(59, 37, 4, 0.96); height:80px">
+            <h1 style="color:white; padding:20px; padding-left:100px">SFML</h1>
+          </div>
+          <table width="50%" cellSpacing="5px" cellPadding="1px;" align="center" border="0">
+          </table>
+        </div>
+        <div id="RubyOnRails_Apps" class="App_Projects">
+          <div style="background-color:rgba(169, 18, 41, 0.96);; height:80px">
+            <h1 style="color:white; padding:20px; padding-left:100px">Ruby on Rails</h1>
+          </div>
+          <table width="50%" cellSpacing="5px" cellPadding="1px;" align="center" border="0">
+          </table>
+        </div>
     </div>
     <footer id="contact">
       <table width="50%" cellSpacing="10px" cellPadding="10px" align="center" border="0">
@@ -396,3 +414,4 @@
   </div>
 </body>
 </html>
+`

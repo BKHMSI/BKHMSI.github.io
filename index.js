@@ -1,4 +1,4 @@
-window.addEventListener("scroll", function(event) {
+  window.addEventListener("scroll", function(event) {
   var top = this.scrollY, left =this.scrollX;
   var welcomeTop = $('#welcome').offset().top;
   var resumeTop = $('#resume').offset().top;
@@ -64,16 +64,37 @@ $(document).ready(function() {
     $("#slide2_controls span").removeClass("selected");
     $("#slide2_controls span").css('background-color',"#F3EFE1");
     $("#slide2_controls span").css('color',"black");
-    if(this.id == "activities"){
+
+    if(this.id == "experience"){
+      $("#slide2_container").css('height',"400px");
+    }else if(this.id == "activities"){
       $("#slide2_container").css('height',"660px");
     }else{
-      $("#slide2_container").css('height',"300px");
+      $("#slide2_container").css('height',"260px");
     }
+
     $(this).addClass("selected");
     $(this).css('background-color',"#21CDB1");
     $(this).css('color',"white");
   });
 });
+
+
+$(document).ready(function() {
+$(".App_Projects").hover( function() {
+    $(this).css('color',"rgba(12,241,15,90)");
+  });
+});
+
+$("#TriviaApp").on({
+  mouseenter: function() {
+    $(this).src("Images/Doum_Trivia_GIF.gif");
+    $(this).width("265px");
+  }, mouseleave: function(){
+    $(this).src("Images/Trivia_iPhone.png");
+    $(this).width("240px");
+}});
+
 
 $(document).ready(function() {
   $('#iOS_Apps').on('click', 'div', function(){
