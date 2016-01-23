@@ -19,6 +19,8 @@ Edge[]edges;
 Button[]buttons;
 
 float timer, stopwatch;
+boolean draggingEdge = false;
+
 
 
 void setup() {
@@ -38,13 +40,17 @@ void setup() {
 }
 
 void draw() {
-  background(255);
-  for (int i = 0; i<vSz; i++) {
-    nodes[i].drawVertex();
-  }
+  background(200);
+  drawGrid();
+  
   for (int i = 0; i<eSz; i++) {
     edges[i].drawEdge();
   }
+  
+  for (int i = 0; i<vSz; i++) {
+    nodes[i].drawVertex();
+  }
+ 
 
   timer = millis();
   if (isTraversing) {
@@ -60,13 +66,34 @@ void draw() {
       printStatus("Algorithm Finished Running");
     }
   }
+  
+  if(draggingEdge){
+      stroke(0);
+      strokeWeight(2);
+      line(ex,ey,mouseX,mouseY);
+  }
   //
-  //  drawStatus();
+  // drawStatus();
   //
   //  // Draw Buttons
   //  for (int i = 0; i<btnSz; i++) {
   //    buttons[i].display();
   //  }
+}
+
+void drawGrid()
+{
+  strokeWeight(1);
+  for (int gridX=0; gridX<width; gridX+=50)
+  {
+    stroke(192);
+    line(gridX, 0, gridX, 1000);
+  }
+  for (int gridY=40; gridY<height; gridY+=50)
+  {
+    stroke(192);
+    line(0, gridY, 1000, gridY);
+  }
 }
 
 void drawStatus() {
@@ -167,6 +194,7 @@ void mousePressed() {
   // Adding Edge
   if (addingEdge && eSz+2<sz)
     addEdge();
+    
   //
   //  for (int i = 0; i<btnSz; i++) {
   //    if (buttons[i].overRect()) {
@@ -235,6 +263,7 @@ void addEdge() {
         ey = nodes[i].y;
         eSt = nodes[i].tag;
         nodes[i].isDragged = true;
+        draggingEdge = true;
         printStatus("Vertex "+nodes[i].tag+" selected, then select child vertex");
         status = "Vertex "+nodes[i].tag+" selected, then select child vertex";
       } else {
@@ -246,9 +275,10 @@ void addEdge() {
           printStatus("You must choose another vertex");
           status = "You must choose another vertex";
         } else {
+          draggingEdge = false;
           printStatus("Vertex "+nodes[i].tag+" selected, enter a weight to add edge");
           status = "Vertex "+nodes[i].tag+" selected, choose a weight (1 to 9) to add edge";
-          displayWeight(true);
+          displayPrompt();
         }
       }
       nodeSelected = !nodeSelected;
@@ -302,7 +332,6 @@ void generateTree() {
   edges[eSz++] = new Edge(width/2+100, startY+100, (3*width/4)-120, startY+200, 3, 6, 1);
   edges[eSz++] = new Edge(width/2+100, startY+100, (3*width/4), startY+200, 3, 7, 1);
 
-
   addToMatrix(0, 1, 1);
   addToMatrix(0, 2, 1);
   addToMatrix(1, 3, 1);
@@ -315,7 +344,6 @@ void clearCanvas() {
   vSz = eSz = 0;
   for (int i = 0; i<sz; i++) for (int j = 0; j<sz; j++) adjMatrix[i][j] = 0;
 }
-
 boolean dfsFlag = false;
 
 void dfs(int node) {
@@ -428,6 +456,7 @@ class Vertex {
     else c = color(0, 255, 0); 
     }
     fill(c);
+    stroke(0);
     ellipse(x, y, radius, radius);
     fill(255);
     textAlign(CENTER);

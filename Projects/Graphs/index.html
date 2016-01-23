@@ -88,60 +88,6 @@
 		border-right: 1px solid #333; border-bottom: 1px solid #333;
 		background-color: #3d3d3d;
 	}
-
-
-	.txtBox{
-		-webkit-box-shadow: rgb(221, 221, 221) 0px 1px 3px 0px inset;
-		-webkit-transition-delay: 0s;
-		-webkit-transition-duration: 0.3s;
-		-webkit-transition-property: border;
-		-webkit-transition-timing-function: linear;
-		border-bottom-color: rgb(204, 204, 204);
-		border-bottom-left-radius: 4px;
-		border-bottom-right-radius: 4px;
-		border-bottom-style: solid;
-		border-bottom-width: 1px;
-		border-left-color: rgb(204, 204, 204);
-		border-left-style: solid;
-		border-left-width: 1px;
-		border-right-color: rgb(204, 204, 204);
-		border-right-style: solid;
-		border-right-width: 1px;
-		border-top-color: rgb(204, 204, 204);
-		border-top-left-radius: 4px;
-		border-top-right-radius: 4px;
-		border-top-style: solid;
-		border-top-width: 1px;
-		box-shadow: rgb(221, 221, 221) 0px 1px 3px 0px inset;
-		box-sizing: border-box;
-		color: rgb(0, 0, 0);
-		font-family: sans-serif;
-		font-size: 13px;
-		height: 40px;
-		letter-spacing: normal;
-		line-height: normal;
-		margin-bottom: 3.200000047683716px;
-		margin-left: 0px;
-		margin-right: 0px;
-		margin-top: 3.200000047683716px;
-		padding-bottom: 6px;
-		padding-left: 7px;
-		padding-right: 7px;
-		padding-top: 6px;
-		text-rendering: auto;
-		transition-delay: 0s;
-		transition-duration: 0.3s;
-		transition-property: border;
-		transition-timing-function: linear;
-		vertical-align: baseline;
-		width: 100px;
-		word-spacing: 0px;
-		position: relative;
-		display: none;
-		padding-left:10px;
-	}
-
-
 	</style>
 			<!--[if lt IE 9]>
 			<script type="text/javascript">alert("Your browser does not support the canvas tag.");</script>
@@ -159,13 +105,11 @@ function checkProcessing(){
 	}
 }
 
-function displayWeight(flag){
-	if(!flag)
-		document.getElementById("weight").style.display = 'none';
-	else
-		document.getElementById("weight").style.display = 'inline';
-
-	isWeightDisplayed = flag;
+function displayPrompt(){
+	var weight = prompt("Enter Weight: ", "1");
+	if (weight != null) {
+		processingInstance.setEdgeWeight(parseInt(weight));
+	}
 }
 
 document.getElementById("weight").addEventListener("keydown", function(e) {
@@ -184,12 +128,8 @@ function addEdge(){
 		printStatus("Adding edge, select parent vertex");
 		processingInstance.setAddingEdge(true);
 	}else{
-		var wValue = document.getElementById("weight").value;
-		console.log(wValue);
-		processingInstance.setEdgeWeight(wValue-'0');
-		displayWeight(false);
+		isWeightDisplayed = !isWeightDisplayed;
 	}
-
  }
 function clearCanvas(){ checkProcessing();processingInstance.clearCanvas();printStatus("Canvas Cleared");}
 function buildTree(){ checkProcessing();processingInstance.generateTree(); printStatus("Binary Tree Added");}
@@ -216,9 +156,6 @@ function printStatus(msg){document.getElementById('statusMsg').innerHTML = "Stat
 				<li><button onclick="addNode();">Add Node</button></li>
 				<li>
 					<button onclick="addEdge();">Add Edge</button>
-					<span style="padding-left:10px">
-					<input type="text" class="txtBox" id="weight" placeholder="Weight"/>
-				</span>
 				</li>
 				<li><button onclick="clearCanvas();">Clear</button></li>
 				<br>
