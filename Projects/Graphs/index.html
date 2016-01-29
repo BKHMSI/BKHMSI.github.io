@@ -107,19 +107,11 @@ function checkProcessing(){
 
 function displayPrompt(){
 	var weight = prompt("Enter Weight: ", "1");
-	if (weight != null) {
-		processingInstance.setEdgeWeight(parseInt(weight));
+	while (isNaN(parseInt(weight))) {
+     weight = prompt("Invalid Input - Enter Weight: ", "1");
 	}
+  processingInstance.setEdgeWeight(parseInt(weight));
 }
-
-document.getElementById("weight").addEventListener("keydown", function(e) {
-    if (!e) { var e = window.event; }
-    e.preventDefault(); // sometimes useful
-    if (e.keyCode == 13) {
-			processingInstance.setEdgeWeight(document.getElementById("weight").value);
-			 displayWeight(false);
-		}
-}, false);
 
 function addNode(){ checkProcessing();processingInstance.addNode();}
 function addEdge(){
@@ -131,11 +123,19 @@ function addEdge(){
 		isWeightDisplayed = !isWeightDisplayed;
 	}
  }
+
 function clearCanvas(){ checkProcessing();processingInstance.clearCanvas();printStatus("Canvas Cleared");}
 function buildTree(){ checkProcessing();processingInstance.generateTree(); printStatus("Binary Tree Added");}
 function buildGraph(){ checkProcessing();processingInstance.generateGraph(); printStatus("Graph Added");}
 function runDFS(){checkProcessing();processingInstance.dfs(0);printStatus("Running DFS");}
 function runBFS(){checkProcessing();processingInstance.bfs(0);printStatus("Running BFS");}
+
+function exportGraph(){
+  checkProcessing();
+  var matrix = processingInstance.exportAdjMatrix();
+  alert(matrix);
+}
+
 function startSketch() { switchSketchState(true);}
 function stopSketch() { switchSketchState(false);}
 function switchSketchState(on) {
@@ -154,9 +154,8 @@ function printStatus(msg){document.getElementById('statusMsg').innerHTML = "Stat
 			<ul style="list-style-type: none;">
 				<li><h2>Actions: </h2></li>
 				<li><button onclick="addNode();">Add Node</button></li>
-				<li>
-					<button onclick="addEdge();">Add Edge</button>
-				</li>
+				<li><button onclick="addEdge();">Add Edge</button></li>
+        <li><button onclick="exportGraph();">Export Graph</button></li>
 				<li><button onclick="clearCanvas();">Clear</button></li>
 				<br>
 				<li><h2>Presets: </h2></li>

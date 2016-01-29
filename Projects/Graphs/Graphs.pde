@@ -187,6 +187,8 @@ void keyPressed() {
     generateGraph();
   } else if (key == 't' || key == 'T') {
     generateTree();
+  }else if(key == 'X' || key == 'x'){
+    print(exportAdjMatrix());
   }
 }
 
@@ -344,6 +346,18 @@ void clearCanvas() {
   vSz = eSz = 0;
   for (int i = 0; i<sz; i++) for (int j = 0; j<sz; j++) adjMatrix[i][j] = 0;
 }
+
+String exportAdjMatrix(){
+   String out = "\n ";
+   for(int i = 0; i<vSz; i++){
+      for(int j = 0; j<vSz; j++){
+          out+=(" "+adjMatrix[i][j]+" ");
+     } 
+     out+="\n";
+   } 
+   return out;
+}
+
 boolean dfsFlag = false;
 
 void dfs(int node) {

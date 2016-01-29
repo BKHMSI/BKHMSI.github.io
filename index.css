@@ -115,18 +115,18 @@ Yellowish Orange: #F3EFE1
   }
 
   .resumeTitle{
-    width: 50%; font-size:17px; font-weight:bold; text-align: left;
+    width: 50%;
+    font-size:17px;
+    font-weight:bold;
     color: #2CA39E;
   }
 
   .resumeTitle p{
     font-size:13px;
-    text-align: left;
     color: black;
   }
 
   .resumeDesc{
-    text-align: left;
     padding:0;
     margin: 0;
     font-size:15px;
@@ -221,6 +221,53 @@ Yellowish Orange: #F3EFE1
     padding:0;
     margin:0;
     width:50%;
+  }
+
+  #iOS_Apps div{
+    background-color:#2d504b;
+    height:80px
+  }
+
+  #iOS_Apps div:hover{
+    background-color:rgba(45,80,75,0.85);
+  }
+
+  #Processing_Apps div{
+    background-color:rgba(50, 16, 85, 0.87);
+    height:80px
+  }
+
+  #Processing_Apps div:hover{
+    background-color:rgba(50, 16, 85, 0.7);
+  }
+
+  #Extension_Apps div{
+    background-color:#9f4719;
+    height:80px
+  }
+
+  #Extension_Apps div:hover{
+    background-color:rgba(159,71,25,0.85);
+    height:80px
+  }
+
+  #SFML_Apps div{
+    background-color:rgba(59, 37, 4, 0.96);
+    height:80px
+  }
+
+  #SFML_Apps div:hover{
+    background-color:rgba(59, 37, 4, 0.75);
+  }
+
+  #RubyOnRails_Apps div{
+    background-color:rgba(169, 18, 41, 0.96);
+     height:80px
+  }
+
+  #RubyOnRails_Apps div:hover{
+    background-color:rgba(169, 18, 41, 0.75);
+     height:80px
   }
 
   .App_Projects{
