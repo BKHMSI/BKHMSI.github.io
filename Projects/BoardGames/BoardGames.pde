@@ -37,7 +37,6 @@ void aiPlay() {
   grid[move.x][move.y].setCell(false);
 
   int result = board.checkWin(player_1);
-  console.log(result);
   
   switch(result) {
   case draw:
@@ -119,7 +118,7 @@ class AI {
   }
 
   AIMove makeMove(Board board, int player) {
-    AIMove bestMove = getBestMove(board, new AIMove(-inf), new AIMove(inf), 5, player);
+    AIMove bestMove = getBestMove(board, new AIMove(-inf), new AIMove(inf), 7, player);
     board.setVal(bestMove.x, bestMove.y, player);
     return bestMove;
   }
@@ -254,8 +253,13 @@ class Board {
   }
 
   int checkWin(int p) {
-    if (count-1 == gridSize*gridSize)
-      return draw;
+    if(gridSize%2 != 0){
+       if (count-1 == gridSize*gridSize)
+          return draw;
+    }else{
+       if (count == gridSize*gridSize)
+          return draw;
+    }
 
     // Check Horizontal
     for (int j = 0; j<size-1; j++)
