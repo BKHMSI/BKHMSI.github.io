@@ -38,20 +38,20 @@ void aiPlay() {
 
   int result = board.checkWin(player_1);
   
-  switch(result) {
-  case draw:
-    printResult("Draw!!");
-    break;
-  case win:
-    printResult("You Win!!");
-    break;
-  case lose:
-    printResult("Computer Wins!!");
-    break;
-  default:
-    printResult("");
-    break;
-  }
+//  switch(result) {
+//  case draw:
+//    printResult("Draw!!");
+//    break;
+//  case win:
+//    printResult("You Win!!");
+//    break;
+//  case lose:
+//    printResult("Computer Wins!!");
+//    break;
+//  default:
+//    printResult("");
+//    break;
+//  }
 }
 
 void keyPressed() {
@@ -59,11 +59,13 @@ void keyPressed() {
     playAgain();
   else if(key == 'f' || key == 'F')
     setGridSize(4);
+  else if(key == 'g' || key == 'g')
+    setGridSize(5);
 }
 
 void playAgain() {
   board.clearBoard();
-  printResult("");
+  //printResult("");
   for (int i = 0; i<gridSize; i++)
     for (int j = 0; j<gridSize; j++)
       grid[i][j].empty = true;
@@ -96,115 +98,102 @@ void mousePressed() {
     }
   }
 }
-class AI {
+class AI{
   int inf = 10000;
-  class AIMove {
-    int x, y, score;
-    AIMove() {
-    }
-    AIMove(int _s) {
-      score = _s;
-    }
-    AIMove(int _x, int _y) {
-      x = _x; 
-      y = _y; 
-      score = 0;
-    }
-    AIMove(int _x, int _y, int _s) {
-      x = _x; 
-      y = _y; 
-      score = _s;
-    }
+  class AIMove{
+    int x,y,score;
+    AIMove(){}
+    AIMove(int _s){score = _s;}
+    AIMove(int _x, int _y){x = _x; y = _y; score = 0;}
+    AIMove(int _x, int _y, int _s){x = _x; y = _y; score = _s;}
   }
-
-  AIMove makeMove(Board board, int player) {
-    AIMove bestMove = getBestMove(board, new AIMove(-inf), new AIMove(inf), 7, player);
-    board.setVal(bestMove.x, bestMove.y, player);
+  
+  AIMove makeMove(Board board, int player){
+    AIMove bestMove = getBestMove(board, new AIMove(-inf), new AIMove(inf),5,player);
+    board.setVal(bestMove.x,bestMove.y,player);
     return bestMove;
   }
-
-  private AIMove getBestMove(Board board, AIMove alpha, AIMove beta, int depth, int player) {
+  
+  private AIMove getBestMove(Board board, AIMove alpha, AIMove beta, int depth, int player){
     int gameState = board.checkWin(player);
-    if (gameState == win) {
-      return new AIMove(10);
-    } else if (gameState == lose) {
-      return new AIMove(-10);
-    } else if (gameState == draw || depth == 0) {
-      return new AIMove(0);
+    if(gameState == win){
+        return new AIMove(10);
+    }else if(gameState == lose){
+        return new AIMove(-10);
+    }else if(gameState == draw || depth == 0){
+        return new AIMove(0);
     }
-
-    if (player == player_1) {
-      for (int i = 0; i<board.getSize (); i++) {
-        for (int j = 0; j<board.getSize (); j++) {
-          if (board.isEmpty(i, j)) {
-            AIMove move = new AIMove(i, j);
-            board.setVal(i, j, player);
-            move.score = getBestMove(board, alpha, beta, depth-1, player_2).score;
-            board.setVal(i, j, empty);
-            if (move.score > alpha.score)
-              alpha = move;
-            if (alpha.score>=beta.score)
-              return alpha;
-          }
+    
+    if(player == player_1){
+        for (int i = 0; i<board.getSize(); i++) {
+            for (int j = 0; j<board.getSize(); j++) {
+                if(board.isEmpty(i,j)){
+                    AIMove move = new AIMove(i,j);
+                    board.setVal(i, j, player);
+                    move.score = getBestMove(board, alpha, beta, depth-1, player_2).score;
+                    board.setVal(i,j,empty);
+                    if (move.score > alpha.score)
+                        alpha = move;
+                    if(alpha.score>=beta.score)
+                        return alpha;
+                }
+            }
         }
-      }
-      return alpha;
-    } else {
-      for (int i = 0; i<board.getSize (); i++) {
-        for (int j = 0; j<board.getSize (); j++) {
-          if (board.isEmpty(i, j)) {
-            AIMove move = new AIMove(i, j);
-            board.setVal(i, j, player);
-            move.score = getBestMove(board, alpha, beta, depth-1, player_1).score;
-            board.setVal(i, j, empty);
-            if (move.score < beta.score)
-              beta = move;
-            if (alpha.score>=beta.score)
-              return beta;
-          }
+        return alpha;
+    }else{
+        for (int i = 0; i<board.getSize(); i++) {
+            for (int j = 0; j<board.getSize(); j++) {
+                if(board.isEmpty(i,j)){
+                    AIMove move = new AIMove(i,j);
+                    board.setVal(i, j, player);
+                    move.score = getBestMove(board, alpha, beta, depth-1, player_1).score;
+                    board.setVal(i,j,empty);
+                    if (move.score < beta.score)
+                        beta = move;
+                    if(alpha.score>=beta.score)
+                        return beta;
+                }
+            }
         }
-      }
-      return beta;
+        return beta;
     }
   }
 }
-class Grid {
+class Grid{
   int x, y, size;
   boolean isX, empty;
-  Grid(int _x, int _y, int sz) {
-    x = _x; 
-    y = _y; 
-    size = sz;
+  Grid(int _x, int _y, int sz){
+    x = _x; y = _y; size = sz;
     isX = true;
     empty = true;
   }
-
-  void display() {
-    if (!overRect())  fill(255);
+  
+  void display(){
+    if(!overRect())  fill(255);
     else   fill(240);
     stroke(0);
     strokeWeight(2);
-    rect(x, y, size, size);
+    rect(x,y,size,size);
     drawText();
   }
-
-  void setCell(boolean flag) {
+  
+  void setCell(boolean flag){
     empty = false;
     isX = flag;
   }
-
-  void drawText() {
-    if (!empty) {
+  
+  void drawText(){
+    if(!empty){
       imageMode(CENTER);
-      if (isX)
-        image(xImg, x+size/2, y+size/2, size/2, size/2);
+      if(isX)
+        image(xImg, x+size/2,y+size/2,size/2,size/2);
       else
-        image(oImg, x+size/2, y+size/2, size/2, size/2);
+        image(oImg, x+size/2,y+size/2,size/2,size/2);
     }
   }
-
-  boolean overRect() {
-    if (mouseX>=x && mouseX<=x+size && mouseY>=y && mouseY<=y+size)  
+  
+ boolean overRect(){
+    if(mouseX>=x && mouseX<=x+size && mouseY>=y && mouseY<=y+size)  
       return true;
     else 
       return false;
@@ -217,15 +206,15 @@ class Board {
   int size, count;
   boolean turn;
   char[][] matrix;
-
-  Board() {
+  
+  Board(){
     size = 3;
     turn = false;
     count = 0;
     matrix = new char[size][size];
     initMatrix();
   }
-
+  
   Board(int sz) {
     size = sz;
     turn = false;
@@ -233,11 +222,11 @@ class Board {
     matrix = new char[size][size];
     initMatrix();
   }
-
-  void initMatrix() {
-    for (int i = 0; i<size; i++) {
-      for (int j = 0; j<size; j++) {
-        matrix[i][j] = ' ';
+  
+  void initMatrix(){
+    for(int i = 0; i<size; i++){
+       for(int j = 0; j<size; j++){
+          matrix[i][j] = ' ';
       }
     }
   }
@@ -253,13 +242,8 @@ class Board {
   }
 
   int checkWin(int p) {
-    if(gridSize%2 != 0){
-       if (count-1 == gridSize*gridSize)
-          return draw;
-    }else{
-       if (count == gridSize*gridSize)
-          return draw;
-    }
+    if (count == size*size)
+      return draw;
 
     // Check Horizontal
     for (int j = 0; j<size-1; j++)
@@ -309,13 +293,13 @@ class Board {
         return false;
     return true;
   }
-
-  int getSize() {
+  
+  int getSize(){
     return size;
   }
-
-  boolean isEmpty(int x, int y) {
-    return matrix[x][y] == ' ';
+  
+  boolean isEmpty(int x, int y){
+      return matrix[x][y] == ' ';
   }
 
   void clearBoard() {
