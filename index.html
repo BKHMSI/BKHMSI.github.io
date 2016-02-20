@@ -6,6 +6,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
   <script src="/Users/BAlKhamissi/Documents/Badr Projects/Web Development/jQuery.js"></script>
   <script type="text/javascript" src="index.js"></script>
+  <script src="Flexslider/jquery.flexslider.js"></script>
+  <link rel="stylesheet" href="Flexslider/flexslider.css" type="text/css">
   <link href="index.css" rel="stylesheet" type="text/css"/>
   <title>Badr AlKhamissi</title>
 </head>
@@ -24,9 +26,50 @@
       </nav>
     </div>
     <div id="welcome">
-      <!-- TODO: AUTOMATIC HORIZONTAL SCROLL IN WELCOME FOR RECENT PROJECTS -->
-      <h1>Badr AlKhamissi</h1>
-      <p>Interactive Resumé | Projects | Blog | Me</p>
+      <div class="flexslider">
+        <ul class="slides">
+          <li style="font-size: 2em;">
+            <h1>Badr AlKhamissi</h1>
+            <p>Interactive Resumé | Projects | Blog | Me</p>
+          </li>
+          <li>
+            <table width="30%" cellSpacing="5px" cellPadding="1px;" align="center" border="0">
+              <tr>
+                <td width="100%" style="text-align:center; padding:50px;" colspan="2">
+                  <h2 style="font-weight:lighter; text-align:center;">TicTacToe</h2>
+                  <a href="http://bkhmsi.github.io/Projects/BoardGames/index">
+                  <img class="box" height="50px" width="50px" src="Images/TicTacToe.png"/>
+                </a>
+                </td>
+              </tr>
+            </table>
+          </li>
+          <li>
+            <table width="30%" cellSpacing="5px" cellPadding="1px;" align="center" border="0">
+            <tr>
+            <td width="100%" style="text-align:center; padding:50px;">
+              <h2 style="font-weight:lighter; text-align:center; height:32px">Graph Builder</h2>
+              <a href="http://bkhmsi.github.io/Projects/Graphs/index">
+              <img class="box" height="250px" src="Images/Graph_Builder.png"/>
+            </a>
+            </td>
+            </tr>
+          </table>
+          </li>
+          <li>
+            <table width="20%" cellSpacing="5px" cellPadding="1px;" align="center" border="0">
+              <tr>
+                <td style="text-align:center; padding:25px;">
+                  <h2 style="font-weight:lighter; text-align:center">Quicky - Chrome Extension</h2>
+                  <a href="https://chrome.google.com/webstore/detail/quicky/kjcffaoelnehhcdgfnmdeomnmafmiomj">
+                  <img height="auto" src="Images/Quicky_Logo-128.png">
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </li>
+        </ul>
+      </div>
     </div>
     <div id="resume">
       <table width="50%" cellSpacing="10px" cellPadding="5px;" align="center" border="0">
@@ -46,7 +89,7 @@
       <div id="slide2_container">
         <div id="slide2_images" style="display:inline-block;">
           <div class="resumeTable">
-            <table cellSpacing="10px" cellPadding="5px" text-align="start" border="0">
+            <table cellSpacing="10px" cellPadding="5px" border="0">
               <div class="resumeSection">
                 <tr>
                   <td class="resumeTitle">

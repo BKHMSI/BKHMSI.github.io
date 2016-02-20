@@ -85,15 +85,14 @@ Yellowish Orange: #F3EFE1
   }
 
 
-  #welcome{
+  #welcome .flexslider{
     background-image: url('Images/bg.jpg');
     background-size: cover;
     height: 500px;
     padding-top: 100px;
     width: 100%;
     text-align: center;
-    font-size: 2em;
-    margin: .67em 0
+    margin: .100em 0
   }
 
  #projects{
@@ -119,6 +118,7 @@ Yellowish Orange: #F3EFE1
     font-size:17px;
     font-weight:bold;
     color: #2CA39E;
+    vertical-align: top;
   }
 
   .resumeTitle p{
@@ -127,14 +127,18 @@ Yellowish Orange: #F3EFE1
   }
 
   .resumeDesc{
-    padding:0;
+    padding-top:10px;
     margin: 0;
     font-size:15px;
     color:#434242;
+    vertical-align: top;
   }
 
   .resumeDesc a{
     color: #2CA39E;
+  }
+
+  .resumeSection tr td{
   }
 
   .star:hover{
@@ -281,7 +285,7 @@ Yellowish Orange: #F3EFE1
     -o-transition:all 1.0s ease-in-out;
     transition:all 1.0s ease-in-out;
   }
-  
+
   .boxH:hover{
     width: 420px;
     height: 300px;

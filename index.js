@@ -58,6 +58,13 @@ $(document).ready(function() {
   });
 });
 
+$(window).load(function() {
+  $('.flexslider').flexslider({
+      animation: "slide"
+    }
+  );
+});
+
 $(document).ready(function() {
   $('#slide2_controls').on('click', 'span', function(){
     $("#slide2_images").css("-webkit-transform","translateX("+$(this).index() * -600+"px)");
