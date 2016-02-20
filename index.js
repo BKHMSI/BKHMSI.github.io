@@ -79,13 +79,6 @@ $(document).ready(function() {
   });
 });
 
-
-$(document).ready(function() {
-$(".App_Projects").hover( function() {
-    $(this).css('color',"rgba(12,241,15,90)");
-  });
-});
-
 $("#TriviaApp").on({
   mouseenter: function() {
     $(this).src("Images/Doum_Trivia_GIF.gif");
@@ -108,7 +101,7 @@ $(document).ready(function() {
   $('#Processing_Apps').on('click', 'div', function(){
     console.log($("#Processing_Apps").height());
     if($("#Processing_Apps").height() == 100){
-      $("#Processing_Apps").css('height',"1800px");
+      $("#Processing_Apps").css('height',"2000px");
     }else{
       $("#Processing_Apps").css('height',"100px");
     }

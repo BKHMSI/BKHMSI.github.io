@@ -275,12 +275,13 @@ Yellowish Orange: #F3EFE1
     height:100px;
     overflow:hidden; /* So the sliding bit doesn't stick out. */
     margin:0 auto;
+    color: black;
     -webkit-transition:all 1.0s ease-in-out;
     -moz-transition:all 1.0s ease-in-out;
     -o-transition:all 1.0s ease-in-out;
     transition:all 1.0s ease-in-out;
   }
-
+  
   .boxH:hover{
     width: 420px;
     height: 300px;
