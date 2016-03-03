@@ -1,113 +1,42 @@
-  <!Doctype HTML>
-  <html>
-      <head>
+<!Doctype HTML>
+<html>
+    <head>
 
-          <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-          <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"/></script>
-          <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.js"></script>
-          <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.css">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"/></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.css">
 
-          <link href="" rel="stylesheet" type="text/css" />
+        <link href="" rel="stylesheet" type="text/css" />
 
-          <title>Codeforces Scoreboard</title>
+        <title>Codeforces Scoreboard</title>
 
-          <style type="text/css">
-            /*table, th, td {
-              border: 1px solid black;
-            }
+        <style type="text/css">
+          /*table, th, td {
+            border: 1px solid black;
+          }
 
-            thead{
-              background-color: green;
-              font-style: bold;
-            }
+          thead{
+            background-color: green;
+            font-style: bold;
+          }
 
-            td{
-              text-align: center;
-              padding: 15px;
-              height: 50px;
-            }
+          td{
+            text-align: center;
+            padding: 15px;
+            height: 50px;
+          }
 
-            table{
-              width:100%;
-            }
+          table{
+            width:100%;
+          }
 
-            tr:nth-child(even){
-              background-color: #f2f2f2
-            }*/
+          tr:nth-child(even){
+            background-color: #f2f2f2
+          }*/
 
 
-            textarea{
-                -webkit-box-shadow: rgb(221, 221, 221) 0px 1px 3px 0px inset;
-                -webkit-transition-delay: 0s;
-                -webkit-transition-duration: 0.3s;
-                -webkit-transition-property: border;
-                -webkit-transition-timing-function: linear;
-                border-bottom-color: rgb(204, 204, 204);
-                border-bottom-left-radius: 4px;
-                border-bottom-right-radius: 4px;
-                border-bottom-style: solid;
-                border-bottom-width: 1px;
-                border-left-color: rgb(204, 204, 204);
-                border-left-style: solid;
-                border-left-width: 1px;
-                border-right-color: rgb(204, 204, 204);
-                border-right-style: solid;
-                border-right-width: 1px;
-                border-top-color: rgb(204, 204, 204);
-                border-top-left-radius: 4px;
-                border-top-right-radius: 4px;
-                border-top-style: solid;
-                border-top-width: 1px;
-                box-shadow: rgb(221, 221, 221) 0px 1px 3px 0px inset;
-                box-sizing: border-box;
-                color: rgb(0, 0, 0);
-                display: block;
-                font-family: sans-serif;
-                font-size: 13px;
-                height: 90px;
-                letter-spacing: normal;
-                line-height: normal;
-                margin-bottom: 3.200000047683716px;
-                margin-left: 0px;
-                margin-right: 0px;
-                margin-top: 3.200000047683716px;
-                padding-bottom: 6px;
-                padding-left: 7px;
-                padding-right: 7px;
-                padding-top: 6px;
-                text-rendering: auto;
-                transition-delay: 0s;
-                transition-duration: 0.3s;
-                transition-property: border;
-                transition-timing-function: linear;
-                vertical-align: baseline;
-                width: 400px;
-                word-spacing: 0px;
-            }
-
-            .btn {
-              background: #21CDB1; /* this is a green */
-              color: white;
-              border-radius: 4px;
-              text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-              font-size: 100%;
-              padding: .5em 1.5em;
-              border: 0 rgba(0,0,0,0);
-              text-decoration: none;
-              -webkit-transition: .1s linear -webkit-box-shadow;
-              -moz-transition: .1s linear -moz-box-shadow;
-              -ms-transition: .1s linear box-shadow;
-              -o-transition: .1s linear box-shadow;
-              transition: .1s linear box-shadow;
-              cursor: pointer;
-            }
-
-            button:hover {
-              background-color: #c24609;
-              transition: background-color 0.5s;
-            }
-
-            .input{
+          textarea{
               -webkit-box-shadow: rgb(221, 221, 221) 0px 1px 3px 0px inset;
               -webkit-transition-delay: 0s;
               -webkit-transition-duration: 0.3s;
@@ -132,10 +61,10 @@
               box-shadow: rgb(221, 221, 221) 0px 1px 3px 0px inset;
               box-sizing: border-box;
               color: rgb(0, 0, 0);
-              display: inline;
+              display: block;
               font-family: sans-serif;
               font-size: 13px;
-              height: 29px;
+              height: 90px;
               letter-spacing: normal;
               line-height: normal;
               margin-bottom: 3.200000047683716px;
@@ -152,128 +81,203 @@
               transition-property: border;
               transition-timing-function: linear;
               vertical-align: baseline;
-              width: 180px;
+              width: 400px;
               word-spacing: 0px;
-            }
+          }
+
+          .btn {
+            background: #21CDB1; /* this is a green */
+            color: white;
+            border-radius: 4px;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+            font-size: 100%;
+            padding: .5em 1.5em;
+            border: 0 rgba(0,0,0,0);
+            text-decoration: none;
+            -webkit-transition: .1s linear -webkit-box-shadow;
+            -moz-transition: .1s linear -moz-box-shadow;
+            -ms-transition: .1s linear box-shadow;
+            -o-transition: .1s linear box-shadow;
+            transition: .1s linear box-shadow;
+            cursor: pointer;
+          }
+
+          button:hover {
+            background-color: #c24609;
+            transition: background-color 0.5s;
+          }
+
+          .input{
+            -webkit-box-shadow: rgb(221, 221, 221) 0px 1px 3px 0px inset;
+            -webkit-transition-delay: 0s;
+            -webkit-transition-duration: 0.3s;
+            -webkit-transition-property: border;
+            -webkit-transition-timing-function: linear;
+            border-bottom-color: rgb(204, 204, 204);
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+            border-bottom-style: solid;
+            border-bottom-width: 1px;
+            border-left-color: rgb(204, 204, 204);
+            border-left-style: solid;
+            border-left-width: 1px;
+            border-right-color: rgb(204, 204, 204);
+            border-right-style: solid;
+            border-right-width: 1px;
+            border-top-color: rgb(204, 204, 204);
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            border-top-style: solid;
+            border-top-width: 1px;
+            box-shadow: rgb(221, 221, 221) 0px 1px 3px 0px inset;
+            box-sizing: border-box;
+            color: rgb(0, 0, 0);
+            display: inline;
+            font-family: sans-serif;
+            font-size: 13px;
+            height: 29px;
+            letter-spacing: normal;
+            line-height: normal;
+            margin-bottom: 3.200000047683716px;
+            margin-left: 0px;
+            margin-right: 0px;
+            margin-top: 3.200000047683716px;
+            padding-bottom: 6px;
+            padding-left: 7px;
+            padding-right: 7px;
+            padding-top: 6px;
+            text-rendering: auto;
+            transition-delay: 0s;
+            transition-duration: 0.3s;
+            transition-property: border;
+            transition-timing-function: linear;
+            vertical-align: baseline;
+            width: 180px;
+            word-spacing: 0px;
+          }
 
 
-            .btn:hover{
-              background: #21CDB9; /* this is a green */
-            }
-          </style>
+          .btn:hover{
+            background: #21CDB9; /* this is a green */
+          }
+        </style>
 
-          <script type="text/javascript">
+        <script type="text/javascript">
 
-            var html = "";
+          var html = "";
 
-            $(document).ready( function () {
-                $('#table_id').DataTable();
-             } );
-
-            function httpRequest(url){
-                var xmlHttp = new XMLHttpRequest();
-                xmlHttp.open( "GET", url, false );
-                xmlHttp.send( null );
-                return xmlHttp.responseText;
-            }
-
-            function getJSON(handle, max){
-              var url = "http://codeforces.com/api/user.status?handle="+handle+"&from=1&count="+max;
-              var json = httpRequest(url);
-              var obj = JSON.parse(json);
-              return obj;
-            }
-
-            function drawTableHeader(problems){
-              html = "<table id=\"table_id\" class=\"display\"><thead><tr>";
-              html+="<td>Team Handle</td>";
-              for(var i = 0; i<problems.length; i++)
-                  html+=("<td>"+problems[i]+"</td>");
-              html+="</tr></thead><tbody>";
-            }
-
-            function filterProblemsOfUser(problems, handles, max){
-                for(var i = 0; i<handles.length; i++){
-                    html+="<tr>";
-                    html+=("<td>"+handles[i]+"</td>");
-                    var json = getJSON(handles[i], max);
-                    for(var k = 0; k<json.result.length; k++){
-                      for(var j = 0; j<problems.length; j++){
-                          var problem = json.result[k].problem.name;
-                          if(problem == problems[j]){
-                            var verdict = json.result[k].verdict;
-                            var handle = json.result[k].author.members[0].handle;
-                            html+="<td>"+verdict+"</td>";
-                         }
-                      }
-                    }
-                    html+="</tr>"
-                }
-                html+="</tbody></table>"
-              $(html).appendTo('#scoreboard');
+          $(document).ready( function () {
               $('#table_id').DataTable();
-            }
+           } );
 
-            function getUserProblems(handles, max){
-              var json = getJSON(handles[0], max);
-              var handle = json.result[0].author.members[0].handle;
-              html = "<table id=\"table_id\" class=\"display\"><thead><tr>";
-              html+=("<td>"+handle+" Problems </td>");
-              html+=("<td> Verdict </td>");
-              html+="</tr></thead><tbody>";
-              for(var k = 0; k<json.result.length; k++){
+          function httpRequest(url){
+              var xmlHttp = new XMLHttpRequest();
+              xmlHttp.open( "GET", url, false );
+              xmlHttp.send( null );
+              return xmlHttp.responseText;
+          }
+
+          function getJSON(handle, max){
+            var url = "http://codeforces.com/api/user.status?handle="+handle+"&from=1&count="+max;
+            var json = httpRequest(url);
+            var obj = JSON.parse(json);
+            return obj;
+          }
+
+          function drawTableHeader(problems){
+            html = "<table id=\"table_id\" class=\"display\"><thead><tr>";
+            html+="<td>Team Handle</td>";
+            for(var i = 0; i<problems.length; i++)
+                html+=("<td>"+problems[i]+"</td>");
+            html+="</tr></thead><tbody>";
+          }
+
+          function filterProblemsOfUser(problems, handles, max){
+              for(var i = 0; i<handles.length; i++){
                   html+="<tr>";
-                  var problem = json.result[k].problem.name;
-                  var verdict = json.result[k].verdict;
-                  html+="<td>"+problem+"</td>";
-                  html+="<td>"+verdict+"</td>";
+                  html+=("<td>"+handles[i]+"</td>");
+                  var json = getJSON(handles[i], max);
+                  for(var k = 0; k<json.result.length; k++){
+                    for(var j = 0; j<problems.length; j++){
+                        var problem = json.result[k].problem.name;
+                        if(problem == problems[j]){
+                          var verdict = json.result[k].verdict;
+                          var handle = json.result[k].author.members[0].handle;
+                          html+="<td>"+verdict+"</td>";
+                       }
+                    }
+                  }
                   html+="</tr>"
               }
               html+="</tbody></table>"
-              $(html).appendTo('#scoreboard');
-              $('#table_id').DataTable();z
+            $(html).appendTo('#scoreboard');
+            $('#table_id').DataTable();
+          }
+
+          function getUserProblems(handles, max){
+            var json = getJSON(handles[0], max);
+            var handle = json.result[0].author.members[0].handle;
+            html = "<table id=\"table_id\" class=\"display\"><thead><tr>";
+            html+=("<td>"+handle+" Problems </td>");
+            html+=("<td> Verdict </td>");
+            html+=("<td> Date </td>");
+            html+="</tr></thead><tbody>";
+            for(var k = 0; k<json.result.length; k++){
+                html+="<tr>";
+                var problem = json.result[k].problem.name;
+                var verdict = json.result[k].verdict;
+                var time = json.result[k].creationTimeSeconds;
+                var myDate = new Date( time * 1000);
+                html+="<td>"+problem+"</td>";
+                html+="<td>"+verdict+"</td>";
+                html+="<td>"+myDate.toGMTString()+"</td>";
+                html+="</tr>"
             }
+            html+="</tbody></table>"
+            $(html).appendTo('#scoreboard');
+            $('#table_id').DataTable();z
+          }
 
-            function run(){
-              var usersText = $("#handles").val();
-              var prblmsText = $("#problems").val();
-              var max = $("#count").val();
-              if(isNaN(parseInt(max))){
-                max = 20;
-              }
-              var handles = usersText.split("\n");
-              var problems = prblmsText.split("\n");
-              console.log(problems);
-              if(problems.length == 1){
-                  console.log(handles);
-                  getUserProblems(handles, parseInt(max));
-              }else{
-                drawTableHeader(problems);
-                filterProblemsOfUser(problems, handles, parseInt(max));
-              }
+          function run(){
+            var usersText = $("#handles").val();
+            var prblmsText = $("#problems").val();
+            var max = $("#count").val();
+            if(isNaN(parseInt(max))){
+              max = 20;
             }
+            var handles = usersText.split("\n");
+            var problems = prblmsText.split("\n");
+            console.log(problems);
+            if(problems.length == 1){
+                console.log(handles);
+                getUserProblems(handles, parseInt(max));
+            }else{
+              drawTableHeader(problems);
+              filterProblemsOfUser(problems, handles, parseInt(max));
+            }
+          }
 
-            /*
-            DanMaklen
-            Dokany
-            Bkhmsi
-            lightningstruct
+          /*
+          DanMaklen
+          Dokany
+          Bkhmsi
+          lightningstruct
 
-            Moore's Law
-            Lucky Numbers
-            War of the Corporations
+          Moore's Law
+          Lucky Numbers
+          War of the Corporations
 
-            */
-          </script>
+          */
+        </script>
 
-      </head>
+    </head>
 
-      <body>
-        <textarea id="handles" placeholder="Users Codeforces Handles"></textarea>
-        <textarea id="problems" placeholder="Problems"></textarea>
-        <input placeholder="# of Problems" class="input" type="text" id="count"/>
-        <button class="btn" onclick="run()">Generate Table</button>
-        <div id="scoreboard" style="padding:100px">
-        </div>
-      </body>
-  </html>
+    <body>
+      <textarea id="handles" placeholder="Users Codeforces Handles"></textarea>
+      <textarea id="problems" placeholder="Problems"></textarea>
+      <input placeholder="# of Problems" class="input" type="text" id="count"/>
+      <button class="btn" onclick="run()">Generate Table</button>
+      <div id="scoreboard" style="padding:100px">
+      </div>
+    </body>
+</html>
