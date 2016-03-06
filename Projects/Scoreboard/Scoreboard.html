@@ -156,6 +156,10 @@
             word-spacing: 0px;
           }
 
+          td{
+            text-align: center;
+          }
+
 
           .btn:hover{
             background: #21CDB9; /* this is a green */
@@ -189,27 +193,41 @@
             html+="<td>Team Handle</td>";
             for(var i = 0; i<problems.length; i++)
                 html+=("<td>"+problems[i]+"</td>");
+            html+="<td>Score</td>";
             html+="</tr></thead><tbody>";
           }
 
           function filterProblemsOfUser(problems, handles, max){
               for(var i = 0; i<handles.length; i++){
                   html+="<tr>";
-                  html+=("<td>"+handles[i]+"</td>");
+                  html+=("<td style=\"font-style:bold; height: 50px;\">"+handles[i]+"</td>");
                   var json = getJSON(handles[i], max);
-                  for(var k = 0; k<json.result.length; k++){
-                    for(var j = 0; j<problems.length; j++){
+                  for(var j = 0; j<problems.length; j++){
+                    var wa = 0, ac = 0;
+                    var flag = false;
+                    for(var k = 0; k<json.result.length; k++){
                         var problem = json.result[k].problem.name;
                         if(problem == problems[j]){
                           var verdict = json.result[k].verdict;
-                          var handle = json.result[k].author.members[0].handle;
-                          html+="<td>"+verdict+"</td>";
+                          if(verdict != "OK") wa++;
+                          else{
+                            ac++;
+                            flag = true;
+                          }
                        }
                     }
+                    if(flag){
+                      html+="<td style=\"background-color:#00e600\"> &#10004 </td>";
+                    }else if(wa != 0){
+                      html+="<td style=\"background-color:#e63900\"> &#x2718 </td>";
+                    }else{
+                      html+="<td></td>";
+                    }
                   }
-                  html+="</tr>"
+                  html+="<td>"+Math.random()*100 + 1 +"</td>";
+                  html+="</tr>";
               }
-              html+="</tbody></table>"
+            html+="</tbody></table>";
             $(html).appendTo('#scoreboard');
             $('#table_id').DataTable();
           }
@@ -233,17 +251,19 @@
                 html+="<td>"+myDate.toGMTString()+"</td>";
                 html+="</tr>"
             }
-            html+="</tbody></table>"
+            html+="</tbody></table>";
             $(html).appendTo('#scoreboard');
-            $('#table_id').DataTable();z
+            $('#table_id').DataTable();
           }
 
           function run(){
+            html = "";
+            $("#scoreboard").html(html);
             var usersText = $("#handles").val();
             var prblmsText = $("#problems").val();
             var max = $("#count").val();
             if(isNaN(parseInt(max))){
-              max = 20;
+              max = 50;
             }
             var handles = usersText.split("\n");
             var problems = prblmsText.split("\n");
@@ -258,14 +278,18 @@
           }
 
           /*
-          DanMaklen
-          Dokany
-          Bkhmsi
-          lightningstruct
+DanMaklen
+Dokany
+Bkhmsi
+lightningstruct
 
-          Moore's Law
-          Lucky Numbers
-          War of the Corporations
+Moore's Law
+Lucky Numbers
+War of the Corporations
+Gena's Code
+USB Flash Drives
+Pasha and Stick
+K-special Tables
 
           */
         </script>
