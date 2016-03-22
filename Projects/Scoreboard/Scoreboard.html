@@ -1,22 +1,28 @@
 <!Doctype HTML>
 <html>
     <head>
-
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"/></script>
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.js"></script>
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.css">
         <script type="text/javascript" charset="utf8" src="Scoreboard.js"></script>
+        <script type="text/javascript" charset="utf8" src="date.js"></script>
         <link href="Scoreboard.css" rel="stylesheet" type="text/css" />
         <title>Codeforces Scoreboard</title>
     </head>
 
     <body>
-      <textarea id="handles" placeholder="Users Codeforces Handles"></textarea>
-      <textarea id="problems" placeholder="Problems"></textarea>
-      <input placeholder="# of Problems" class="input" type="text" id="count"/>
-      <button class="btn" onclick="run()">Generate Table</button>
-      <div id="scoreboard" style="padding:100px">
+      <div id="devMode">
+        <textarea id="handles" placeholder="Users Codeforces Handles"></textarea>
+        <textarea id="problems" placeholder="Problems"></textarea>
+        <input type="datetime" id="sDate" class="input" placeholder="Start Datetime"/>
+        <input type="datetime" id="eDate" class="input" placeholder="End Datetime"/><br>
+        <input placeholder="# of Problems" class="input" type="text" id="count"/>
+        <button class="btn" onclick="run()">Generate Table</button>
       </div>
+      <br>
+      <input type="checkbox" id="hideCB" value="Hide" onchange="hideShow()">
+      <span>Contest Mode</span>
+      <div id="scoreboard" style="padding:100px"></div>
     </body>
 </html>

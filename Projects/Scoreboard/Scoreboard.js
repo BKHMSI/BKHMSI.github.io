@@ -1,8 +1,17 @@
 var html = "";
-
+var unixStart, unixEnd;
 $(document).ready( function () {
     $('#table_id').DataTable();
- } );
+});
+
+
+function hideShow(){
+  if($("#hideCB").is(':checked')){
+    $("#devMode").hide();
+  } else {
+    $("#devMode").show();
+  }
+}
 
 function httpRequest(url){
     var xmlHttp = new XMLHttpRequest();
@@ -28,25 +37,27 @@ function drawTableHeader(problems){
 }
 
 function filterProblemsOfUser(problems, handles, max){
+    var totalWC = 0;
     for(var i = 0; i<handles.length; i++){
+        var score = 0;
         html+="<tr>";
         html+=("<td style=\"font-style:bold; height: 50px;\">"+handles[i]+"</td>");
         var json = getJSON(handles[i], max);
         for(var j = 0; j<problems.length; j++){
-          var wa = 0, ac = 0;
-          var flag = false;
+          var wa = 0, ac = 0, time = 0;
           for(var k = 0; k<json.result.length; k++){
               var problem = json.result[k].problem.name;
               if(problem == problems[j]){
                 var verdict = json.result[k].verdict;
-                if(verdict != "OK") wa++;
-                else{
-                  ac++;
-                  flag = true;
+                time = json.result[k].creationTimeSeconds;
+                if(time<=unixEnd && time>=unixStart){
+                  if(verdict != "OK") wa++;
+                  else ac++;
                 }
              }
           }
-          if(flag){
+          score+=(10000-(time-unixStart)*wa);
+          if(ac){
             html+="<td style=\"background-color:#00e600\"> &#10004 </td>";
           }else if(wa != 0){
             html+="<td style=\"background-color:#e63900\"> &#x2718 </td>";
@@ -54,7 +65,7 @@ function filterProblemsOfUser(problems, handles, max){
             html+="<td></td>";
           }
         }
-        html+="<td>"+Math.random()*100 + 1 +"</td>";
+        html+="<td>"+score+"</td>";
         html+="</tr>";
     }
   html+="</tbody></table>";
@@ -88,13 +99,18 @@ function getUserProblems(handles, max){
 
 function run(){
   html = "";
+  var txtSDate = $("#sDate").val();
+  var txtEDate = $("#eDate").val();
+  unixStart = Date.parse(txtSDate).getTime()/1000;
+  unixEnd = Date.parse(txtEDate).getTime()/1000;
+
   $("#scoreboard").html(html);
   var usersText = $("#handles").val();
   var prblmsText = $("#problems").val();
   var max = $("#count").val();
-  if(isNaN(parseInt(max))){
+  if(isNaN(parseInt(max)))
     max = 50;
-  }
+
   var handles = usersText.split("\n");
   var problems = prblmsText.split("\n");
   console.log(problems);

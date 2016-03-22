@@ -99,7 +99,7 @@ void mousePressed() {
   }
 }
 class AI{
-  int inf = 10000;
+  int inf = 100000;
   class AIMove{
     int x,y,score;
     AIMove(){}
@@ -109,7 +109,7 @@ class AI{
   }
   
   AIMove makeMove(Board board, int player){
-    AIMove bestMove = getBestMove(board, new AIMove(-inf), new AIMove(inf),5,player);
+    AIMove bestMove = getBestMove(board, new AIMove(-inf), new AIMove(inf),7,player);
     board.setVal(bestMove.x,bestMove.y,player);
     return bestMove;
   }
@@ -159,6 +159,7 @@ class AI{
     }
   }
 }
+
 class Grid{
   int x, y, size;
   boolean isX, empty;
