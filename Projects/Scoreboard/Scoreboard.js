@@ -44,19 +44,21 @@ function filterProblemsOfUser(problems, handles, max){
         html+=("<td style=\"font-style:bold; height: 50px;\">"+handles[i]+"</td>");
         var json = getJSON(handles[i], max);
         for(var j = 0; j<problems.length; j++){
-          var wa = 0, ac = 0, time = 0;
+          var wa = 0, ac = 0, time = 0, count = 0, timeAcc = 0;
           for(var k = 0; k<json.result.length; k++){
               var problem = json.result[k].problem.name;
               if(problem == problems[j]){
                 var verdict = json.result[k].verdict;
                 time = json.result[k].creationTimeSeconds;
                 if(time<=unixEnd && time>=unixStart){
+                  count++;
+                  timeAcc+=(time-unixStart);
                   if(verdict != "OK") wa++;
                   else ac++;
                 }
              }
           }
-          score+=(10000-(time-unixStart)*wa);
+          // # of problems solved * big factor - (20 * wa) - (total times in minutes)
           if(ac){
             html+="<td style=\"background-color:#00e600\"> &#10004 </td>";
           }else if(wa != 0){
@@ -65,6 +67,7 @@ function filterProblemsOfUser(problems, handles, max){
             html+="<td></td>";
           }
         }
+        score = count*100000 - (20*wa) - (timeAcc/60.0);
         html+="<td>"+score+"</td>";
         html+="</tr>";
     }
