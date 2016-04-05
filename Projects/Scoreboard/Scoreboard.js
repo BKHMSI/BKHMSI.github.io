@@ -27,13 +27,21 @@ function getJSON(handle, max){
   return obj;
 }
 
-function drawTableHeader(problems){
-  html = "<table id=\"table_id\" class=\"display\"><thead><tr>";
-  html+="<td>Team Handle</td>";
-  for(var i = 0; i<problems.length; i++)
-      html+=("<td>"+problems[i]+"</td>");
-  html+="<td>Score</td>";
-  html+="</tr></thead><tbody>";
+function drawTableHeader(problems, flag){
+  if(flag){
+    html = "<table id=\"table_id\" class=\"display\"><thead><tr>";
+    html+="<td>Team Handle</td>";
+    html+="<td>Date</td>";
+    html+="</tr></thead><tbody>";
+  }else{
+    html = "<table id=\"table_id\" class=\"display\"><thead><tr>";
+    html+="<td>Team Handle</td>";
+    for(var i = 0; i<problems.length; i++){
+        html+="<td>"+problems[i]+"</td>";
+    }
+    html+="<td>Score</td>";
+    html+="</tr></thead><tbody>";
+  }
 }
 
 function filterProblemsOfUser(problems, handles, max){
@@ -45,6 +53,7 @@ function filterProblemsOfUser(problems, handles, max){
         var json = getJSON(handles[i], max);
         for(var j = 0; j<problems.length; j++){
           var ac = 0, wa = 0;
+          var date = "";
           for(var k = 0; k<json.result.length; k++){
               var problem = json.result[k].problem.name;
               if(problem == problems[j]){
@@ -56,21 +65,24 @@ function filterProblemsOfUser(problems, handles, max){
                   if(verdict != "OK"){
                     wta++;
                     wa++;
+                  }else{
+                    ac++;
+                    score++;
+                    var myDate = new Date( time * 1000);
+                    date = myDate.toGMTString();
                   }
-                  else ac++;
                 }
              }
           }
           // # of problems solved * big factor - (20 * wa) - (total times in minutes)
           if(ac){
-            html+="<td style=\"background-color:#00e600\"> &#10004 </td>";
+            html+="<td style=\"background-color:#00e600\"> &#10004 <br> "+date+" </td>";
           }else if(wa != 0){
-            html+="<td style=\"background-color:#e63900\"> &#x2718 </td>";
+            html+="<td style=\"background-color:#e63900\"> &#x2718 <br> "+date+" </td>";
           }else{
             html+="<td></td>";
           }
         }
-        score = count*1000000 - (20*wta) - (timeAcc/60.0);
         html+="<td>"+score+"</td>";
         html+="</tr>";
     }
@@ -103,6 +115,34 @@ function filterProblems(handles, problems){
       }
     }
     return solvedProblems;
+}
+
+function getProblemsDate(handles, prblm){
+  for(var i = 0; i<handles.length; i++){
+      html+="<tr>";
+      var flag = false;
+      var date = "";
+      html+=("<td style=\"font-style:bold; height: 50px;\">"+handles[i]+"</td>");
+      var json = getJSON(handles[i], 100);
+      for(var k = 0; k<json.result.length && !flag; k++){
+          var problem = json.result[k].problem.name;
+          if(problem == prblm){
+            var verdict = json.result[k].verdict;
+            time = json.result[k].creationTimeSeconds;
+            if(verdict == 'OK'){
+                var myDate = new Date( time * 1000);
+                date = myDate.toGMTString();
+                flag = true;
+                break;
+            }
+          }
+    }
+    html+="<td>"+date+"</td>";
+    html+="</tr>";
+  }
+  html+="</tbody></table>";
+  $(html).appendTo('#scoreboard');
+  $('#table_id').DataTable();
 }
 
 function getUserProblems(handles, max){
@@ -140,6 +180,15 @@ function filter(){
   console.log("Finish!!");
 }
 
+function dateFilter(){
+  html = "";
+  var usersText = $("#handles").val();
+  var problem = $("#problems").val();
+  var handles = usersText.split("\n");
+  drawTableHeader(problem, true);
+  getProblemsDate(handles,problem);
+}
+
 function run(){
   html = "";
   var txtSDate = $("#sDate").val();
@@ -161,7 +210,7 @@ function run(){
       console.log(handles);
       getUserProblems(handles, parseInt(max));
   }else{
-    drawTableHeader(problems);
+    drawTableHeader(problems,false);
     filterProblemsOfUser(problems, handles, parseInt(max));
   }
 }
