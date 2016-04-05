@@ -39,12 +39,12 @@ function drawTableHeader(problems){
 function filterProblemsOfUser(problems, handles, max){
     var totalWC = 0;
     for(var i = 0; i<handles.length; i++){
-        var score = 0, wa = 0, time = 0, count = 0, timeAcc = 0;
+        var score = 0, wta = 0, time = 0, count = 0, timeAcc = 0;
         html+="<tr>";
         html+=("<td style=\"font-style:bold; height: 50px;\">"+handles[i]+"</td>");
         var json = getJSON(handles[i], max);
         for(var j = 0; j<problems.length; j++){
-          var ac = 0;
+          var ac = 0, wa = 0;
           for(var k = 0; k<json.result.length; k++){
               var problem = json.result[k].problem.name;
               if(problem == problems[j]){
@@ -53,7 +53,10 @@ function filterProblemsOfUser(problems, handles, max){
                 if(time<=unixEnd && time>=unixStart){
                   count++;
                   timeAcc+=(time-unixStart);
-                  if(verdict != "OK") wa++;
+                  if(verdict != "OK"){
+                    wta++;
+                    wa++;
+                  }
                   else ac++;
                 }
              }
@@ -67,7 +70,7 @@ function filterProblemsOfUser(problems, handles, max){
             html+="<td></td>";
           }
         }
-        score = count*100000 - (20*wa) - (timeAcc/60.0);
+        score = count*1000000 - (20*wta) - (timeAcc/60.0);
         html+="<td>"+score+"</td>";
         html+="</tr>";
     }
