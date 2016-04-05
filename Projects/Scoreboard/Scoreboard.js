@@ -39,12 +39,12 @@ function drawTableHeader(problems){
 function filterProblemsOfUser(problems, handles, max){
     var totalWC = 0;
     for(var i = 0; i<handles.length; i++){
-        var score = 0;
+        var score = 0, wa = 0, time = 0, count = 0, timeAcc = 0;
         html+="<tr>";
         html+=("<td style=\"font-style:bold; height: 50px;\">"+handles[i]+"</td>");
         var json = getJSON(handles[i], max);
         for(var j = 0; j<problems.length; j++){
-          var wa = 0, ac = 0, time = 0, count = 0, timeAcc = 0;
+          var ac = 0;
           for(var k = 0; k<json.result.length; k++){
               var problem = json.result[k].problem.name;
               if(problem == problems[j]){
@@ -76,6 +76,32 @@ function filterProblemsOfUser(problems, handles, max){
   $('#table_id').DataTable();
 }
 
+function isVisited(problems, problem){
+    for(var i = 0; i<problems.length; i++){
+      if(problems[i] == problem)
+        return true;
+    }
+    return false;
+}
+
+function filterProblems(handles, problems){
+  var solvedProblems = [];
+  for(var i = 0; i<handles.length; i++){
+      var score = 0;
+      var json = getJSON(handles[i], 100);
+      for(var j = 0; j<problems.length; j++){
+        for(var k = 0; k<json.result.length; k++){
+            var problem = json.result[k].problem.name;
+            if(problem == problems[j]){
+              console.log(problem);
+              solvedProblems.push(problem);
+            }
+        }
+      }
+    }
+    return solvedProblems;
+}
+
 function getUserProblems(handles, max){
   var json = getJSON(handles[0], max);
   var handle = json.result[0].author.members[0].handle;
@@ -98,6 +124,17 @@ function getUserProblems(handles, max){
   html+="</tbody></table>";
   $(html).appendTo('#scoreboard');
   $('#table_id').DataTable();
+}
+
+function filter(){
+  var usersText = $("#handles").val();
+  var prblmsText = $("#problems").val();
+  var handles = usersText.split("\n");
+  var problems = prblmsText.split("\n");
+  var filtered = filterProblems(handles,problems);
+  for(var i = 0; i<filtered.length; i++)
+      console.log(filtered[i]);
+  console.log("Finish!!");
 }
 
 function run(){
