@@ -23,7 +23,7 @@
     <body>
       <div id="page">
         <div id="simulator">
-          <h1 style="text-align: center"> ARM Simulator </h1>
+          <h1 style="text-align: center"> ARM Thumb Simulator </h1>
           <label> Input Type: </label>
           <select style="display:inline;" id="instType" onChange="displayPlaceHolder(value);">
             <option value="0">Binary</option>
@@ -35,6 +35,7 @@
           <textarea id="instEncoded" placeholder="Enter Instructions in Binary (base 2)"></textarea>
           <hr>
           <textarea id="result" placeholder="Result will appear here"></textarea>
+          <button onclick="run()" class="btn">Simulate</button>
         </div>
         <br><hr><hr><br>
         <h2 style="text-align: center">Converters</h2>
@@ -64,7 +65,7 @@
             </td>
           </tr>
           <tr><td style="padding-top:40px" colspan="2" align="center">
-            <button onclick="convert()" class="btn">Submit</button>
+            <button onclick="convert()" class="btn">Convert</button>
           </td></tr>
         </table>
       </div>

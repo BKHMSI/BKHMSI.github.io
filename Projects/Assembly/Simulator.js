@@ -1,12 +1,97 @@
 var Memory = [];
-var Regs   = [];
+var Reg    = [];
+var instType = 0;
 
 function PC(){
-  return Regs[15];
+  return Reg[15];
 }
 
 function Fetch(){
-  Regs[15] += 2;
+  Reg[15] += 2;
+}
+
+
+function run(){
+  instType = parseInt($( "#instType option:selected" ).val())
+  var instructions = $("#instEncoded").val();
+  var instr = instructions.split("\n");
+  if(instType == 0)
+    for(var i = 0; i<instr.length; i++)
+        instr[i] = pad(Bin2Dec(instr[i]),16);
+  else if(instType == 1)
+    for(var i = 0; i<instr.length; i++)
+        instr[i] = pad(Hex2Dec(instr[i]),16);
+
+  // Decoding Then Executing Each Instruction
+  for(var i = 0; i<instr.length; i++){
+      decode(instr[i]);
+  }
+  $("#result").append("\n\n\n");
+}
+
+function decode(instr){
+  var fmt = (instr) >> 13;
+  switch (fmt) {
+      case 0:
+          return format_0(instr);
+          break;
+      default:
+          return -1;
+          break;
+  }
+  return -1;
+}
+
+String.prototype.format = function() {
+    var formatted = this;
+    for (var i = 0; i < arguments.length; i++) {
+        var regexp = new RegExp('\\{'+i+'\\}', 'gi');
+        formatted = formatted.replace(regexp, arguments[i]);
+    }
+    return formatted;
+};
+
+function format_0(instr){
+  var op = (instr >> 11) & 3;
+  var rd = instr & 7;
+  var rs = (instr >>  3) & 7;
+  var offset5 = (instr >> 6) & 0x1F;
+    switch (op) {
+        case 0:
+            $("#result").append("lsl\tr{0}, r{1}, #{2}\n".format(rd, rs, offset5));
+            break;
+        case 1:
+            $("#result").append("lsr\tr{0}, r{1}, #{2}\n".format(rd, rs, offset5));
+            break;
+        case 2:
+            $("#result").append("asr\tr{0}, r{1}, #{2}\n".format(rd, rs, offset5));
+            break;
+        case 3:
+            offset3 = rn = offset5 & 0x07;
+            if((offset5 & 0x08) == 0){
+                $("#result").append("add\tr{0}, r{1}, ".format(rd, rs));
+                if((offset5 & 0x10) == 0){
+                    $("#result").append("r{0}\n".format(rn));
+                    Reg[rd] = Reg[rs] + Reg[rn];
+                }
+                else {
+                    $("#result").append("r{0}\n".format(rn));
+                    Reg[rd] = Reg[rs] + offset3;
+                }
+            }else{
+                $("#result").append("sub\tr{0}, r{1}, ".format(rd, rs));
+                if((offset5 & 0x10) == 0){
+                    $("#result").append("r{0}\n".format(rn));
+                    Reg[rd] = Reg[rs] - Reg[rn];
+                }else{
+                    $("#result").append("r{0}\n".format(offset3));
+                    Reg[rd] = Reg[rs] - offset3;
+                }
+            }
+            break;
+        default:
+            break;
+    }
 }
 
 //Useful Functions
