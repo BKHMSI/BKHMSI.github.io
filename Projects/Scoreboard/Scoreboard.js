@@ -223,10 +223,10 @@ function preparation(){
 
 function run(){
   html = "";
-  var txtSDate = $("#sDate").val();
-  var txtEDate = $("#eDate").val();
-  unixStart = Date.parse(txtSDate).getTime()/1000;
-  unixEnd = Date.parse(txtEDate).getTime()/1000;
+  // var txtSDate = $("#sDate").val();
+  // var txtEDate = $("#eDate").val();
+  unixStart = Date.parse("2015").getTime()/1000;
+  unixEnd = Date.parse("2017").getTime()/1000;
 
   $("#scoreboard").html(html);
   var usersText = $("#handles").val();
