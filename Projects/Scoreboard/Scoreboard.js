@@ -189,6 +189,38 @@ function dateFilter(){
   getProblemsDate(handles,problem);
 }
 
+function bestPrepared(handles, max){
+  html = "<table id=\"table_id\" class=\"display\"><thead><tr>";
+  html+=("<td> Handle </td>");
+  html+=("<td> Count </td>");
+  html+="</tr></thead><tbody>";
+  for(var i = 0; i<handles.length; i++){
+    var count = 0;
+    var json = getJSON(handles[i], max);
+    html+=("<td style=\"font-style:bold; height: 50px;\">"+handles[i]+"</td>");
+    for(var k = 0; k<json.result.length; k++){
+        var problem = json.result[k].problem.name;
+        var verdict = json.result[k].verdict;
+        var time = json.result[k].creationTimeSeconds;
+        var myDate = new Date(time * 1000);
+        count++;
+    }
+    html+="<td>"+count+"</td>";
+    html+="</tr>";
+  }
+
+  html+="</tbody></table>";
+  $(html).appendTo('#scoreboard');
+  $('#table_id').DataTable();
+}
+
+function preparation(){
+  html = "";
+  var usersText = $("#handles").val();
+  var handles = usersText.split("\n");
+  bestPrepared(handles,150);
+}
+
 function run(){
   html = "";
   var txtSDate = $("#sDate").val();

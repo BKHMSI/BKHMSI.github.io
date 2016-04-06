@@ -1,0 +1,72 @@
+<!Doctype HTML>
+<html>
+    <head>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"/></script>
+        <script type="text/javascript" src="Simulator.js"></script>
+        <link href="index.css" rel="stylesheet" type="text/css" />
+        <title>ARM Simulator</title>
+    </head>
+
+    <script type = "text/javascript">
+        function displayPlaceHolder(value){
+          var placeholder = "Enter Instructions in Binary (base 2)";
+          if(value == 1)
+             placeholder = "Enter Instructions in Hexadecimal (base 16)";
+          else if(value == 2)
+             placeholder = "Enter Instructions in Denary (base 10)";
+          $("#instEncoded").attr("placeholder", placeholder);
+        }
+    </script>
+
+    <body>
+      <div id="page">
+        <div id="simulator">
+          <h1 style="text-align: center"> ARM Simulator </h1>
+          <label> Input Type: </label>
+          <select style="display:inline;" id="instType" onChange="displayPlaceHolder(value);">
+            <option value="0">Binary</option>
+            <option value="1">Hexadecimal</option>
+            <option value="2">Denary</option>
+          </select>
+          <input style="float: right" type="file" id="fileinput"/>
+          <script>document.getElementById('fileinput').addEventListener('change', readFile, false);</script>
+          <textarea id="instEncoded" placeholder="Enter Instructions in Binary (base 2)"></textarea>
+          <hr>
+          <textarea id="result" placeholder="Result will appear here"></textarea>
+        </div>
+        <br><hr><hr><br>
+        <h2 style="text-align: center">Converters</h2>
+        <table width="100%">
+          <tr>
+            <td>
+              <div style="display:inline">
+                <label> Convert From: </label>
+                <select id="cvtFromType" onChange="displayPlaceHolder(value);">
+                  <option value="0">Binary</option>
+                  <option value="1">Hexadecimal</option>
+                  <option value="2">Denary</option>
+                </select>
+                <input class="txtbox" type="text" id="cvtFrom" placeholder="Binary"/>
+              </div>
+            </td>
+            <td>
+              <div style="float:right;">
+                <label> Convert To: </label>
+                <select id="cvtToType" onChange="displayPlaceHolder(value);">
+                  <option value="0">Binary</option>
+                  <option value="1">Hexadecimal</option>
+                  <option value="2">Denary</option>
+                </select>
+                <input class="txtbox" type="text" id="cvtTo" placeholder="Hexadecimal"/>
+              </div>
+            </td>
+          </tr>
+          <tr><td style="padding-top:40px" colspan="2" align="center">
+            <button onclick="convert()" class="btn">Submit</button>
+          </td></tr>
+        </table>
+      </div>
+    </body>
+</html>
