@@ -100,6 +100,13 @@ function format_1(instr,Reg){
   var rd = (instr >> 8) & 7;
   var offset8 = instr & 0xFF;
   $("#result").append("{0}\t r{1}, #{2}\n".format(format10[op],rd,offset8));
+  switch (op) {
+    case 0:
+        Reg[rd] = offset8;
+      break;
+    default:
+
+  }
 }
 
 function format_2(instr,Reg){

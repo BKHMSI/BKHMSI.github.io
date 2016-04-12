@@ -17,12 +17,14 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
     $scope.error = 'e';
     $scope.speed = 4;
     $scope.regs = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-    $scope.lastIdx = 0;
+    var index = 0;
 
     $scope.reset = function () {
-        $("#sourceCode").val(" ");
+        $("#sourceCode").val("");
+        $("#result").val("");
         $scope.selectedLine = -1;
         for(var i = 0; i<16; i++) $scope.regs[i] = 0;
+        index = 0;
     };
 
     $scope.load = function(){
@@ -41,7 +43,7 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
           instr[i] = pad(Hex2Dec(instr[i]),16);
 
       // Decoding Then Executing Each Instruction
-      for(var i = 0; i<instr.length; i++)
+      for(var i = index; i<instr.length; i++)
          decode(instr[i],$scope.regs);
 
     };
@@ -52,17 +54,18 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
       var instr = instructions.split("\n");
       if(instType == 0)
         for(var i = 0; i<instr.length; i++)
-          instr[i] = pad(Bin2Dec(instr[i]),16);
+          instr[i] = Bin2Dec(instr[i]);
       else if(instType == 1)
         for(var i = 0; i<instr.length; i++)
-          instr[i] = pad(Hex2Dec(instr[i]),16);
+          instr[i] = Hex2Dec(instr[i]);
 
       // Decoding Then Executing Each Instruction
-      decode($scope.lastIdx++,$scope.regs);
+      if(index<instr.length)
+        decode(instr[index++],$scope.regs);
     };
 
     $scope.clear = function(){
-      $("#result").val(" ");
+      $("#result").val("");
     };
 
 }]);

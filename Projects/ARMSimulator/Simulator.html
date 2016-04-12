@@ -8,7 +8,7 @@
         <script type="text/javascript" src="controller.js"></script>
         <script type="text/javascript" src="memory.js"></script>
         <script type="text/javascript" src="simulator.js"></script>
-        <script type="text/javascript" src="index.js"></script>
+        <script type="text/javascript" src="other.js"></script>
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
         <link href="index.css" rel="stylesheet" type="text/css"/>
@@ -68,6 +68,7 @@
                                           ng-mode='code'>
                                 </textarea>
                                 <button type="button" class="btn btn-default" ng-click="clear()">Clear</button>
+                                <button type="button" class="btn btn-default" ng-click="step()"><span class="glyphicon glyphicon-forward"></span> Step</button>
                             </form>
                         </div>
                     </div>
@@ -139,7 +140,7 @@
                           <select class="sel" id="cvtFromType" onChange="displayPlaceHolder(value);">
                             <option value="0">Binary</option>
                             <option value="1">Hexadecimal</option>
-                            <option value="2">Denary</option>
+                            <option value="2">Decimal</option>
                           </select>
                           <input class="txtbox" type="text" id="cvtFrom" placeholder="Binary"/>
                         </div>
@@ -151,7 +152,7 @@
                           <select class="sel" id="cvtToType" onChange="displayPlaceHolder(value);">
                             <option value="0">Binary</option>
                             <option value="1">Hexadecimal</option>
-                            <option value="2">Denary</option>
+                            <option value="2">Decimal</option>
                           </select>
                           <input class="txtbox" type="text" id="cvtTo" placeholder="Hexadecimal"/>
                         </div>
