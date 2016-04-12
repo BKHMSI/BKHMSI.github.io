@@ -1,0 +1,169 @@
+<!Doctype HTML>
+<html ng-app="ArmSim">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"/></script>
+        <script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+
+        <script type="text/javascript" src="controller.js"></script>
+        <script type="text/javascript" src="memory.js"></script>
+        <script type="text/javascript" src="simulator.js"></script>
+        <script type="text/javascript" src="index.js"></script>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+        <link href="index.css" rel="stylesheet" type="text/css"/>
+
+        <title>ARM Thumb Simulator</title>
+    </head>
+
+    <body ng-controller="MainController">
+      <div id="page">
+        <nav class="navbar navbar-inverse" role="navigation" style="background-color:#black;border:0px;border-radius:0px;">
+            <div class="container">
+                <div class="navbar-header">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success navbar-btn" ng-click="run()" ><span class="glyphicon glyphicon-play"></span> Run</button>
+                        <button type="button" class="btn btn-default navbar-btn" ng-click="stop()"><span class="glyphicon glyphicon-stop"></span> Stop</button>
+                        <button type="button" class="btn btn-default navbar-btn" ng-click="step()"><span class="glyphicon glyphicon-forward"></span> Step</button>
+                    </div>
+                    <button type="button" class="btn btn-default navbar-btn" ng-click="reset()">Reset</button>
+                </div>
+                <div class="navbar-header navbar-right">
+                    <a class="navbar-brand" style="color:#FFFFFF">ARM Thumb (16-bit) Simulator</a>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="alert alert-danger" ng-hide="error === 'e'">{{error}}</div>
+            <div class="row">
+                <div class="col-lg-7 col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="height:60px">
+                            <h4 class="panel-title">Code <small>(<a href="https://github.com/BKHMSI/ARM-Thumb-Simulator/blob/master/thumb-isa.pdf" target="_blank" style="color: #337AB7">Instruction Set</a>)</small></h4>
+                            <select class="sel" style="display:inline; margin-top:7px" id="instType" onChange="displayPlaceHolder(value);">
+                              <option value="0">Binary</option>
+                              <option value="1">Hexadecimal</option>
+                              <option value="2">Denary</option>
+                            </select>
+                            <input class="inputfile" type="file" id="fileinput"/>
+                            <script>document.getElementById('fileinput').addEventListener('change', readFile, false);</script>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form">
+                                <textarea id="sourceCode"
+                                          class="form-control source-code"
+                                          placeholder="Enter Instructions in Binary (base 2)"
+                                          style="margin-bottom:5px;"
+                                          rows="15"
+                                          tab-support
+                                          select-line
+                                          ng-mode='code'>
+                                </textarea>
+                                <textarea id="result"
+                                          class="form-control source-code"
+                                          style="margin-bottom:5px;"
+                                          rows="20"
+                                          tab-support
+                                          select-line
+                                          ng-mode='code'>
+                                </textarea>
+                                <button type="button" class="btn btn-default" ng-click="clear()">Clear</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix visible-xs visible-sm"></div>
+                <div class="col-lg-5 col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Output</h4>
+                        </div>
+                        <div class="panel-body source-code">
+                           <div style="float:left; color:black" class="output">
+                               <span></span>
+                           </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Registers</h4>
+                        </div>
+                        <div class="panel-body">
+                          <table style="color:black" class="table table-condensed table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center">Reg #</th>
+                                    <th style="text-align:center">Binary</th>
+                                    <th style="text-align:center">Hexadecimal</th>
+                                    <th style="text-align:center">Decimal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="text-align:center;" class="source-code" ng-repeat="reg in regs track by $index">
+                                    <td><div style="margin:auto;" ng-class="displayA && 'marker marker-a'"><small>{{ $index }}</small></div></td>
+                                    <td><div style="margin:auto;" ng-class="displayB && 'marker marker-b'"><small>{{ reg | BinFilter}}</small></div></td>
+                                    <td><div style="margin:auto;" ng-class="displayC && 'marker marker-c'"><small>{{ reg | HexFilter}}</small></div></td>
+                                    <td><div style="margin:auto;" ng-class="displayD && 'marker marker-d'"><small>{{ reg }}</small></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Memory</h4>
+                        </div>
+                        <div class="panel-body source-code">
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Labels</h4>
+                        </div>
+                        <div class="panel-body source-code">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Converters</h4>
+                </div>
+                <div class="panel-body">
+                  <table width="100%">
+                    <tr>
+                      <td>
+                        <div style="display:inline">
+                          <label> Convert From: </label>
+                          <select class="sel" id="cvtFromType" onChange="displayPlaceHolder(value);">
+                            <option value="0">Binary</option>
+                            <option value="1">Hexadecimal</option>
+                            <option value="2">Denary</option>
+                          </select>
+                          <input class="txtbox" type="text" id="cvtFrom" placeholder="Binary"/>
+                        </div>
+                      </td>
+                      <td align="center"><button onclick="convert()" class="btn">Convert</button></td>
+                      <td>
+                        <div style="float:right;">
+                          <label> Convert To: </label>
+                          <select class="sel" id="cvtToType" onChange="displayPlaceHolder(value);">
+                            <option value="0">Binary</option>
+                            <option value="1">Hexadecimal</option>
+                            <option value="2">Denary</option>
+                          </select>
+                          <input class="txtbox" type="text" id="cvtTo" placeholder="Hexadecimal"/>
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+            </div>
+
+            <hr style="margin-top:10px;margin-bottom:10px;"/>
+            <p><small> &copy; Badr AlKhamissi and Malak Sadek</small></p>
+        </div>
+      </div>
+    </body>
+</html>
