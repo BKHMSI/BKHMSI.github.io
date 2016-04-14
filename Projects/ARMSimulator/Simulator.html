@@ -57,16 +57,14 @@
                                           rows="15"
                                           tab-support
                                           select-line
-                                          ng-mode='code'>
-                                </textarea>
+                                          ng-mode='code'></textarea>
                                 <textarea id="result"
                                           class="form-control source-code"
                                           style="margin-bottom:5px;"
                                           rows="20"
                                           tab-support
                                           select-line
-                                          ng-mode='code'>
-                                </textarea>
+                                          ng-mode='code'></textarea>
                                 <button type="button" class="btn btn-default" ng-click="clear()">Clear</button>
                                 <button type="button" class="btn btn-default" ng-click="step()"><span class="glyphicon glyphicon-forward"></span> Step</button>
                             </form>
@@ -81,8 +79,35 @@
                             <h4 class="panel-title">Output</h4>
                         </div>
                         <div class="panel-body source-code">
-                           <div style="float:left; color:black" class="output">
-                               <span></span>
+                          <div class="output" ng-repeat="out in output track by $index">
+                              <span>{{ out }}</span>
+                          </div>
+                      </div>
+
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Flag Register</h4>
+                        </div>
+                        <div class="panel-body source-code">
+                           <div class="table table-condensed table-striped">
+                             <table style="color:black" class="table table-condensed table-striped">
+                               <thead>
+                                   <tr>
+                                       <th style="text-align:center">Z</th>
+                                       <th style="text-align:center">C</th>
+                                       <th style="text-align:center">N</th>
+                                       <th style="text-align:center">V</th>
+                                   </tr>
+                               </thead>
+                               <tbody>
+                                   <tr style="text-align:center;" class="source-code">
+                                       <td ng-repeat="f in flags track by $index">
+                                         <div style="margin:auto;" ng-class="displayA && 'marker marker-a'"><small>{{ f }}</small></div>
+                                       </td>
+                                   </tr>
+                               </tbody>
+                           </table>
                            </div>
                         </div>
                     </div>
@@ -113,18 +138,25 @@
                     </div>
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h4 class="panel-title">Memory</h4>
-                        </div>
-                        <div class="panel-body source-code">
-                        </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
                             <h4 class="panel-title">Labels</h4>
                         </div>
                         <div class="panel-body source-code">
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Memory</h4>
+                </div>
+                <div class="panel-body source-code">
+                  <div style="width:29em;" class="source-code">
+                             <!-- <div class="memory-block" ng-repeat="m in memory.data track by $index">
+                                  <div>
+                                      <small>{{ m | HexFilter }}</small>
+                                  </div>
+                             </div> -->
+                         </div>
                 </div>
             </div>
             <div class="panel panel-default">

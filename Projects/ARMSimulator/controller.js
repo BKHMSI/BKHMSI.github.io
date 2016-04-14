@@ -14,12 +14,19 @@ angular.module('HexFilter', []).filter('HexFilter', function() {
 
 app.controller('MainController', ['$scope', '$timeout', 'memory', function ($scope, $timeout, memory){
     $scope.isRunning = false;
+    $scope.memory = memory;
     $scope.error = 'e';
     $scope.speed = 4;
     $scope.regs = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-    var index = 0;
+    $scope.flags = [
+      0,0,0,0
+    ];
+    $scope.output = Array(20);
+    var index = 0, ic = 0;
+    var pc, sp, lr;
 
     $scope.reset = function () {
+        pc = sp = lr = 0;
         $("#sourceCode").val("");
         $("#result").val("");
         $scope.selectedLine = -1;
@@ -27,28 +34,8 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
         index = 0;
     };
 
-    $scope.load = function(){
+    load = function(){
       // load instructions into memory
-    };
-
-    $scope.run = function(){
-      instType = parseInt($( "#instType option:selected" ).val())
-      var instructions = $("#sourceCode").val();
-      var instr = instructions.split("\n");
-      if(instType == 0)
-        for(var i = 0; i<instr.length; i++)
-          instr[i] = pad(Bin2Dec(instr[i]),16);
-      else if(instType == 1)
-        for(var i = 0; i<instr.length; i++)
-          instr[i] = pad(Hex2Dec(instr[i]),16);
-
-      // Decoding Then Executing Each Instruction
-      for(var i = index; i<instr.length; i++)
-         decode(instr[i],$scope.regs);
-
-    };
-
-    $scope.step = function(){
       instType = parseInt($( "#instType option:selected" ).val())
       var instructions = $("#sourceCode").val();
       var instr = instructions.split("\n");
@@ -60,8 +47,50 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
           instr[i] = Hex2Dec(instr[i]);
 
       // Decoding Then Executing Each Instruction
-      if(index<instr.length)
-        decode(instr[index++],$scope.regs);
+      for(var i = index; i<instr.length; i++)
+         memory.store(i,instr[i]);
+
+      sp = parseInt(memory.loadWord(0));
+      pc = parseInt(memory.loadWord(4));
+    };
+
+    isMemoryLoaded = function(){
+      for(var i = 0; i<memory.data.length; i++)
+          if(parseInt(memory.load(i)))
+              return true;
+      return false;
+    }
+
+
+    $scope.run = function(){
+      // Decoding Then Executing Each Instruction
+      load();
+      var instr = parseInt(memory.loadHalf(pc));
+      while(instr != 0xDEAD){
+        decode(instr,$scope.regs,memory,$scope.flags,$scope.output,pc,sp);
+        pc+=2;
+        instr = parseInt(memory.loadHalf(pc));
+      }
+    };
+
+    $scope.getChar = function (value) {
+      var text = String.fromCharCode(value);
+
+      if (text.trim() === '') {
+          return '\u00A0\u00A0';
+      } else {
+          return text;
+      }
+    };
+
+    $scope.step = function(){
+      if(!isMemoryLoaded())
+          load();
+      var instr = parseInt(memory.loadHalf(pc));
+      if(instr != 0xDEAD){
+        decode(instr,$scope.regs,memory,$scope.flags, $scope.output,pc,sp);
+        pc+=2;
+      }
     };
 
     $scope.clear = function(){

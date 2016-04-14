@@ -110,9 +110,16 @@ function readFile(evt) {
     var file = evt.target.files[0];
     if (file) {
       var read = new FileReader();
-      read.onload = function(e) {
+      read.onload = function(e){
         var contents = e.target.result;
         $("#sourceCode").val(contents);
+        // for(var i = 0; i<contents.length; i+=2){
+        //   $("#sourceCode").append(pad(contents.charCodeAt(i).toString(2),8));
+        //   if(i%2)
+        //     $("#sourceCode").append(pad(contents.charCodeAt(i+1).toString(2),8));
+        //   else
+        //     $("#sourceCode").append(pad(contents.charCodeAt(i+1).toString(2),8)+'\n');
+        // }
     }
     read.readAsBinaryString(file);
   } else {

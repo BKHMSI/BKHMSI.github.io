@@ -234,3 +234,15 @@ button:hover {
   float:right;
   padding: 0;
 }
+
+.output, .output-bg {
+    background-color: #DFDFDF;
+}
+
+.output {
+    width: 1.5em;
+    margin-right: 1px;
+    margin-bottom: 1px;
+    text-align: center;
+    color: black;
+}

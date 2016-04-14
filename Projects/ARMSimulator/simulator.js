@@ -1,5 +1,6 @@
 var instType = 0;
 var stepIndex = 0;
+var outputIdx = 0;
 var format00 = ["lsl","lsr","asr"];
 var format10 = ["mov","cmp","add","sub"];
 var format20 = ["and", "eor", "lsl", "lsr", "asr", "adc","sbc","ror","tst","neg","cmp","cmn","orr","mul","bic","mvn"];
@@ -8,8 +9,7 @@ var format61 = ["beq","bne","bcs","bcc","bmi","bpl","bvs","bvc","bhi","bls","bge
 var format40 = ["strh", "ldrh"];
 var format41 = ["str", "ldr"];
 var format50 = ["pc", "sp"];
-var Memory = Array(1024);
-
+var pc, sp;
 
 function PC(Reg){ return Reg[15]; }
 
@@ -17,32 +17,34 @@ function LR(Reg){ return Reg[14]; }
 
 function SP(Reg){ return Reg[13];}
 
-function decode(instr,regs){
+
+function decode(instr,regs,memory,flags,output,pcc,spp){
+  pc = pcc; sp = spp;
   var fmt = (instr) >> 13;
   switch (fmt) {
     case 0:
-    format_0(instr,regs);
+    format_0(instr,regs,memory,flags);
     break;
     case 1:
-    format_1(instr,regs);
+    format_1(instr,regs,memory,flags);
     break;
     case 2:
-    format_2(instr,regs);
+    format_2(instr,regs,memory,flags);
     break;
     case 3:
-    format_3(instr,regs);
+    format_3(instr,regs,memory,flags);
     break;
     case 4:
-    format_4(instr,regs);
+    format_4(instr,regs,memory,flags);
     break;
     case 5:
-    format_5(instr,regs);
+    format_5(instr,regs,memory,flags);
     break;
     case 6:
-    format_6(instr,regs);
+    format_6(instr,regs,memory,flags,output);
     break;
     case 7:
-    format_7(instr,regs);
+    format_7(instr,regs,memory,flags);
     break;
     default:
     return -1;
@@ -60,12 +62,16 @@ String.prototype.format = function() {
   return formatted;
 };
 
-function format_0(instr,Reg){
+function format_0(instr,Reg,Mem,Flags){
   var op = (instr >> 11) & 3;
   var rd = instr & 7;
   var rs = (instr >>  3) & 7;
   var offset5 = (instr >> 6) & 0x1F;
   switch (op) {
+    case 0: Reg[rd] = Reg[rs] << offset5; break;
+    case 1: Reg[rd] = Reg[rs] >> offset5; break;
+    case 2:
+      // asr Reg[rd] = Reg[rs] >> offset5; break;
     case 3:
     offset3 = rn = offset5 & 0x07;
     if((offset5 & 0x08) == 0){
@@ -95,21 +101,21 @@ function format_0(instr,Reg){
   }
 }
 
-function format_1(instr,Reg){
+function format_1(instr,Reg,Mem,Flags){
   var op = (instr >> 11) & 3;
   var rd = (instr >> 8) & 7;
   var offset8 = instr & 0xFF;
   $("#result").append("{0}\t r{1}, #{2}\n".format(format10[op],rd,offset8));
   switch (op) {
-    case 0:
-        Reg[rd] = offset8;
-      break;
+    case 0: Reg[rd] = offset8; break;
+    case 1: Reg[rd] = Reg[rd] - offset8; break;
+    case 2: Reg[rd] = Reg[rd] + offset8; break;
+    case 3: Reg[rd] = Reg[rd] - offset8; break;
     default:
-
   }
 }
 
-function format_2(instr,Reg){
+function format_2(instr,Reg,Mem,Flags){
   var subformat = (instr >> 10) & 7;
   var op, rs, rd, ro;
   var l, b, h, s, hi1, hi2, offset8;
@@ -120,6 +126,27 @@ function format_2(instr,Reg){
     rs = (instr >> 3) & 7;
     rd = (instr) & 7;
     $("#result").append("{0}\t r{1}, r{2}\n".format(format20[op],rd,rs));
+    // var format20 = ["and", "eor", "lsl", "lsr", "asr", "adc","sbc","ror","tst","neg","cmp","cmn","orr","mul","bic","mvn"];
+    switch (op) {
+      case 1: Reg[rd] = Reg[rd] & offset8; break;
+      case 1: Reg[rd] = Reg[rd] ^ offset8; break;
+      case 2: Reg[rd] = Reg[rd] << offset8; break;
+      case 3: Reg[rd] = Reg[rd] >> offset8; break;
+      // Complete from 4 to 14
+      case 4: Reg[rd] = Reg[rd] >> offset8; break;
+      case 5: Reg[rd] = Reg[rd] - offset8; break;
+      case 6: Reg[rd] = Reg[rd] - offset8; break;
+      case 7: Reg[rd] = Reg[rd] - offset8; break;
+      case 8: Reg[rd] = Reg[rd] - offset8; break;
+      case 9: Reg[rd] = Reg[rd] - offset8; break;
+      case 10: Reg[rd] = Reg[rd] - offset8; break;
+      case 11: Reg[rd] = Reg[rd] - offset8; break;
+      case 12: Reg[rd] = Reg[rd] - offset8; break;
+      case 13: Reg[rd] = Reg[rd] - offset8; break;
+      case 14: Reg[rd] = Reg[rd] - offset8; break;
+
+      default:
+    }
   }else if(op == 1){
     // Format 5
     op = (instr >> 8) & 3;
@@ -212,7 +239,7 @@ function format_24(h,s,rd,rb,ro,Reg){
   }
 }
 
-function format_3(instr,Reg){
+function format_3(instr,Reg,Mem,Flags){
   var bl, rb, rd, offset5;
   bl = (instr >> 11) & 3;
   rb = (instr >> 3) & 7;
@@ -238,7 +265,7 @@ function format_3(instr,Reg){
 }
 
 //Load/store half word
-function format_4(instr,Reg){
+function format_4(instr,Reg,Mem,Flags){
   var op = (instr >> 12) & 1;
   var L = (instr >> 11) & 1;
   var rb = (instr >> 3) & 3;
@@ -262,12 +289,12 @@ function format_4(instr,Reg){
     break;
 
     case 1:
-    format_41(instr,Reg);
+    format_41(instr,Reg,Mem,Flags);
     break;
   }
 }
 //sp relative load/store
-function format_41(instr,Reg){
+function format_41(instr,Reg,Mem,Flags){
   var L = (instr >> 11) & 1;
   var rd = (instr >> 8) & 3;
   var word8 = instr & 8;
@@ -284,7 +311,7 @@ function format_41(instr,Reg){
   }
 }
 //load address
-function format_5(instr,Reg){
+function format_5(instr,Reg,Mem,Flags){
   var op = (instr >> 12) & 1;
   var src = (instr >> 11) & 1;
   var rd = (instr >> 8) & 3;
@@ -307,13 +334,13 @@ function format_5(instr,Reg){
     break;
 
     case 1:
-    format_51(instr,Reg);
+    format_51(instr,Reg,Mem,Flags);
     break;
 
   }
 }
 
-function format_51(instr,Reg){
+function format_51(instr,Reg,Mem,Flags){
   var op = (instr >> 8) & 5;
   var S = (instr >> 7) & 1;
   var SWord7 = instr & 7;
@@ -334,12 +361,12 @@ function format_51(instr,Reg){
     break;
 
     default:
-    format_52(instr,Reg);
+    format_52(instr,Reg,Mem,Flags);
     break;
   }
 }
 
-function format_52(instr,Reg){
+function format_52(instr,Reg,Mem,Flags){
   var L = (instr >> 11) & 1;
   var R = (instr >> 8) & 1;
   var Rlist = instr & 8;
@@ -408,11 +435,18 @@ function format_52(instr,Reg){
 }
 
 
-function format_6(instr,Reg){
+function format_6(instr,Reg,Mem,Flags,output){
   var cond, sOffSet8, value8, rb, rlist;
   if(((instr>>8) & 0x1F) == 0x1F){
     value8 = instr & 0xFF;
     $("#result").append("SWI\t {0}\n".format(value8));
+    switch (value8) {
+      case 1:
+        output[outputIdx++] = Reg[0];
+        break;
+      default:
+
+    }
   }else if(instr & 0x1000){
     cond = (instr >> 8) & 0xF;
     sOffSet8 = instr & 0xFF;
@@ -456,7 +490,7 @@ function format_61(cond,sOffSet8,Reg){
   $("#result").append("{0}}\t {1}\n".format(format61[cond],sOffSet8));
 }
 
-function format_7(instr,Reg){
+function format_7(instr,Reg,Mem,Flags){
   var h, offet10;
   if(((instr >> 12)&1)){
     // Format 19
