@@ -141,11 +141,13 @@
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4 class="panel-title">Memory</h4>
+                    <h4 style="display:inline-block; padding-right:10px" class="panel-title">Memory</h4>
+                    <p style="display:inline-block;">Size(bytes): </p>
+                    <input style="display:inline-block; height:20px; width:100px" class="txtbox" step="1" ng-model="memDisplaySize" type="text" placeholder="Display"/>
                 </div>
                 <div class="panel-body source-code">
-                  <div style="" class="source-code">
-                             <div class="memory-block" ng-repeat="m in memory.subset(0,255) track by $index">
+                  <div class="source-code">
+                             <div class="memory-block" ng-repeat="m in memory.subset(0,memDisplaySize) track by $index">
                                   <div>
                                       <small>{{ m | MemFilter}}</small>
                                   </div>

@@ -29,6 +29,7 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
       0,0,0,0
     ];
     $scope.output = Array(25);
+    $scope.memDisplaySize = 255;
     var index = 0, ic = 0;
     var lastSWI = -1, outputIdx = 0;
     var pc, sp, lr;
