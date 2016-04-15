@@ -11,40 +11,39 @@ var format41 = ["str", "ldr"];
 var format50 = ["pc", "sp"];
 var pc, sp;
 
-function PC(Reg){ return Reg[15]; }
+function PC(scope){ return scope.regs[15]; }
 
-function LR(Reg){ return Reg[14]; }
+function LR(scope){ return scope.regs[14]; }
 
-function SP(Reg){ return Reg[13];}
+function SP(scope){ return scope.regs[13];}
 
 
-function decode(instr,regs,memory,flags,output,pcc,spp){
-  pc = pcc; sp = spp;
+function decode(instr,scope){
   var fmt = (instr) >> 13;
   switch (fmt) {
     case 0:
-    format_0(instr,regs,memory,flags);
+    format_0(instr,scope);
     break;
     case 1:
-    format_1(instr,regs,memory,flags);
+    format_1(instr,scope);
     break;
     case 2:
-    format_2(instr,regs,memory,flags);
+    format_2(instr,scope);
     break;
     case 3:
-    format_3(instr,regs,memory,flags);
+    format_3(instr,scope);
     break;
     case 4:
-    format_4(instr,regs,memory,flags);
+    format_4(instr,scope);
     break;
     case 5:
-    format_5(instr,regs,memory,flags);
+    format_5(instr,scope);
     break;
     case 6:
-    format_6(instr,regs,memory,flags,output);
+    format_6(instr,scope);
     break;
     case 7:
-    format_7(instr,regs,memory,flags);
+    format_7(instr,scope);
     break;
     default:
     return -1;
@@ -62,36 +61,36 @@ String.prototype.format = function() {
   return formatted;
 };
 
-function format_0(instr,Reg,Mem,Flags){
+function format_0(instr,scope){
   var op = (instr >> 11) & 3;
   var rd = instr & 7;
   var rs = (instr >>  3) & 7;
   var offset5 = (instr >> 6) & 0x1F;
   switch (op) {
-    case 0: Reg[rd] = Reg[rs] << offset5; break;
-    case 1: Reg[rd] = Reg[rs] >> offset5; break;
+    case 0: scope.regs[rd] = scope.regs[rs] << offset5; break;
+    case 1: scope.regs[rd] = scope.regs[rs] >> offset5; break;
     case 2:
-      // asr Reg[rd] = Reg[rs] >> offset5; break;
+      // asr Reg[rd] = scope.regs[rs] >> offset5; break;
     case 3:
     offset3 = rn = offset5 & 0x07;
     if((offset5 & 0x08) == 0){
       $("#result").append("add\tr{0}, r{1}, ".format(rd, rs));
       if((offset5 & 0x10) == 0){
         $("#result").append("r{0}\n".format(rn));
-        Reg[rd] = Reg[rs] + Reg[rn];
+        scope.regs[rd] = scope.regs[rs] + scope.regs[rn];
       }
       else {
         $("#result").append("r{0}\n".format(rn));
-        Reg[rd] = Reg[rs] + offset3;
+        scope.regs[rd] = scope.regs[rs] + offset3;
       }
     }else{
       $("#result").append("sub\tr{0}, r{1}, ".format(rd, rs));
       if((offset5 & 0x10) == 0){
         $("#result").append("r{0}\n".format(rn));
-        Reg[rd] = Reg[rs] - Reg[rn];
+        scope.regs[rd] = scope.regs[rs] - scope.regs[rn];
       }else{
         $("#result").append("r{0}\n".format(offset3));
-        Reg[rd] = Reg[rs] - offset3;
+        scope.regs[rd] = scope.regs[rs] - offset3;
       }
     }
     break;
@@ -101,21 +100,21 @@ function format_0(instr,Reg,Mem,Flags){
   }
 }
 
-function format_1(instr,Reg,Mem,Flags){
+function format_1(instr,scope){
   var op = (instr >> 11) & 3;
   var rd = (instr >> 8) & 7;
   var offset8 = instr & 0xFF;
   $("#result").append("{0}\t r{1}, #{2}\n".format(format10[op],rd,offset8));
   switch (op) {
-    case 0: Reg[rd] = offset8; break;
-    case 1: Reg[rd] = Reg[rd] - offset8; break;
-    case 2: Reg[rd] = Reg[rd] + offset8; break;
-    case 3: Reg[rd] = Reg[rd] - offset8; break;
+    case 0: scope.regs[rd] = offset8; break;
+    case 1: scope.regs[rd] = scope.regs[rd] - offset8; break;
+    case 2: scope.regs[rd] = scope.regs[rd] + offset8; break;
+    case 3: scope.regs[rd] = scope.regs[rd] - offset8; break;
     default:
   }
 }
 
-function format_2(instr,Reg,Mem,Flags){
+function format_2(instr,scope){
   var subformat = (instr >> 10) & 7;
   var op, rs, rd, ro;
   var l, b, h, s, hi1, hi2, offset8;
@@ -128,22 +127,22 @@ function format_2(instr,Reg,Mem,Flags){
     $("#result").append("{0}\t r{1}, r{2}\n".format(format20[op],rd,rs));
     // var format20 = ["and", "eor", "lsl", "lsr", "asr", "adc","sbc","ror","tst","neg","cmp","cmn","orr","mul","bic","mvn"];
     switch (op) {
-      case 1: Reg[rd] = Reg[rd] & offset8; break;
-      case 1: Reg[rd] = Reg[rd] ^ offset8; break;
-      case 2: Reg[rd] = Reg[rd] << offset8; break;
-      case 3: Reg[rd] = Reg[rd] >> offset8; break;
+      case 1: scope.regs[rd] = scope.regs[rd] & offset8; break;
+      case 1: scope.regs[rd] = scope.regs[rd] ^ offset8; break;
+      case 2: scope.regs[rd] = scope.regs[rd] << offset8; break;
+      case 3: scope.regs[rd] = scope.regs[rd] >> offset8; break;
       // Complete from 4 to 14
-      case 4: Reg[rd] = Reg[rd] >> offset8; break;
-      case 5: Reg[rd] = Reg[rd] - offset8; break;
-      case 6: Reg[rd] = Reg[rd] - offset8; break;
-      case 7: Reg[rd] = Reg[rd] - offset8; break;
-      case 8: Reg[rd] = Reg[rd] - offset8; break;
-      case 9: Reg[rd] = Reg[rd] - offset8; break;
-      case 10: Reg[rd] = Reg[rd] - offset8; break;
-      case 11: Reg[rd] = Reg[rd] - offset8; break;
-      case 12: Reg[rd] = Reg[rd] - offset8; break;
-      case 13: Reg[rd] = Reg[rd] - offset8; break;
-      case 14: Reg[rd] = Reg[rd] - offset8; break;
+      case 4: scope.regs[rd] = scope.regs[rd] >> offset8; break;
+      case 5: scope.regs[rd] = scope.regs[rd] - offset8; break;
+      case 6: scope.regs[rd] = scope.regs[rd] - offset8; break;
+      case 7: scope.regs[rd] = scope.regs[rd] - offset8; break;
+      case 8: scope.regs[rd] = scope.regs[rd] - offset8; break;
+      case 9: scope.regs[rd] = scope.regs[rd] - offset8; break;
+      case 10: scope.regs[rd] = scope.regs[rd] - offset8; break;
+      case 11: scope.regs[rd] = scope.regs[rd] - offset8; break;
+      case 12: scope.regs[rd] = scope.regs[rd] - offset8; break;
+      case 13: scope.regs[rd] = scope.regs[rd] - offset8; break;
+      case 14: scope.regs[rd] = scope.regs[rd] - offset8; break;
 
       default:
     }
@@ -154,20 +153,20 @@ function format_2(instr,Reg,Mem,Flags){
     hi2 = (instr >> 6) & 1;
     rs = (instr >> 3) & 7;
     rd = (instr) & 7;
-    format_21(op,hi1,hi2,rs,rd,Reg);
+    format_21(op,hi1,hi2,rs,rd,scope.regs);
   }else if(op<=3){
     // Format 6: PC Relative Load
     rd = (instr >> 8) & 7;
     offset8 = instr & 0xFF;
     $("#result").append("LDR\t r{0},[PC, #{1}]\n".format(rd,offset8));
   }else if(!((instr >> 9) & 1) && ((instr >> 12) & 1)){
-    // Format 7: load/store with register offset
+    // Format 7: load/store with scope.regsister offset
     l = (instr>>11) & 0xF;
     b = (instr>>10) & 0x1F;
     rd = instr & 7;
     rb = (instr >> 3) & 7;
     ro = (instr >> 6) & 7;
-    format_23(l,b,rd,rb,ro,Reg);
+    format_23(l,b,rd,rb,ro,scope.regs);
   }else if(((instr >> 12) & 1) && ((instr >> 9) & 1)){
     // Format 8: load/store sign-extended byte/halfword
     h = (instr>>11) & 0xF;
@@ -175,7 +174,7 @@ function format_2(instr,Reg,Mem,Flags){
     rd = instr & 7;
     rb = (instr >> 3) & 7;
     ro = (instr >> 6) & 7;
-    format_24(h,s,rd,rb,ro,Reg);
+    format_24(h,s,rd,rb,ro,scope.regs);
   }
 }
 
@@ -239,7 +238,7 @@ function format_24(h,s,rd,rb,ro,Reg){
   }
 }
 
-function format_3(instr,Reg,Mem,Flags){
+function format_3(instr,scope){
   var bl, rb, rd, offset5;
   bl = (instr >> 11) & 3;
   rb = (instr >> 3) & 7;
@@ -265,7 +264,7 @@ function format_3(instr,Reg,Mem,Flags){
 }
 
 //Load/store half word
-function format_4(instr,Reg,Mem,Flags){
+function format_4(instr,scope){
   var op = (instr >> 12) & 1;
   var L = (instr >> 11) & 1;
   var rb = (instr >> 3) & 3;
@@ -277,11 +276,11 @@ function format_4(instr,Reg,Mem,Flags){
     case 0:
     switch (L) {
       case 1:
-      Reg[Rb + offset5] = Memory[rd];
+      scope.regs[Rb + offset5] = Memory[rd];
       $("#result").append("{0}\t r{1}, [r{2}, #{3}]\n".format(format40[op], rd, rb, offset5));
       break;
       case 0:
-      Memory[Rb + offset5] = Reg[rd];
+      Memory[Rb + offset5] = scope.regs[rd];
       $("#result").append("{0}\t r{1}, [r{2}, #{3}]\n".format(format40[op], rd, rb, offset5));
       break;
     }
@@ -289,29 +288,30 @@ function format_4(instr,Reg,Mem,Flags){
     break;
 
     case 1:
-    format_41(instr,Reg,Mem,Flags);
+    format_41(instr,scope);
     break;
   }
 }
+
 //sp relative load/store
-function format_41(instr,Reg,Mem,Flags){
+function format_41(instr,scope){
   var L = (instr >> 11) & 1;
   var rd = (instr >> 8) & 3;
   var word8 = instr & 8;
 
   switch (L)  {
     case 1:
-    Reg[rd] = Memory[Reg[13] + word8];
+    scope.regs[rd] = Memory[scope.regs[13] + word8];
     $("#result").append("{0}\t r{1}, [SP, #{2}]\n".format(format41[op], rd, word8));
     break;
     case 0:
-    Memory[rd] = Reg[Reg[13] + word8];
+    Memory[rd] = scope.regs[scope.regs[13] + word8];
     $("#result").append("{0}\t r{1}, [SP, #{2}]\n".format(format41[op], rd, word8));
     break;
   }
 }
 //load address
-function format_5(instr,Reg,Mem,Flags){
+function format_5(instr,scope){
   var op = (instr >> 12) & 1;
   var src = (instr >> 11) & 1;
   var rd = (instr >> 8) & 3;
@@ -322,25 +322,25 @@ function format_5(instr,Reg,Mem,Flags){
 
     switch(src){
       case 0:
-      Reg[rd] = Memory[word8 + PC];
+      scope.regs[rd] = Memory[word8 + PC];
       $("#result").append("add\t r{0}, {1}, #{2}\n".format(rd, format50[src],  word8));
       break;
 
       case 1:
-      Reg[rd] = Memory[word8 + Reg[13]];
+      scope.regs[rd] = Memory[word8 + scope.regs[13]];
       $("#result").append("add\t r{0}, {1}, #{2}\n".format(rd, format50[src],  word8));
       break;
     }
     break;
 
     case 1:
-    format_51(instr,Reg,Mem,Flags);
+    format_51(instr,scope);
     break;
 
   }
 }
 
-function format_51(instr,Reg,Mem,Flags){
+function format_51(instr,scope){
   var op = (instr >> 8) & 5;
   var S = (instr >> 7) & 1;
   var SWord7 = instr & 7;
@@ -350,23 +350,23 @@ function format_51(instr,Reg,Mem,Flags){
 
     switch(S){
       case 0:
-      Reg[13] = Reg[13] + SWord7;
+      scope.regs[13] = scope.regs[13] + SWord7;
       $("#result").append("add\t SP, #{0}\n".format(SWord7));
       break;
       case 1:
-      Reg[13] = Reg[13] - SWord7;
+      scope.regs[13] = scope.regs[13] - SWord7;
       $("#result").append("add\t SP, #-{0}\n".format(SWord7));
       break;
     }
     break;
 
     default:
-    format_52(instr,Reg,Mem,Flags);
+    format_52(instr,scope);
     break;
   }
 }
 
-function format_52(instr,Reg,Mem,Flags){
+function format_52(instr,scope){
   var L = (instr >> 11) & 1;
   var R = (instr >> 8) & 1;
   var Rlist = instr & 8;
@@ -390,11 +390,12 @@ function format_52(instr,Reg,Mem,Flags){
       case 1:
 
       for (var i = ArrayLength - 1; i >= 0; i--) {
-        // Memory[SP] = RListArray[i];
-        // SP--;
+         //Memory[SP] = RListArray[i];
+         memory.store(RListArray[i], sp);
+         // SP--;
       }
 
-      // Memory[SP] = Reg[14];
+      // Memory[SP] = scope.regs[14];
       // SP--;
 
       $("#result").append("push\t {{0}, LR}\n".format(RListString));
@@ -435,22 +436,32 @@ function format_52(instr,Reg,Mem,Flags){
 }
 
 
-function format_6(instr,Reg,Mem,Flags,output){
+function format_6(instr,scope){
   var cond, sOffSet8, value8, rb, rlist;
   if(((instr>>8) & 0x1F) == 0x1F){
     value8 = instr & 0xFF;
     $("#result").append("SWI\t {0}\n".format(value8));
     switch (value8) {
-      case 1:
-        output[outputIdx++] = Reg[0];
+      case 0: output[outputIdx++] = String.fromCharCode(scope.regs[0]); break;
+      case 1: output[outputIdx++] = scope.regs[0]; break;
+      case 0x69:
+        var start = scope.regs[1];
+        var char = Mem.load(start);
+        while(char){
+            output[outputIdx++] = String.fromCharCode(char);
+            char = Mem.load(start++);
+        }
+      break;
+      case 3:
         break;
+
       default:
 
     }
   }else if(instr & 0x1000){
     cond = (instr >> 8) & 0xF;
     sOffSet8 = instr & 0xFF;
-    format_61(cond,sOffSet8,Reg);
+    format_61(cond,sOffSet8,scope.regs);
   }else{
     l = (instr >> 11) & 1;
     rb = (instr >> 8) & 7;
@@ -490,13 +501,13 @@ function format_61(cond,sOffSet8,Reg){
   $("#result").append("{0}}\t {1}\n".format(format61[cond],sOffSet8));
 }
 
-function format_7(instr,Reg,Mem,Flags){
+function format_7(instr,scope){
   var h, offet10;
   if(((instr >> 12)&1)){
     // Format 19
     h = (instr >> 11) & 1;
     offset10 = (instr) & 0x7FF;
-    format_71(h,offset10,Reg);
+    format_71(h,offset10,scope.regs);
   }else{
     //Branch PC relative +/- Offset11 << 1, where label is PC +/- 2048 bytes.
     offset10 = (instr) & 0x7FF;

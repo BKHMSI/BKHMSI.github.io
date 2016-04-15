@@ -43,7 +43,7 @@
                             <select class="sel" style="display:inline; margin-top:7px" id="instType" onChange="displayPlaceHolder(value);">
                               <option value="0">Binary</option>
                               <option value="1">Hexadecimal</option>
-                              <option value="2">Denary</option>
+                              <option value="2">Decimal</option>
                             </select>
                             <input class="inputfile" type="file" id="fileinput"/>
                             <script>document.getElementById('fileinput').addEventListener('change', readFile, false);</script>
@@ -61,6 +61,7 @@
                                 <textarea id="result"
                                           class="form-control source-code"
                                           style="margin-bottom:5px;"
+                                          ng-keydown="processSWI($event)"
                                           rows="20"
                                           tab-support
                                           select-line
@@ -79,8 +80,8 @@
                             <h4 class="panel-title">Output</h4>
                         </div>
                         <div class="panel-body source-code">
-                          <div class="output" ng-repeat="out in output track by $index">
-                              <span>{{ out }}</span>
+                          <div>
+                              <span class="output" ng-repeat="out in output track by $index">{{ out }}</span>
                           </div>
                       </div>
 
@@ -136,13 +137,6 @@
                         </table>
                         </div>
                     </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">Labels</h4>
-                        </div>
-                        <div class="panel-body source-code">
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="panel panel-default">
@@ -150,12 +144,12 @@
                     <h4 class="panel-title">Memory</h4>
                 </div>
                 <div class="panel-body source-code">
-                  <div style="width:29em;" class="source-code">
-                             <!-- <div class="memory-block" ng-repeat="m in memory.data track by $index">
+                  <div style="" class="source-code">
+                             <div class="memory-block" ng-repeat="m in memory.subset(0,255) track by $index">
                                   <div>
-                                      <small>{{ m | HexFilter }}</small>
+                                      <small>{{ m | MemFilter}}</small>
                                   </div>
-                             </div> -->
+                             </div>
                          </div>
                 </div>
             </div>

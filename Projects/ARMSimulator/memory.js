@@ -89,6 +89,12 @@ app.service('memory', [function () {
             for (var i = 0, l = self.data.length; i < l; i++) {
                 self.data[i] = 0;
             }
+        },
+
+        subset: function(start,end){
+          var mem = new Uint8Array(end-start);
+          for(var i = start; i<=end; i++) mem[i] = this.data[i];
+          return mem;
         }
     };
 
