@@ -1,11 +1,13 @@
 var regHtml = "";
 
 function displayPlaceHolder(value){
-  var placeholder = "Enter Instructions in Binary (base 2)";
-  if(value == 1)
+  var placeholder = "";
+  if(value = 0)
+     placeholder = "Enter Instructions in Binary (base 2)";
+  else if(value == 1)
      placeholder = "Enter Instructions in Hexadecimal (base 16)";
   else if(value == 2)
-     placeholder = "Enter Instructions in Denary (base 10)";
+     placeholder = "Enter Instructions in Decimal (base 10)";
   $("#sourceCode").attr("placeholder", placeholder);
 }
 

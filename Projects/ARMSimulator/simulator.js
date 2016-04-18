@@ -67,35 +67,41 @@ function format_0(instr,scope){
   var rs = (instr >>  3) & 7;
   var offset5 = (instr >> 6) & 0x1F;
   switch (op) {
-    case 0: scope.regs[rd] = scope.regs[rs] << offset5; break;
-    case 1: scope.regs[rd] = scope.regs[rs] >> offset5; break;
+    case 0:
+    scope.regs[rd] = scope.regs[rs] << offset5;
+    appendResult("{0}\tr{1}, r{2}, #{3}\n".format(format00[op],rd, rs, offset5));
+    break;
+    case 1:
+     scope.regs[rd] = scope.regs[rs] >> offset5;
+     appendResult("{0}\tr{1}, r{2}, #{3}\n".format(format00[op],rd, rs, offset5));
+    break;
     case 2:
       // asr Reg[rd] = scope.regs[rs] >> offset5; break;
+      appendResult("{0}\tr{1}, r{2}, #{3}\n".format(format00[op],rd, rs, offset5));
     case 3:
     offset3 = rn = offset5 & 0x07;
     if((offset5 & 0x08) == 0){
-      $("#result").append("add\tr{0}, r{1}, ".format(rd, rs));
+      appendResult("add\tr{0}, r{1}, ".format(rd, rs));
       if((offset5 & 0x10) == 0){
-        $("#result").append("r{0}\n".format(rn));
+        appendResult("r{0}\n".format(rn));
         scope.regs[rd] = scope.regs[rs] + scope.regs[rn];
       }
       else {
-        $("#result").append("r{0}\n".format(rn));
+        appendResult("r{0}\n".format(rn));
         scope.regs[rd] = scope.regs[rs] + offset3;
       }
     }else{
-      $("#result").append("sub\tr{0}, r{1}, ".format(rd, rs));
+      appendResult("sub\tr{0}, r{1}, ".format(rd, rs));
       if((offset5 & 0x10) == 0){
-        $("#result").append("r{0}\n".format(rn));
+        appendResult("r{0}\n".format(rn));
         scope.regs[rd] = scope.regs[rs] - scope.regs[rn];
       }else{
-        $("#result").append("r{0}\n".format(offset3));
+        appendResult("r{0}\n".format(offset3));
         scope.regs[rd] = scope.regs[rs] - offset3;
       }
     }
     break;
     default:
-    $("#result").append("{0}\tr{1}, r{2}, #{3}\n".format(format00[op],rd, rs, offset5));
     break;
   }
 }
@@ -104,7 +110,7 @@ function format_1(instr,scope){
   var op = (instr >> 11) & 3;
   var rd = (instr >> 8) & 7;
   var offset8 = instr & 0xFF;
-  $("#result").append("{0}\t r{1}, #{2}\n".format(format10[op],rd,offset8));
+  appendResult("{0}\t r{1}, #{2}\n".format(format10[op],rd,offset8));
   switch (op) {
     case 0: scope.regs[rd] = offset8; break;
     case 1: scope.regs[rd] = scope.regs[rd] - offset8; break;
@@ -112,38 +118,63 @@ function format_1(instr,scope){
     case 3: scope.regs[rd] = scope.regs[rd] - offset8; break;
     default:
   }
+  scope.flags[0] = scope.regs[rd] == 0;
 }
 
 function format_2(instr,scope){
   var subformat = (instr >> 10) & 7;
   var op, rs, rd, ro;
   var l, b, h, s, hi1, hi2, offset8;
+  var signBit = 0;
 
   if(!op){
     // Format 4
     op = (instr >> 6) & 0xF;
     rs = (instr >> 3) & 7;
     rd = (instr) & 7;
-    $("#result").append("{0}\t r{1}, r{2}\n".format(format20[op],rd,rs));
+    appendResult("{0}\t r{1}, r{2}\n".format(format20[op],rd,rs));
     // var format20 = ["and", "eor", "lsl", "lsr", "asr", "adc","sbc","ror","tst","neg","cmp","cmn","orr","mul","bic","mvn"];
     switch (op) {
-      case 1: scope.regs[rd] = scope.regs[rd] & offset8; break;
-      case 1: scope.regs[rd] = scope.regs[rd] ^ offset8; break;
-      case 2: scope.regs[rd] = scope.regs[rd] << offset8; break;
-      case 3: scope.regs[rd] = scope.regs[rd] >> offset8; break;
-      // Complete from 4 to 14
-      case 4: scope.regs[rd] = scope.regs[rd] >> offset8; break;
-      case 5: scope.regs[rd] = scope.regs[rd] - offset8; break;
-      case 6: scope.regs[rd] = scope.regs[rd] - offset8; break;
-      case 7: scope.regs[rd] = scope.regs[rd] - offset8; break;
-      case 8: scope.regs[rd] = scope.regs[rd] - offset8; break;
-      case 9: scope.regs[rd] = scope.regs[rd] - offset8; break;
-      case 10: scope.regs[rd] = scope.regs[rd] - offset8; break;
-      case 11: scope.regs[rd] = scope.regs[rd] - offset8; break;
-      case 12: scope.regs[rd] = scope.regs[rd] - offset8; break;
-      case 13: scope.regs[rd] = scope.regs[rd] - offset8; break;
-      case 14: scope.regs[rd] = scope.regs[rd] - offset8; break;
-
+      case 0: scope.regs[rd] = scope.regs[rd] & scope.regs[rs]; break;
+      case 1: scope.regs[rd] = scope.regs[rd] ^ scope.regs[rs]; break;
+      case 2: scope.regs[rd] = scope.regs[rd] << scope.regs[rs]; break;
+      case 3: scope.regs[rd] = scope.regs[rd] >> scope.regs[rs]; break;
+      case 4:
+        // TODO: Check ASR
+        signBit = (scope.regs[rd] >> 31) & 1;
+        scope.regs[rd] = scope.regs[rd] >> scope.regs[rs];
+        if(signBit)
+            scope.regs[rd] = scope.regs[rd] | (32-offset8);
+        break;
+      case 5:
+        scope.regs[rd] = scope.regs[rd] + scope.regs[rs] + scope.flags[1];
+        break;
+      case 6:
+        scope.regs[rd] = scope.regs[rd] - scope.regs[rs] - ~scope.flags[1];
+        break;
+      case 7:
+          // TODO: Check ROR
+          var value =  scope.regs[rs];
+          count &= 32;
+          scope.regs[rd] = (value>>count) | (value<<( (-count) & 32 ));
+          break;
+      case 8:
+          scope.flags[0] = scope.regs[rs] & scope.regsp[rd];
+      case 9:
+        scope.regs[rd] = -scope.regs[rs];
+        break;
+      case 10:
+        // TODO: CMP
+        scope.regs[rd] = scope.regs[rd] - offset8;
+        break;
+      case 11:
+        // TODO: CMN
+       scope.regs[rd] = scope.regs[rd] - scope.regs[rs];
+       break;
+      case 12: scope.regs[rd] = scope.regs[rd] | scope.regs[rs]; break;
+      case 13: scope.regs[rd] = scope.regs[rd] * scope.regs[rs]; break;
+      case 14: scope.regs[rd] = scope.regs[rd] & (~scope.regs[rs]); break;
+      case 15: scope.regs[rd] = ~scope.regs[rs]; break;
       default:
     }
   }else if(op == 1){
@@ -153,12 +184,13 @@ function format_2(instr,scope){
     hi2 = (instr >> 6) & 1;
     rs = (instr >> 3) & 7;
     rd = (instr) & 7;
-    format_21(op,hi1,hi2,rs,rd,scope.regs);
+    format_21(op,hi1,hi2,rs,rd,scope);
   }else if(op<=3){
     // Format 6: PC Relative Load
     rd = (instr >> 8) & 7;
     offset8 = instr & 0xFF;
-    $("#result").append("LDR\t r{0},[PC, #{1}]\n".format(rd,offset8));
+    appendResult("LDR\t r{0},[PC, #{1}]\n".format(rd,offset8));
+    scope.regs[rd] = scope.memory.load(scope.pc+offset8);
   }else if(!((instr >> 9) & 1) && ((instr >> 12) & 1)){
     // Format 7: load/store with scope.regsister offset
     l = (instr>>11) & 0xF;
@@ -166,7 +198,7 @@ function format_2(instr,scope){
     rd = instr & 7;
     rb = (instr >> 3) & 7;
     ro = (instr >> 6) & 7;
-    format_23(l,b,rd,rb,ro,scope.regs);
+    format_23(l,b,rd,rb,ro,scope);
   }else if(((instr >> 12) & 1) && ((instr >> 9) & 1)){
     // Format 8: load/store sign-extended byte/halfword
     h = (instr>>11) & 0xF;
@@ -174,41 +206,60 @@ function format_2(instr,scope){
     rd = instr & 7;
     rb = (instr >> 3) & 7;
     ro = (instr >> 6) & 7;
-    format_24(h,s,rd,rb,ro,scope.regs);
+    format_24(h,s,rd,rb,ro,scope);
   }
+  scope.flags[0] = scope.regs[rd] == 0 ? 1:0;
+  scope.flags[1] = (scope.regs[rd]>>32 & 1) ? 1:0;
+  scope.flags[2] = scope.regs[rd] < 0 ? 1:0;
+  scope.flags[3] = ((scope.regs[rd]>>32) && 1) ? 1:0;
 }
 
-function format_21(op,hi1,hi2,rs,rd,Reg){
+function format_21(op,hi1,hi2,rs,rd,scope){
+  var cond = 0;
   switch (op) {
     case 0:
-    if(hi1 && hi2)
-    $("#result").append("add\t h{0}, h{1}\n".format(rd,rs));
-    else if (hi1 && !hi2)
-    $("#result").append("add\t r{0}, h{1}\n".format(rd,rs));
-    else
-    $("#result").append("add\t h{0}, r{1}\n".format(rd,rs));
+    if(hi1 && hi2){
+      appendResult("add\t h{0}, h{1}\n".format(rd,rs));
+      scope.regs[rd] = (scope.regs[rd] & 0xFF00) + (scope.regs[rs] & 0xFF00);
+    }else if (hi1 && !hi2){
+      appendResult("add\t r{0}, h{1}\n".format(rd,rs));
+      scope.regs[rd] = (scope.regs[rd] & 0xFF) + (scope.regs[rs] & 0xFF00);
+    }else{
+      appendResult("add\t h{0}, r{1}\n".format(rd,rs));
+      scope.regs[rd] = (scope.regs[rd] & 0xFF00) + (scope.regs[rs] & 0xFF);
+    }
     break;
     case 1:
-    if(hi1 && hi2)
-    $("#result").append("cmp\t h{0}, h{1}\n".format(rd,rs));
-    else if (hi1 && !hi2)
-    $("#result").append("cmp\t r{0}, h{1}\n".format(rd,rs));
-    else
-    $("#result").append("cmp\t h{0}, r{1}\n".format(rd,rs));
+    if(hi1 && hi2){
+      appendResult("cmp\t h{0}, h{1}\n".format(rd,rs));
+    }else if (hi1 && !hi2){
+      appendResult("cmp\t r{0}, h{1}\n".format(rd,rs));
+      scope.regs[rd] = (scope.regs[rd] & 0xFF00) + (scope.regs[rs] & 0xFF00);
+    }else{
+    appendResult("cmp\t h{0}, r{1}\n".format(rd,rs));
+      scope.regs[rd] = (scope.regs[rd] & 0xFF00) + (scope.regs[rs] & 0xFF00);
+    }
     break;
     case 2:
-    if(hi1 && hi2)
-    $("#result").append("mov\t h{0}, h{1}\n".format(rd,rs));
-    else if (hi1 && !hi2)
-    $("#result").append("mov\t r{0}, h{1}\n".format(rd,rs));
-    else
-    $("#result").append("mov\t h{0}, r{1}\n".format(rd,rs));
+    if(hi1 && hi2){
+      appendResult("mov\t h{0}, h{1}\n".format(rd,rs));
+      scope.regs[rd] = (scope.regs[rs] & 0xFF00);
+    }else if (hi1 && !hi2){
+      appendResult("mov\t r{0}, h{1}\n".format(rd,rs));
+      scope.regs[rd] = (scope.regs[rs] & 0xFF00) >> 8;
+    }else{
+      appendResult("mov\t h{0}, r{1}\n".format(rd,rs));
+      scope.regs[rd] = (scope.regs[rs] & 0xFF) << 8;
+    }
     break;
-    case 1:
-    if(!hi1 && !hi2)
-    $("#result").append("bx\t r{0}\n".format(rs));
-    else
-    $("#result").append("bx\t h{0}\n".format(rs));
+    case 3:
+    if(!hi1 && !hi2){
+      appendResult("bx\t r{0}\n".format(Dec2Hex(rs)));
+      scope.pc = scope.regs[rs] & 0xFF;
+    }else{
+      scope.pc = (scope.regs[rs] & 0xFF00) >> 8;
+      appendResult("bx\t h{0}\n".format(DecToHex(rs)));
+    }
     break;
     default:
   }
@@ -216,25 +267,38 @@ function format_21(op,hi1,hi2,rs,rd,Reg){
 
 function format_23(l,b,rd,rb,ro,Reg){
   if(!l && !b){
-    $("#result").append("str\t r{0},[r{1}, r{2}]\n".format(rd,rb,ro));
+    appendResult("str\t r{0},[r{1}, r{2}]\n".format(rd,rb,ro));
+    scope.memory.storeWord(scope.regs[rd],scope.regs[rb]+scope.regs[ro]);
   }else if(!l && b){
-    $("#result").append("strb\t r{0},[r{1}, r{2}]\n".format(rd,rb,ro));
+    appendResult("strb\t r{0},[r{1}, r{2}]\n".format(rd,rb,ro));
+    scope.memory.store(scope.regs[rd],scope.regs[rb]+scope.regs[ro]);
   }else if(l && !b){
-    $("#result").append("ldr\t r{0},[r{1}, r{2}]\n".format(rd,rb,ro));
+    appendResult("ldr\t r{0},[r{1}, r{2}]\n".format(rd,rb,ro));
+    scope.reg[rd] = scope.memory.loadWord(scope.regs[rb]+scope.regs[ro]);
   }else if(l && b){
-    $("#result").append("ldrb\t r{0},[r{1}, r{2}]\n".format(rd,rb,ro));
+    appendResult("ldrb\t r{0},[r{1}, r{2}]\n".format(rd,rb,ro));
+    scope.reg[rd] = scope.memory.load(scope.regs[rb]+scope.regs[ro]);
   }
 }
 
 function format_24(h,s,rd,rb,ro,Reg){
+  var signBit = 0;
   if(!l && !b){
-    $("#result").append("strh\t r{0},[r{1}, r{2}]\n".format(rd,rb,ro));
+    appendResult("strh\t r{0},[r{1}, r{2}]\n".format(rd,rb,ro));
+    scope.memory.storeHalf(scope.regs[rd],scope.regs[rb]+scope.regs[ro]);
   }else if(!l && b){
-    $("#result").append("ldrh\t r{0},[r{1}, r{2}]\n".format(rd,rb,ro));
+    appendResult("ldrh\t r{0},[r{1}, r{2}]\n".format(rd,rb,ro));
+    scope.regs[rd] = scope.memory.loadHalf(scope.regs[rb]+scope.regs[ro]);
   }else if(l && !b){
-    $("#result").append("ldsb\t r{0},[r{1}, r{2}]\n".format(rd,rb,ro));
+    appendResult("ldsb\t r{0},[r{1}, r{2}]\n".format(rd,rb,ro));
+    scope.regs[rd] = scope.memory.load(scope.regs[rb]+scope.regs[ro]);
+    signBit = (scope.regs[rd]>>7) & 1;
+    scope.regs[rd] = scope.regs[rd] | (signBit ? 0xFFFFFF00:0);
   }else if(l && b){
-    $("#result").append("ldsh\t r{0},[r{1}, r{2}]\n".format(rd,rb,ro));
+    appendResult("ldsh\t r{0},[r{1}, r{2}]\n".format(rd,rb,ro));
+    scope.regs[rd] = scope.memory.loadHalf(scope.regs[rb]+scope.regs[ro]);
+    signBit = (scope.regs[rd]>>15) & 1;
+    scope.regs[rd] = scope.regs[rd] | (signBit ? 0xFFFF0000:0);
   }
 }
 
@@ -244,19 +308,23 @@ function format_3(instr,scope){
   rb = (instr >> 3) & 7;
   rd = (instr) & 7;
   offset5 = (instr >> 6) & 0x1F;
-  $("#result").append("{0}\t r{1},[r{2}, #{3}]\n".format(format30[bl],rd,rb,offset5));
+  appendResult("{0}\t r{1},[r{2}, #{3}]\n".format(format30[bl],rd,rb,offset5));
   switch (bl) {
     case 0:
     // STR
+    scope.memory.storeWord(scope.regs[rd],scope.regs[rb]+offset5);
     break;
     case 1:
     // LDR
+    scope.regs[rd] = scope.memory.loadWord(scope.regs[rb]+offset5);
     break;
     case 2:
     // STRB
+    scope.memory.storeByte(scope.regs[rd],scope.regs[rb]+offset5);
     break;
     case 3:
     // LDRB
+    scope.regs[rd] = scope.memory.loadByte(scope.regs[rb]+offset5);
     break;
     default:
   }
@@ -272,21 +340,15 @@ function format_4(instr,scope){
   var offset5 = (instr >> 6) & 5;
 
   switch (op){
-
     case 0:
-    switch (L) {
-      case 1:
-      scope.regs[Rb + offset5] = Memory[rd];
-      $("#result").append("{0}\t r{1}, [r{2}, #{3}]\n".format(format40[op], rd, rb, offset5));
-      break;
-      case 0:
-      Memory[Rb + offset5] = scope.regs[rd];
-      $("#result").append("{0}\t r{1}, [r{2}, #{3}]\n".format(format40[op], rd, rb, offset5));
-      break;
+    appendResult("{0}\t r{1}, [r{2}, #{3}]\n".format(format40[op], rd, rb, offset5));
+    if(!L){
+      scope.memory.storeHalf(scope.regs[rd],scope.regs[rb]+offset5);
+    }else{
+      scope.regs[rd] = scope.memory.loadHalf(scope.regs[rb]+offset5);
+      scope.regs[rd] = scope.regs[rd] & 0xFFFF0000;
     }
-
     break;
-
     case 1:
     format_41(instr,scope);
     break;
@@ -298,15 +360,14 @@ function format_41(instr,scope){
   var L = (instr >> 11) & 1;
   var rd = (instr >> 8) & 3;
   var word8 = instr & 8;
+  appendResult("{0}\t r{1}, [SP, #{2}]\n".format(format41[op], rd, word8));
 
   switch (L)  {
-    case 1:
-    scope.regs[rd] = Memory[scope.regs[13] + word8];
-    $("#result").append("{0}\t r{1}, [SP, #{2}]\n".format(format41[op], rd, word8));
-    break;
     case 0:
-    Memory[rd] = scope.regs[scope.regs[13] + word8];
-    $("#result").append("{0}\t r{1}, [SP, #{2}]\n".format(format41[op], rd, word8));
+    scope.storeWord(scope.regs[rd], scope.sp+word8);
+    break;
+    case 1:
+    scope.regs[rd] = scope.loadWord(scope.sp+word8);
     break;
   }
 }
@@ -319,24 +380,19 @@ function format_5(instr,scope){
 
   switch (op) {
     case 0:
-
+    appendResult("add\t r{0}, {1}, #{2}\n".format(rd, format50[src],  word8));
     switch(src){
       case 0:
-      scope.regs[rd] = Memory[word8 + PC];
-      $("#result").append("add\t r{0}, {1}, #{2}\n".format(rd, format50[src],  word8));
+      scope.regs[rd] = scope.pc+word8;
       break;
-
       case 1:
-      scope.regs[rd] = Memory[word8 + scope.regs[13]];
-      $("#result").append("add\t r{0}, {1}, #{2}\n".format(rd, format50[src],  word8));
+      scope.regs[rd] = scope.sp+word8;
       break;
     }
     break;
-
     case 1:
     format_51(instr,scope);
     break;
-
   }
 }
 
@@ -350,12 +406,12 @@ function format_51(instr,scope){
 
     switch(S){
       case 0:
-      scope.regs[13] = scope.regs[13] + SWord7;
-      $("#result").append("add\t SP, #{0}\n".format(SWord7));
+      scope.sp = scope.sp + SWord7;
+      appendResult("add\t SP, #{0}\n".format(SWord7));
       break;
       case 1:
-      scope.regs[13] = scope.regs[13] - SWord7;
-      $("#result").append("add\t SP, #-{0}\n".format(SWord7));
+      scope.sp = scope.sp - SWord7;
+      appendResult("add\t SP, #-{0}\n".format(SWord7));
       break;
     }
     break;
@@ -382,53 +438,47 @@ function format_52(instr,scope){
 
       for (var i = ArrayLength - 1; i >= 0; i--) {
         // Memory[SP] = RListArray[i];
-        // SP--;
+        scope.memory.storeHalf(scope.regs[RListArray[i]],scope.sp);
+        scope.sp-=2;
       }
-      $("#result").append("push\t {{0}}\n".format(RListString));
+      appendResult("push\t {{0}}\n".format(RListString));
 
       break;
       case 1:
 
       for (var i = ArrayLength - 1; i >= 0; i--) {
-         //Memory[SP] = RListArray[i];
-         memory.store(RListArray[i], sp);
-         // SP--;
+         scope.memory.storeHalf(scope.regs[RListArray[i]],scope.sp);
+         scope.sp-=2;
       }
 
-      // Memory[SP] = scope.regs[14];
-      // SP--;
-
-      $("#result").append("push\t {{0}, LR}\n".format(RListString));
-
+      scope.memory.storeHalf(scope.regs[14],scope.sp);
+      scope.sp-=2;
+      appendResult("push\t {{0}, LR}\n".format(RListString));
       break;
     }
 
     break;
 
     case 1:
-
     switch(R){
       case 0:
-
       for (var i = 0; i <= ArrayLength - 1; i--) {
-        // Memory[SP] = RListArray[i];
-        // SP++;
+        scope.regs[RListArray[i]] = scope.memory.loadHalf(scope.sp);
+        scope.sp+=2;
       }
-      $("#result").append("pop\t {{0}}\n".format(RListString));
-
+      appendResult("pop\t {{0}}\n".format(RListString));
       break;
       case 1:
 
       for (var i = 0; i <= ArrayLength - 1; i--) {
-        // Memory[SP] = RListArray[i];
-        // SP++;
+        scope.regs[RListArray[i]] = scope.memory.loadHalf(scope.sp);
+        scope.sp+=2;
       }
 
-      // Memory[SP] = PC;
-      // SP++;
+      scope.pc = scope.memory.loadHalf(scope.pc,scope.sp);
+      scope.sp+=2;
 
-      $("#result").append("push\t {{0}, PC}\n".format(RListString));
-
+      appendResult("pop\t {{0}, PC}\n".format(RListString));
       break;
     }
     break;
@@ -440,17 +490,17 @@ function format_6(instr,scope){
   var cond, sOffSet8, value8, rb, rlist;
   if(((instr>>8) & 0x1F) == 0x1F){
     value8 = instr & 0xFF;
-    $("#result").append("SWI\t {0}\n".format(value8));
+    appendResult("SWI\t {0}\n".format(value8));
     switch (value8) {
       case 0: output[outputIdx++] = String.fromCharCode(scope.regs[0]); break;
       case 1: output[outputIdx++] = scope.regs[0]; break;
       case 0x69:
-        var start = scope.regs[1];
-        var char = Mem.load(start);
-        while(char){
-            output[outputIdx++] = String.fromCharCode(char);
-            char = Mem.load(start++);
-        }
+        // var start = scope.regs[1];
+        // var char = Mem.load(start);
+        // while(char){
+        //     output[outputIdx++] = String.fromCharCode(char);
+        //     char = Mem.load(start++);
+        // }
       break;
       case 3:
         break;
@@ -466,10 +516,25 @@ function format_6(instr,scope){
     l = (instr >> 11) & 1;
     rb = (instr >> 8) & 7;
     rlist = (instr) & 0xFF;
-    if(l){
-      $("#result").append("STMI\t r{0}!, {{1}}\n".format(rb,getList(rlist)));
+    var arr = getList(rlist);
+    // 1100011011001110 to test
+    if(!l){
+      // TODO: Check this
+      appendResult("STMI\t r{0}!, {{1}}\n".format(rb,getListString(rlist)));
+      var adrs = scope.regs[rb];
+      for(var i = 0; i<arr.length; i++){
+        scope.memory.storeWord(scope.regs[arr[i]],adrs);
+        adrs+=4;
+      }
+      scope.regs[rb] = adrs;
     }else{
-      $("#result").append("LDMI\t r{0}!, {{1}}\n".format(rb,getList(rlist)));
+      appendResult("LDMI\t r{0}!, {{1}}\n".format(rb,getListString(rlist)));
+      var adrs = scope.regs[rb];
+      for(var i = 0; i<arr.length; i++){
+        scope.regs[arr[i]] = scope.memory.loadWord(adrs);
+        adrs+=4;
+      }
+      scope.regs[rb] = adrs;
     }
   }
 }
@@ -477,16 +542,17 @@ function format_6(instr,scope){
 function getListString(list){
   var result = "";
   var i, j = 0;
-  for(i = j; i<8; i++){
-    if(list>>i){
-      for(j = i; j<8; j++)
-        if(!(list>>j))
-            break;
-    }
-    if(i+1 == j) result += ("r"+i);
-    else result += ("r"+i+"-r"+j);
-    if(i != 7) result+=", ";
-  }
+   for(i = 0; i<8; i++){
+       if((list>>i & 1)){
+           for(j = i; j<8; j++)
+               if(!(list>>j & 1))
+                  break;
+           if(i == j) result+=("r{0}".format(i));
+           else result+=("r{0}-r{1}".format(i,j-1));
+           if(j < 7) result+=",";
+           i = j;
+       }
+   }
   return result;
 }
 
@@ -497,31 +563,66 @@ function getList(list){
   return arr;
 }
 
+// TODO: Check if we should multiply offset before multiplying
 function format_61(cond,sOffSet8,Reg){
-  $("#result").append("{0}}\t {1}\n".format(format61[cond],sOffSet8));
-}
-
-function format_7(instr,scope){
-  var h, offet10;
-  if(((instr >> 12)&1)){
-    // Format 19
-    h = (instr >> 11) & 1;
-    offset10 = (instr) & 0x7FF;
-    format_71(h,offset10,scope.regs);
-  }else{
-    //Branch PC relative +/- Offset11 << 1, where label is PC +/- 2048 bytes.
-    offset10 = (instr) & 0x7FF;
-    $("#result").append("B\t {0}\n".format(Dec2Hex(offset10)));
+  appendResult("{0}}\t {1}\n".format(format61[cond],Dec2Hex(sOffSet8)));
+  switch (cond) {
+    case 0: scope.pc = scope.flags[0] ? pc+sOffSet8:pc; break;
+    case 1: scope.pc = !scope.flags[0] ? pc+sOffSet8:pc;  break;
+    case 2: scope.pc = scope.flags[1] ? pc+sOffSet8:pc;  break;
+    case 3: scope.pc = !scope.flags[1] ? pc+sOffSet8:pc;  break;
+    case 4: scope.pc = scope.flags[2] ? pc+sOffSet8:pc; break;
+    case 5: scope.pc = !scope.flags[2] ? pc+sOffSet8:pc; break;
+    case 6: scope.pc = scope.flags[3] ? pc+sOffSet8:pc; break;
+    case 7: scope.pc = !scope.flags[3] ? pc+sOffSet8:pc; break;
+    case 8: scope.pc = !scope.flags[0] && scope.flags[1] ? pc+sOffSet8:pc; break;
+    case 9: scope.pc = scope.flags[0] && !scope.flags[1] ? pc+sOffSet8:pc;  break;
+    case 10: scope.pc = !(scope.flags[2] ^ scope.flags[3]) ? pc+sOffSet8:pc; break;
+    case 11: scope.pc = (scope.flags[2] ^ scope.flags[3]) ? pc+sOffSet8:pc; break;
+    case 12: scope.pc = (!scope.flags[0] && !(scope.flags[2] ^ scope.flags[3])) ? pc+sOffSet8:pc; break;
+    case 13: scope.pc = (scope.flags[0] && (scope.flags[2] ^ scope.flags[3])) ? pc+sOffSet8:pc; break;
+    default:
   }
 }
 
-function format_71(h,offset10,Reg){
+// TODO: Check
+function format_7(instr,scope){
+  var h, offet11;
+  if(((instr >> 12)&1)){
+    // Format 19
+    h = (instr >> 11) & 1;
+    offset11 = (instr) & 0x7FF;
+    format_71(h,offset11,scope.regs);
+  }else{
+    // Format 18
+    //Branch PC relative +/- Offset11 << 1, where label is PC +/- 2048 bytes.
+    offset11 = ((instr) & 0x7FF);
+    if(offset11>>10){
+      offset11 = (~offset11)+1;
+      scope.pc = scope.pc - (offset11)<<1;
+    }else{
+      scope.pc = scope.pc + (offset11)<<1;
+    }
+    appendResult("B\t {0}\n".format(Dec2Hex(offset11)));
+  }
+}
+
+function format_71(h,offset11,Reg){
   if(h){
     //LR := PC + OffsetHigh << 12
-    $("#result").append("BL\t {0}\n".format(Dec2Hex(offset10)));
+    scope.lr = scope.pc + (offset11<<12);
+    appendResult("BL\t {0}\n".format(Dec2Hex(offset11)));
   }else{
     //temp := next instruction address
     //PC := LR + OffsetLow << 1
     //LR := temp | 1
+    var tmp = scope.pc+2;
+    scope.pc = scope.lr + (offset11<<1);
+    scope.lr = scope.pc | 1;
   }
+}
+
+function appendResult(txt){
+  var box = $("#result");
+  box.val(box.val() + txt);
 }

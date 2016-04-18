@@ -30,17 +30,24 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
     ];
     $scope.output = Array(25);
     $scope.memDisplaySize = 255;
+    $scope.pc = 0;
+    $scope.sp = 0;
+    $scope.lr = 0;
+
     var index = 0, ic = 0;
     var lastSWI = -1, outputIdx = 0;
-    var pc, sp, lr;
 
     $scope.reset = function () {
-        pc = sp = lr = 0;
+        //$scope.pc = $scope.sp = $scope.lr = 0;
         $("#sourceCode").val("");
         $("#result").val("");
         $scope.selectedLine = -1;
         for(var i = 0; i<16; i++) $scope.regs[i] = 0;
-        index = 0;
+        for(var i = 0; i< 4; i++) $scope.flags[i] = 0;
+        for(var i = 0; i<25; i++) $scope.output[i] = "";
+        $scope.memory.reset();
+        index = outputIdx = ic = 0;
+        lastSWI = -1;
     };
 
     load = function(){
@@ -59,8 +66,22 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
       for(var i = index; i<instr.length; i++)
          memory.store(i,instr[i]);
 
-      sp = parseInt(memory.loadWord(0));
-      pc = parseInt(memory.loadWord(4));
+      $scope.sp = parseInt(memory.loadWord(0));
+      $scope.pc = parseInt(memory.loadWord(4));
+    };
+
+    $scope.test = function(){
+      instType = parseInt($( "#instType option:selected" ).val())
+      var instructions = $("#sourceCode").val();
+      var instr = instructions.split("\n");
+      if(instType == 0)
+        for(var i = 0; i<instr.length; i++)
+          instr[i] = Bin2Dec(instr[i]);
+      else if(instType == 1)
+        for(var i = 0; i<instr.length; i++)
+          instr[i] = Hex2Dec(instr[i]);
+
+      decode(instr[index++],$scope);
     };
 
     isMemoryLoaded = function(){
@@ -73,33 +94,42 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
 
     $scope.run = function(){
       // Decoding Then Executing Each Instruction
-      load();
-      var instr = parseInt(memory.loadHalf(pc));
+      if(!isMemoryLoaded())
+          load();
+      var instr = parseInt(memory.loadHalf($scope.pc));
       while(instr != 0xDEAD && lastSWI == -1){
         decode(instr,$scope);
-        pc+=2;
-        instr = parseInt(memory.loadHalf(pc));
+        $scope.pc+=2;
+        instr = parseInt(memory.loadHalf($scope.pc));
         if(isSWI(instr)) break;
       }
+      updateSpecialRegs();
     };
 
-    $scope.getChar = function (value) {
+    $scope.step = function(){
+      if(!isMemoryLoaded())
+          load();
+      var instr = parseInt(memory.loadHalf($scope.pc));
+      if(instr != 0xDEAD && !isSWI(instr) && lastSWI == -1){
+        decode(instr,$scope);
+        $scope.pc+=2;
+      }
+      updateSpecialRegs();
+    };
+
+    updateSpecialRegs = function(){
+      $scope.regs[15] = $scope.pc;
+      $scope.regs[14] = $scope.lr;
+      $scope.regs[13] = $scope.sp;
+    };
+
+    getChar = function (value) {
       var text = String.fromCharCode(value);
 
       if (text.trim() === '') {
           return '\u00A0\u00A0';
       } else {
           return text;
-      }
-    };
-
-    $scope.step = function(){
-      if(!isMemoryLoaded())
-          load();
-      var instr = parseInt(memory.loadHalf(pc));
-      if(instr != 0xDEAD && !isSWI(instr) && lastSWI == -1){
-        decode(instr,$scope);
-        pc+=2;
       }
     };
 
@@ -120,13 +150,14 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
     isSWI = function(instr){
         if(((instr) >> 13) == 6){
           if(((instr>>8) & 0x1F) == 0x1F){
+            $scope.pc+=2;
             var value8 = instr & 0xFF;
-            $("#result").append("SWI\t {0}\n".format(value8));
+            appendResult("SWI\t {0}\n".format(value8));
             lastSWI = value8;
             switch (value8) {
               case 0: $scope.output[outputIdx++] = String.fromCharCode($scope.regs[0]); break;
               case 1: $scope.output[outputIdx++] = $scope.regs[0]; break;
-              case 2: $("#result").append("Enter Integer: ");break;
+              case 2: appendResult("Enter Integer: ");break;
               case 3: break;
               case 4: break;
               default:

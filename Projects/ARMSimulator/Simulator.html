@@ -43,7 +43,7 @@
                             <select class="sel" style="display:inline; margin-top:7px" id="instType" onChange="displayPlaceHolder(value);">
                               <option value="0">Binary</option>
                               <option value="1">Hexadecimal</option>
-                              <option value="2">Decimal</option>
+                              <option value="2" selected="selected">Decimal</option>
                             </select>
                             <input class="inputfile" type="file" id="fileinput"/>
                             <script>document.getElementById('fileinput').addEventListener('change', readFile, false);</script>
@@ -52,7 +52,7 @@
                             <form role="form">
                                 <textarea id="sourceCode"
                                           class="form-control source-code"
-                                          placeholder="Enter Instructions in Binary (base 2)"
+                                          placeholder="Enter Instructions in Decimal (base 10)"
                                           style="margin-bottom:5px;"
                                           rows="15"
                                           tab-support
@@ -67,7 +67,7 @@
                                           select-line
                                           ng-mode='code'></textarea>
                                 <button type="button" class="btn btn-default" ng-click="clear()">Clear</button>
-                                <button type="button" class="btn btn-default" ng-click="step()"><span class="glyphicon glyphicon-forward"></span> Step</button>
+                                <button type="button" class="btn btn-default" ng-click="test()"><span class="glyphicon glyphicon-forward"></span>Test</button>
                             </form>
                         </div>
                     </div>
@@ -88,7 +88,7 @@
                     </div>
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h4 class="panel-title">Flag Register</h4>
+                            <h4 class="panel-title">Condition Flags</h4>
                         </div>
                         <div class="panel-body source-code">
                            <div class="table table-condensed table-striped">
@@ -99,12 +99,24 @@
                                        <th style="text-align:center">C</th>
                                        <th style="text-align:center">N</th>
                                        <th style="text-align:center">V</th>
+                                       <th style="text-align:center">PC</th>
+                                       <th style="text-align:center">SP</th>
+                                       <th style="text-align:center">LR</th>
                                    </tr>
                                </thead>
                                <tbody>
                                    <tr style="text-align:center;" class="source-code">
                                        <td ng-repeat="f in flags track by $index">
                                          <div style="margin:auto;" ng-class="displayA && 'marker marker-a'"><small>{{ f }}</small></div>
+                                       </td>
+                                       <td>
+                                         <div style="margin:auto;" ng-class="displayA && 'marker marker-a'"><small>{{ pc }}</small></div>
+                                       </td>
+                                       <td>
+                                         <div style="margin:auto;" ng-class="displayA && 'marker marker-a'"><small>{{ sp }}</small></div>
+                                       </td>
+                                       <td>
+                                         <div style="margin:auto;" ng-class="displayA && 'marker marker-a'"><small>{{ lr }}</small></div>
                                        </td>
                                    </tr>
                                </tbody>
