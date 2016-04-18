@@ -9,7 +9,7 @@ var format61 = ["beq","bne","bcs","bcc","bmi","bpl","bvs","bvc","bhi","bls","bge
 var format40 = ["strh", "ldrh"];
 var format41 = ["str", "ldr"];
 var format50 = ["pc", "sp"];
-var pc, sp;
+var condVal = 0;
 
 function PC(scope){ return scope.regs[15]; }
 
@@ -61,6 +61,13 @@ String.prototype.format = function() {
   return formatted;
 };
 
+function setConditionFlags(scope){
+  scope.flags[0] = (condVal == 0) ? 1:0;
+  scope.flags[1] = (condVal>>32 & 1) ? 1:0;
+  scope.flags[2] = (condVal < 0) ? 1:0;
+  scope.flags[3] = ((condVal>>32) && 1) ? 1:0;
+}
+
 function format_0(instr,scope){
   var op = (instr >> 11) & 3;
   var rd = instr & 7;
@@ -76,8 +83,9 @@ function format_0(instr,scope){
      appendResult("{0}\tr{1}, r{2}, #{3}\n".format(format00[op],rd, rs, offset5));
     break;
     case 2:
-      // asr Reg[rd] = scope.regs[rs] >> offset5; break;
+      scope.regs[rd] = scope.regs[rs] >> offset5;
       appendResult("{0}\tr{1}, r{2}, #{3}\n".format(format00[op],rd, rs, offset5));
+      break;
     case 3:
     offset3 = rn = offset5 & 0x07;
     if((offset5 & 0x08) == 0){
@@ -87,7 +95,7 @@ function format_0(instr,scope){
         scope.regs[rd] = scope.regs[rs] + scope.regs[rn];
       }
       else {
-        appendResult("r{0}\n".format(rn));
+        appendResult("#{0}\n".format(rn));
         scope.regs[rd] = scope.regs[rs] + offset3;
       }
     }else{
@@ -96,7 +104,7 @@ function format_0(instr,scope){
         appendResult("r{0}\n".format(rn));
         scope.regs[rd] = scope.regs[rs] - scope.regs[rn];
       }else{
-        appendResult("r{0}\n".format(offset3));
+        appendResult("#{0}\n".format(offset3));
         scope.regs[rd] = scope.regs[rs] - offset3;
       }
     }
@@ -104,6 +112,8 @@ function format_0(instr,scope){
     default:
     break;
   }
+  condVal = scope.regs[rd];
+  setConditionFlags(scope);
 }
 
 function format_1(instr,scope){
@@ -112,13 +122,14 @@ function format_1(instr,scope){
   var offset8 = instr & 0xFF;
   appendResult("{0}\t r{1}, #{2}\n".format(format10[op],rd,offset8));
   switch (op) {
-    case 0: scope.regs[rd] = offset8; break;
-    case 1: scope.regs[rd] = scope.regs[rd] - offset8; break;
-    case 2: scope.regs[rd] = scope.regs[rd] + offset8; break;
+    case 0: scope.regs[rd] = offset8;  break;
+    case 1: condVal = scope.regs[rd] - offset8; break;
+    case 2: scope.regs[rd] = scope.regs[rd] + offset8;    break;
     case 3: scope.regs[rd] = scope.regs[rd] - offset8; break;
     default:
   }
-  scope.flags[0] = scope.regs[rd] == 0;
+  if(op!=1) condVal = scope.regs[rd];
+  setConditionFlags(scope);
 }
 
 function format_2(instr,scope){
@@ -147,9 +158,11 @@ function format_2(instr,scope){
             scope.regs[rd] = scope.regs[rd] | (32-offset8);
         break;
       case 5:
+        // ADC
         scope.regs[rd] = scope.regs[rd] + scope.regs[rs] + scope.flags[1];
         break;
       case 6:
+        // SBC
         scope.regs[rd] = scope.regs[rd] - scope.regs[rs] - ~scope.flags[1];
         break;
       case 7:
@@ -159,23 +172,37 @@ function format_2(instr,scope){
           scope.regs[rd] = (value>>count) | (value<<( (-count) & 32 ));
           break;
       case 8:
-          scope.flags[0] = scope.regs[rs] & scope.regsp[rd];
+          // TST
+          condVal = scope.regs[rs] & scope.regsp[rd];
+          break;
       case 9:
+          // NEG
         scope.regs[rd] = -scope.regs[rs];
         break;
       case 10:
-        // TODO: CMP
-        scope.regs[rd] = scope.regs[rd] - offset8;
+        // TODO: CHECK CMP
+        condVal = scope.regs[rd] - scope.regs[rs];
         break;
       case 11:
-        // TODO: CMN
-       scope.regs[rd] = scope.regs[rd] - scope.regs[rs];
+        // CMN
+       condVal = scope.regs[rd] + scope.regs[rs];
        break;
-      case 12: scope.regs[rd] = scope.regs[rd] | scope.regs[rs]; break;
-      case 13: scope.regs[rd] = scope.regs[rd] * scope.regs[rs]; break;
-      case 14: scope.regs[rd] = scope.regs[rd] & (~scope.regs[rs]); break;
-      case 15: scope.regs[rd] = ~scope.regs[rs]; break;
+      case 12:
+        // ORRS
+        scope.regs[rd] = scope.regs[rd] | scope.regs[rs]; break;
+      case 13:
+        // MUL
+        scope.regs[rd] = scope.regs[rd] * scope.regs[rs]; break;
+      case 14:
+        // BIC
+        scope.regs[rd] = scope.regs[rd] & (~scope.regs[rs]); break;
+      case 15:
+        // MVN
+        scope.regs[rd] = ~scope.regs[rs]; break;
       default:
+    }
+    if(op!=8){
+      if(op!=10){ condVal = scope.regs[rd];}
     }
   }else if(op == 1){
     // Format 5
@@ -208,10 +235,7 @@ function format_2(instr,scope){
     ro = (instr >> 6) & 7;
     format_24(h,s,rd,rb,ro,scope);
   }
-  scope.flags[0] = scope.regs[rd] == 0 ? 1:0;
-  scope.flags[1] = (scope.regs[rd]>>32 & 1) ? 1:0;
-  scope.flags[2] = scope.regs[rd] < 0 ? 1:0;
-  scope.flags[3] = ((scope.regs[rd]>>32) && 1) ? 1:0;
+  setConditionFlags(scope);
 }
 
 function format_21(op,hi1,hi2,rs,rd,scope){
@@ -232,12 +256,13 @@ function format_21(op,hi1,hi2,rs,rd,scope){
     case 1:
     if(hi1 && hi2){
       appendResult("cmp\t h{0}, h{1}\n".format(rd,rs));
+      condVal = ((scope.regs[rd] & 0xFF00) >> 8) - ((scope.regs[rs] & 0xFF00) >> 8);
     }else if (hi1 && !hi2){
       appendResult("cmp\t r{0}, h{1}\n".format(rd,rs));
-      scope.regs[rd] = (scope.regs[rd] & 0xFF00) + (scope.regs[rs] & 0xFF00);
+      condVal = (scope.regs[rd] & 0xFF) - ((scope.regs[rs] & 0xFF00)>>8);
     }else{
-    appendResult("cmp\t h{0}, r{1}\n".format(rd,rs));
-      scope.regs[rd] = (scope.regs[rd] & 0xFF00) + (scope.regs[rs] & 0xFF00);
+      appendResult("cmp\t h{0}, r{1}\n".format(rd,rs));
+      condVal = ((scope.regs[rd] & 0xFF00)>>8) - (scope.regs[rs] & 0xFF);
     }
     break;
     case 2:
@@ -425,14 +450,13 @@ function format_51(instr,scope){
 function format_52(instr,scope){
   var L = (instr >> 11) & 1;
   var R = (instr >> 8) & 1;
-  var Rlist = instr & 8;
+  var Rlist = (instr) & 0xFF;
   var RListString = getListString(Rlist);
   var RListArray = getList(Rlist);
   var ArrayLength = RListArray.length;
 
   switch(L){
     case 0:
-
     switch(R){
       case 0:
 
@@ -445,12 +469,10 @@ function format_52(instr,scope){
 
       break;
       case 1:
-
       for (var i = ArrayLength - 1; i >= 0; i--) {
          scope.memory.storeHalf(scope.regs[RListArray[i]],scope.sp);
          scope.sp-=2;
       }
-
       scope.memory.storeHalf(scope.regs[14],scope.sp);
       scope.sp-=2;
       appendResult("push\t {{0}, LR}\n".format(RListString));
@@ -494,14 +516,6 @@ function format_6(instr,scope){
     switch (value8) {
       case 0: output[outputIdx++] = String.fromCharCode(scope.regs[0]); break;
       case 1: output[outputIdx++] = scope.regs[0]; break;
-      case 0x69:
-        // var start = scope.regs[1];
-        // var char = Mem.load(start);
-        // while(char){
-        //     output[outputIdx++] = String.fromCharCode(char);
-        //     char = Mem.load(start++);
-        // }
-      break;
       case 3:
         break;
 

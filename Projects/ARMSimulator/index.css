@@ -240,12 +240,14 @@ button:hover {
 }
 
 .output {
-    width: 1.5em;
+    width: 1em;
+    height: 2em;
     padding: 5px;
     margin-right: 2.5px;
     margin-bottom: 2.5px;
     text-align: center;
     color: black;
+    display: inline-block;
 }
 
 .memory-block {

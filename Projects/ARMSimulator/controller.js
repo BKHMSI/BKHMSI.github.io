@@ -34,7 +34,7 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
     $scope.sp = 0;
     $scope.lr = 0;
 
-    var index = 0, ic = 0;
+    var index = 0, ic = 0, exit = 0;
     var lastSWI = -1, outputIdx = 0;
 
     $scope.reset = function () {
@@ -76,12 +76,14 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
       var instr = instructions.split("\n");
       if(instType == 0)
         for(var i = 0; i<instr.length; i++)
-          instr[i] = Bin2Dec(instr[i]);
+          instr[i] = parseInt(Bin2Dec(instr[i]));
       else if(instType == 1)
         for(var i = 0; i<instr.length; i++)
-          instr[i] = Hex2Dec(instr[i]);
+          instr[i] = parseInt(Hex2Dec(instr[i]));
 
-      decode(instr[index++],$scope);
+      if(instr[index] != 0xDEAD && !isSWI(instr[index++]) && lastSWI == -1){
+        decode(instr[index++],$scope);
+      }
     };
 
     isMemoryLoaded = function(){
@@ -97,7 +99,7 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
       if(!isMemoryLoaded())
           load();
       var instr = parseInt(memory.loadHalf($scope.pc));
-      while(instr != 0xDEAD && lastSWI == -1){
+      while(instr != 0xDEAD && lastSWI == -1 && !exit){
         decode(instr,$scope);
         $scope.pc+=2;
         instr = parseInt(memory.loadHalf($scope.pc));
@@ -110,7 +112,7 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
       if(!isMemoryLoaded())
           load();
       var instr = parseInt(memory.loadHalf($scope.pc));
-      if(instr != 0xDEAD && !isSWI(instr) && lastSWI == -1){
+      if(instr != 0xDEAD && !isSWI(instr) && lastSWI == -1 && !exit){
         decode(instr,$scope);
         $scope.pc+=2;
       }
@@ -134,20 +136,38 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
     };
 
     $scope.processSWI = function(e){
+      // 1101111100000011
       var code = (e.keyCode ? e.keyCode : e.which);
       if (code == 13) {
         var instructions = $("#result").val();
         var instr = instructions.split("\n");
         var swi = instr[instr.length-1].split(":");
-        var value = swi[swi.length-1];
-        if(lastSWI == 1){
-          $scope.regs[1] = parseInt(value);
-          lastSWI = -1;
+        var value = swi[swi.length-1].trim();
+        switch (lastSWI) {
+          case 2:
+            $scope.regs[1] = parseInt(value);
+            break;
+          case 3:
+            $scope.regs[1] = value.charCodeAt(0);
+            break;
+          case 4:
+            var adrs = $scope.regs[0];
+            for(var i = 0; i<value.length; i++){
+              var ascii = value.charCodeAt(i);
+              memory.store(adrs++,ascii);
+            }
+            break;
+          default:
         }
+
       }
     };
 
     isSWI = function(instr){
+      /*
+      1101111100000100
+      1101111100000101
+      */
         if(((instr) >> 13) == 6){
           if(((instr>>8) & 0x1F) == 0x1F){
             $scope.pc+=2;
@@ -157,9 +177,29 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
             switch (value8) {
               case 0: $scope.output[outputIdx++] = String.fromCharCode($scope.regs[0]); break;
               case 1: $scope.output[outputIdx++] = $scope.regs[0]; break;
-              case 2: appendResult("Enter Integer: ");break;
-              case 3: break;
-              case 4: break;
+              case 2:
+                appendResult("Enter Integer: ");
+                break;
+              case 3:
+                appendResult("Enter Char: ");
+                break;
+              case 4:
+                appendResult("Enter String: ");
+                break;
+              case 5:
+                // Print Null Terminated String
+                // Assume Base Address is at 0
+                var adrs = $scope.regs[0];
+                var c = memory.load(adrs++);
+                while(c){
+                  $scope.output[outputIdx++] = getChar(c);
+                  c = memory.load(adrs++);
+                }
+                break;
+              case 6:
+                appendResult("Bye Bye\n");
+                exit = 1;
+                break;
               default:
             }
             return true;
