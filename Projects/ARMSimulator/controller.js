@@ -82,7 +82,7 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
         for(var i = 0; i<instr.length; i++)
           instr[i] = parseInt(Hex2Dec(instr[i]));
 
-      if(instr[index] != 0xDEAD && !isSWI(instr[index++]) && lastSWI == -1){
+      if(instr[index] != 0xDEAD && !isSWI(instr[index]) && lastSWI == -1){
         decode(instr[index++],$scope);
       }
     };
@@ -172,6 +172,7 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
         if(((instr) >> 13) == 6){
           if(((instr>>8) & 0x1F) == 0x1F){
             $scope.pc+=2;
+            index++;
             var value8 = instr & 0xFF;
             appendResult("SWI\t {0}\n".format(value8));
             lastSWI = value8;
