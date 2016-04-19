@@ -106,6 +106,12 @@ function convert(){
   }
 }
 
+function asrHelper(x){
+  var ones = "";
+  while(x--) ones+="1";
+  return Bin2Dec(ones);
+}
+
 function readFile(evt) {
   //Retrieve the first (and only!) File from the FileList object
   if (window.File && window.FileReader && window.FileList && window.Blob) {

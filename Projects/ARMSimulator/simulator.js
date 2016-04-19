@@ -63,9 +63,9 @@ String.prototype.format = function() {
 
 function setConditionFlags(scope){
   scope.flags[0] = (condVal == 0) ? 1:0;
-  scope.flags[1] = (condVal>>32 & 1) ? 1:0;
+  scope.flags[1] = (condVal>>31 & 1) ? 1:0;
   scope.flags[2] = (condVal < 0) ? 1:0;
-  scope.flags[3] = ((condVal>>32) && 1) ? 1:0;
+  scope.flags[3] = (condVal>>31 > 1) ? 1:0;
 }
 
 function format_0(instr,scope){
@@ -83,7 +83,13 @@ function format_0(instr,scope){
      appendResult("{0}\tr{1}, r{2}, #{3}\n".format(format00[op],rd, rs, offset5));
     break;
     case 2:
+      // 0001000101001000
+      signBit = (scope.regs[rd] >> 31) & 1;
       scope.regs[rd] = scope.regs[rs] >> offset5;
+      if(signBit){
+        var ones = asrHelper(offset5);
+        scope.regs[rd] = scope.regs[rd] + (ones << (32-offset5));
+      }
       appendResult("{0}\tr{1}, r{2}, #{3}\n".format(format00[op],rd, rs, offset5));
       break;
     case 3:
@@ -117,6 +123,7 @@ function format_0(instr,scope){
 }
 
 function format_1(instr,scope){
+  // MOV 001 00 001 00000100
   var op = (instr >> 11) & 3;
   var rd = (instr >> 8) & 7;
   var offset8 = instr & 0xFF;
@@ -154,8 +161,10 @@ function format_2(instr,scope){
         // TODO: Check ASR
         signBit = (scope.regs[rd] >> 31) & 1;
         scope.regs[rd] = scope.regs[rd] >> scope.regs[rs];
-        if(signBit)
-            scope.regs[rd] = scope.regs[rd] | (32-offset8);
+        if(signBit){
+          var ones = asrHelper(scope.regs[rs]);
+          scope.regs[rd] = scope.regs[rd] + (ones << (32-scope.regs[rs]));
+        }
         break;
       case 5:
         // ADC
