@@ -52,6 +52,7 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
 
     load = function(){
       // load instructions into memory
+      $("#result").val("");
       instType = parseInt($( "#instType option:selected" ).val())
       var instructions = $("#sourceCode").val();
       var instr = instructions.split("\n");
@@ -99,7 +100,7 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
       if(!isMemoryLoaded())
           load();
       var instr = parseInt(memory.loadHalf($scope.pc));
-      while(instr != 0xDEAD && lastSWI == -1 && !exit){
+      while(instr != 0xDEAD && !isSWI(instr) && lastSWI == -1 && !exit){
         decode(instr,$scope);
         $scope.pc+=2;
         instr = parseInt(memory.loadHalf($scope.pc));
@@ -159,7 +160,7 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
             break;
           default:
         }
-
+        lastSWI = -1;
       }
     };
 
@@ -176,7 +177,12 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
             lastSWI = value8;
             switch (value8) {
               case 0: $scope.output[outputIdx++] = String.fromCharCode($scope.regs[0]); break;
-              case 1: $scope.output[outputIdx++] = $scope.regs[0]; break;
+              case 1:
+                var value = $scope.regs[0].toString();
+                for(var i = 0; i<value.length; i++){
+                  $scope.output[outputIdx++] = value[i];
+                }
+                break;
               case 2:
                 appendResult("Enter Integer: ");
                 break;
@@ -219,14 +225,27 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
         }
     }
 
-    $scope.clear = function(){
-      $("#result").val("");
+    $scope.assemble = function(){
+      var instructions = $("#result").val();
+      var instr = instructions.split("\n");
+      appendMachineCode(200);
+      appendMachineCode(0);
+      appendMachineCode(0);
+      appendMachineCode(0);
+      appendMachineCode(8);
+      appendMachineCode(0);
+      appendMachineCode(0);
+      appendMachineCode(0);
       var regex = /^[\t ]*(?:([.A-Za-z]\w*)[:])?(?:[\t ]*([A-Za-z]{2,4})(?:[\t ]+(\[(\w+((\+|-)\d+)?)\]|\".+?\"|\'.+?\'|[.A-Za-z0-9]\w*)(?:[\t ]*[,][\t ]*(\[(\w+((\+|-)\d+)?)\]|\".+?\"|\'.+?\'|[.A-Za-z0-9]\w*))?)?)?/;
-      var instr = "MOV  R0, R1;"
-      var match = regex.exec(instr);
-      printMatch(match);
+      for(var i = 0; i<instr.length; i++){
+        var match = regex.exec(instr[i]);
+        var binary = 0;
+        if(match[2] == "SWI"){
+          appendMachineCode(parseInt(match[3]));
+          appendMachineCode(223);
+        }
+      }
     };
-
 }]);
 
 test = function(scope){

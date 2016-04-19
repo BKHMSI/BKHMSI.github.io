@@ -293,10 +293,10 @@ function format_21(op,hi1,hi2,rs,rd,scope){
 function format_23(l,b,rd,rb,ro,Reg){
   if(!l && !b){
     appendResult("str\t r{0},[r{1}, r{2}]\n".format(rd,rb,ro));
-    scope.memory.storeWord(scope.regs[rd],scope.regs[rb]+scope.regs[ro]);
+    scope.memory.storeWord(scope.regs[rb]+scope.regs[ro],scope.regs[rd]);
   }else if(!l && b){
     appendResult("strb\t r{0},[r{1}, r{2}]\n".format(rd,rb,ro));
-    scope.memory.store(scope.regs[rd],scope.regs[rb]+scope.regs[ro]);
+    scope.memory.store(scope.regs[rb]+scope.regs[ro],scope.regs[rd]);
   }else if(l && !b){
     appendResult("ldr\t r{0},[r{1}, r{2}]\n".format(rd,rb,ro));
     scope.reg[rd] = scope.memory.loadWord(scope.regs[rb]+scope.regs[ro]);
@@ -310,7 +310,7 @@ function format_24(h,s,rd,rb,ro,Reg){
   var signBit = 0;
   if(!l && !b){
     appendResult("strh\t r{0},[r{1}, r{2}]\n".format(rd,rb,ro));
-    scope.memory.storeHalf(scope.regs[rd],scope.regs[rb]+scope.regs[ro]);
+    scope.memory.storeHalf(scope.regs[rb]+scope.regs[ro],scope.regs[rd]);
   }else if(!l && b){
     appendResult("ldrh\t r{0},[r{1}, r{2}]\n".format(rd,rb,ro));
     scope.regs[rd] = scope.memory.loadHalf(scope.regs[rb]+scope.regs[ro]);
@@ -337,7 +337,7 @@ function format_3(instr,scope){
   switch (bl) {
     case 0:
     // STR
-    scope.memory.storeWord(scope.regs[rd],scope.regs[rb]+offset5);
+    scope.memory.storeWord(scope.regs[rb]+offset5,scope.regs[rd]);
     break;
     case 1:
     // LDR
@@ -345,7 +345,7 @@ function format_3(instr,scope){
     break;
     case 2:
     // STRB
-    scope.memory.storeByte(scope.regs[rd],scope.regs[rb]+offset5);
+    scope.memory.storeByte(scope.regs[rb]+offset5,scope.regs[rd]);
     break;
     case 3:
     // LDRB
@@ -368,7 +368,7 @@ function format_4(instr,scope){
     case 0:
     appendResult("{0}\t r{1}, [r{2}, #{3}]\n".format(format40[op], rd, rb, offset5));
     if(!L){
-      scope.memory.storeHalf(scope.regs[rd],scope.regs[rb]+offset5);
+      scope.memory.storeHalf(scope.regs[rb]+offset5,scope.regs[rd]);
     }else{
       scope.regs[rd] = scope.memory.loadHalf(scope.regs[rb]+offset5);
       scope.regs[rd] = scope.regs[rd] & 0xFFFF0000;
@@ -462,7 +462,7 @@ function format_52(instr,scope){
 
       for (var i = ArrayLength - 1; i >= 0; i--) {
         // Memory[SP] = RListArray[i];
-        scope.memory.storeHalf(scope.regs[RListArray[i]],scope.sp);
+        scope.memory.storeHalf(scope.sp,scope.regs[RListArray[i]]);
         scope.sp-=2;
       }
       appendResult("push\t {{0}}\n".format(RListString));
@@ -470,10 +470,10 @@ function format_52(instr,scope){
       break;
       case 1:
       for (var i = ArrayLength - 1; i >= 0; i--) {
-         scope.memory.storeHalf(scope.regs[RListArray[i]],scope.sp);
+         scope.memory.storeHalf(scope.sp,scope.regs[RListArray[i]]);
          scope.sp-=2;
       }
-      scope.memory.storeHalf(scope.regs[14],scope.sp);
+      scope.memory.storeHalf(scope.sp,scope.regs[14]);
       scope.sp-=2;
       appendResult("push\t {{0}, LR}\n".format(RListString));
       break;
@@ -537,7 +537,7 @@ function format_6(instr,scope){
       appendResult("STMI\t r{0}!, {{1}}\n".format(rb,getListString(rlist)));
       var adrs = scope.regs[rb];
       for(var i = 0; i<arr.length; i++){
-        scope.memory.storeWord(scope.regs[arr[i]],adrs);
+        scope.memory.storeWord(adrs,scope.regs[arr[i]]);
         adrs+=4;
       }
       scope.regs[rb] = adrs;
@@ -639,4 +639,9 @@ function format_71(h,offset11,Reg){
 function appendResult(txt){
   var box = $("#result");
   box.val(box.val() + txt);
+}
+
+function appendMachineCode(txt){
+  var box = $("#sourceCode");
+  box.val(box.val() + txt + "\n");
 }
