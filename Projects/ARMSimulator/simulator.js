@@ -175,10 +175,10 @@ function format_2(instr,scope){
         scope.regs[rd] = scope.regs[rd] - scope.regs[rs] - ~scope.flags[1];
         break;
       case 7:
-          // TODO: Check ROR
-          var value =  scope.regs[rs];
-          count &= 32;
-          scope.regs[rd] = (value>>count) | (value<<( (-count) & 32 ));
+          // ROR
+          var moves =  scope.regs[rs];
+          var x = scope.regs[rd];
+          scope.regs[rd] =  (x >> moves) | (x << (32 - moves));
           break;
       case 8:
           // TST
@@ -189,7 +189,7 @@ function format_2(instr,scope){
         scope.regs[rd] = -scope.regs[rs];
         break;
       case 10:
-        // TODO: CHECK CMP
+        // CMP
         condVal = scope.regs[rd] - scope.regs[rs];
         break;
       case 11:
