@@ -45,9 +45,25 @@ function checkHex(n){return/^[0-9A-Fa-f]{1,64}$/.test(n)}
 function pad(s,z){s=""+s;return s.length<z?pad("0"+s,z):s}
 function unpad(s){s=""+s;return s.replace(/^0+/,'')}
 
+// 0010001100000010
+// 0010001000000011
+// 0001111101010011
+
 //Decimal operations
-function Dec2Bin(n){if(!checkDec(n)||n<0)return 0;return n.toString(2)}
-function Dec2Hex(n){if(!checkDec(n)||n<0)return 0;return n.toString(16)}
+function Dec2Bin(n){
+  if(n<0)
+    return (n>>>0).toString(2);
+  if(!checkDec(n))
+    return 0;
+  return n.toString(2)
+}
+function Dec2Hex(n){
+  if(n<0)
+    return (n>>>0).toString(16);
+  if(!checkDec(n))
+    return 0;
+  return n.toString(16)
+}
 
 //Binary Operations
 function Bin2Dec(n){if(!checkBin(n))return 0;return parseInt(n,2).toString(10)}

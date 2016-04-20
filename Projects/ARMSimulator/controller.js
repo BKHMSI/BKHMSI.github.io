@@ -1,4 +1,4 @@
-var app = angular.module("ArmSim", ['BinFilter','HexFilter','MemFilter']);
+var app = angular.module("ArmSim", ['BinFilter','HexFilter','MemFilter','RegNum']);
 
 angular.module('BinFilter', []).filter('BinFilter', function() {
   return function(input) {
@@ -18,20 +18,29 @@ angular.module('MemFilter', []).filter('MemFilter', function() {
   };
 });
 
+angular.module('RegNum', []).filter('RegNum', function() {
+  return function(input) {
+    if(input<8) return input;
+    else if(input == 8) return "SP";
+    else if(input == 9) return "LR";
+    else return "PC";
+  };
+});
+
 app.controller('MainController', ['$scope', '$timeout', 'memory', function ($scope, $timeout, memory){
     $scope.isRunning = false;
     $scope.memory = memory;
     $scope.displayMemory = memory.subset(0,255);
     $scope.error = 'e';
     $scope.speed = 4;
-    $scope.regs = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    $scope.regs = [0,0,0,0,0,0,0,0,0,0,0];
     $scope.flags = [
       0,0,0,0
     ];
     $scope.output = Array(25);
     $scope.memDisplaySize = 255;
     $scope.pc = 0;
-    $scope.sp = 0;
+    $scope.sp = 200;
     $scope.lr = 0;
 
     var index = 0, ic = 0, exit = 0;
@@ -41,6 +50,7 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
         //$scope.pc = $scope.sp = $scope.lr = 0;
         $("#sourceCode").val("");
         $("#result").val("");
+        $scope.error = 'e';
         $scope.selectedLine = -1;
         for(var i = 0; i<16; i++) $scope.regs[i] = 0;
         for(var i = 0; i< 4; i++) $scope.flags[i] = 0;
@@ -97,33 +107,43 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
 
     $scope.run = function(){
       // Decoding Then Executing Each Instruction
-      if(!isMemoryLoaded())
-          load();
-      var instr = parseInt(memory.loadHalf($scope.pc));
-      while(instr != 0xDEAD && !isSWI(instr) && lastSWI == -1 && !exit){
-        decode(instr,$scope);
-        $scope.pc+=2;
-        instr = parseInt(memory.loadHalf($scope.pc));
-        if(isSWI(instr)) break;
+      try{
+        if(!isMemoryLoaded())
+            load();
+        var instr = parseInt(memory.loadHalf($scope.pc));
+        while(instr != 0xDEAD && !isSWI(instr) && lastSWI == -1 && !exit){
+          decode(instr,$scope);
+          $scope.pc+=2;
+          instr = parseInt(memory.loadHalf($scope.pc));
+          if(isSWI(instr)) break;
+        }
+        updateSpecialRegs();
+      }catch(err){
+        $scope.error = err.message;
       }
-      updateSpecialRegs();
+
     };
 
     $scope.step = function(){
-      if(!isMemoryLoaded())
-          load();
-      var instr = parseInt(memory.loadHalf($scope.pc));
-      if(instr != 0xDEAD && !isSWI(instr) && lastSWI == -1 && !exit){
-        decode(instr,$scope);
-        $scope.pc+=2;
+      try{
+        if(!isMemoryLoaded())
+            load();
+        var instr = parseInt(memory.loadHalf($scope.pc));
+        if(instr != 0xDEAD && !isSWI(instr) && lastSWI == -1 && !exit){
+          decode(instr,$scope);
+          $scope.pc+=2;
+        }
+        updateSpecialRegs();
+      }catch(err){
+        $scope.error = err.message;
       }
-      updateSpecialRegs();
+
     };
 
     updateSpecialRegs = function(){
-      $scope.regs[15] = $scope.pc;
-      $scope.regs[14] = $scope.lr;
-      $scope.regs[13] = $scope.sp;
+      $scope.regs[10] = $scope.pc;
+      $scope.regs[9] = $scope.lr;
+      $scope.regs[8] = $scope.sp;
     };
 
     getChar = function (value) {
@@ -146,10 +166,10 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
         var value = swi[swi.length-1].trim();
         switch (lastSWI) {
           case 2:
-            $scope.regs[1] = parseInt(value);
+            $scope.regs[0] = parseInt(value);
             break;
           case 3:
-            $scope.regs[1] = value.charCodeAt(0);
+            $scope.regs[0] = value.charCodeAt(0);
             break;
           case 4:
             var adrs = $scope.regs[0];
@@ -223,29 +243,26 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
           if(match[i]){
             console.log(match[i]);
           }
+          console.log(0xFFFFF000>>>4);
         }
     }
 
     $scope.assemble = function(){
       var instructions = $("#result").val();
       var instr = instructions.split("\n");
-      appendMachineCode(200);
-      appendMachineCode(0);
-      appendMachineCode(0);
-      appendMachineCode(0);
-      appendMachineCode(8);
-      appendMachineCode(0);
-      appendMachineCode(0);
-      appendMachineCode(0);
-      var regex = /^[\t ]*(?:([.A-Za-z]\w*)[:])?(?:[\t ]*([A-Za-z]{2,4})(?:[\t ]+(\[(\w+((\+|-)\d+)?)\]|\".+?\"|\'.+?\'|[.A-Za-z0-9]\w*)(?:[\t ]*[,][\t ]*(\[(\w+((\+|-)\d+)?)\]|\".+?\"|\'.+?\'|[.A-Za-z0-9]\w*))?)?)?/;
+      appendHeader();
+      var regex = /^[\t ]*(?:([.A-Za-z]\w*)[:])?(?:[\t\s]*([A-Za-z]{2,4})(?:[\t ]+(\[(\w+((\+|-)\d+)?)\]|\".+?\"|\'.+?\'|[.A-Za-z0-9]\w*)(?:[\t ]*[,][\t ]*(\[(\w+((\+|-)\d+)?)\]|\".+?\"|\'.+?\'|[#-Za-z0-9]\w*))?)?)?/;
       for(var i = 0; i<instr.length; i++){
-        var match = regex.exec(instr[i]);
-        var binary = 0;
-        if(match[2] == "SWI"){
-          appendMachineCode(parseInt(match[3]));
-          appendMachineCode(223);
+        if(instr[i] != ""){
+          var match = regex.exec(instr[i]);
+          if(instr[i][0].toLowerCase() == 'b')
+              match[3] = instr[i].split(' ')[1];
+          printMatch(match);
+          assembler(match);
         }
       }
+      appendMachineCode(0xAD);
+      appendMachineCode(0xDE);
     };
 }]);
 
@@ -257,4 +274,253 @@ test = function(scope){
     scope.output[1] = 0;
     scope.output[2] = 'B';
     scope.memory.storeHalf(4,1511);
+}
+
+function appendHeader(){
+  appendMachineCode(200);
+  appendMachineCode(0);
+  appendMachineCode(0);
+  appendMachineCode(0);
+  appendMachineCode(8);
+  appendMachineCode(0);
+  appendMachineCode(0);
+  appendMachineCode(0);
+}
+
+assembler = function(match){
+  switch (match[2].toLowerCase()) {
+    case "swi":
+      appendMachineCode(parseInt(match[3]));
+      appendMachineCode(223);
+      break;
+    case "mov":
+      // 001000
+      appendMachineCode(parseInt(match[7].replace("#","")));
+      var reg =  parseInt(match[3].toLowerCase().replace("r",""));
+      var format = 4*8 + reg;
+      appendMachineCode(format);
+      break;
+    case "cmp":
+      // 00101
+      appendMachineCode(parseInt(match[7].replace("#","")));
+      var reg =  parseInt(match[3].toLowerCase().replace("r",""));
+      var format = 5*8 + reg;
+      appendMachineCode(format);
+     break;
+    case "add":
+      // 00110
+      appendMachineCode(parseInt(match[7].replace("#","")));
+      var reg =  parseInt(match[3].toLowerCase().replace("r",""));
+      var format = 6*8 + reg;
+      appendMachineCode(format)
+      break;
+    case "sub":
+      // 00111
+      appendMachineCode(parseInt(match[7].replace("#","")));
+      var reg =  parseInt(match[3].toLowerCase().replace("r",""));
+      var format = 7*8 + reg;
+      appendMachineCode(format)
+      break;
+
+    case "and":
+      // 01000000
+      var rd =  parseInt(match[3].toLowerCase().replace("r",""));
+      var rs =  parseInt(match[7].toLowerCase().replace("r",""));
+      var lower = rs*8 + rd;
+      appendMachineCode(lower);
+      appendMachineCode(64);
+      break;
+    case "eor":
+      // 00111
+      var rd =  parseInt(match[3].toLowerCase().replace("r",""));
+      var rs =  parseInt(match[7].toLowerCase().replace("r",""));
+      var lower = rs*8 + rd + (1<<6);
+      appendMachineCode(lower);
+      appendMachineCode(64);
+      break;
+    case "lsl":
+      // 00111
+      var rd =  parseInt(match[3].toLowerCase().replace("r",""));
+      var rs =  parseInt(match[7].toLowerCase().replace("r",""));
+      var lower = rs*8 + rd + (1<<7);
+      appendMachineCode(lower);
+      appendMachineCode(64);
+      break;
+    case "lsr":
+      // 00111
+      var rd =  parseInt(match[3].toLowerCase().replace("r",""));
+      var rs =  parseInt(match[7].toLowerCase().replace("r",""));
+      var lower = rs*8 + rd + (3<<6);
+      appendMachineCode(lower);
+      appendMachineCode(64);
+      break;
+    case "asr":
+      // 00111
+      var rd =  parseInt(match[3].toLowerCase().replace("r",""));
+      var rs =  parseInt(match[7].toLowerCase().replace("r",""));
+      var lower = rs*8 + rd;
+      appendMachineCode(lower);
+      appendMachineCode(65);
+      break;
+    case "adc":
+      // 00111
+      var rd =  parseInt(match[3].toLowerCase().replace("r",""));
+      var rs =  parseInt(match[7].toLowerCase().replace("r",""));
+      var lower = rs*8 + rd + (1<<6);
+      appendMachineCode(lower);
+      appendMachineCode(65);
+      break;
+    case "sbc":
+      // 00111
+      var rd =  parseInt(match[3].toLowerCase().replace("r",""));
+      var rs =  parseInt(match[7].toLowerCase().replace("r",""));
+      var lower = rs*8 + rd + (1<<7);
+      appendMachineCode(lower);
+      appendMachineCode(65);
+      break;
+    case "ror":
+      // 00111
+      var rd =  parseInt(match[3].toLowerCase().replace("r",""));
+      var rs =  parseInt(match[7].toLowerCase().replace("r",""));
+      var lower = rs*8 + rd + (3<<6);
+      appendMachineCode(lower);
+      appendMachineCode(65);
+      break;
+    case "tst":
+      // 00111
+      var rd =  parseInt(match[3].toLowerCase().replace("r",""));
+      var rs =  parseInt(match[7].toLowerCase().replace("r",""));
+      var lower = rs*8 + rd;
+      appendMachineCode(lower);
+      appendMachineCode(66);
+      break;
+    case "neg":
+      // 00111
+      var rd =  parseInt(match[3].toLowerCase().replace("r",""));
+      var rs =  parseInt(match[7].toLowerCase().replace("r",""));
+      var lower = rs*8 + rd + (1<<6);
+      appendMachineCode(lower);
+      appendMachineCode(66);
+      break;
+    case "cmp":
+      // 00111
+      var rd =  parseInt(match[3].toLowerCase().replace("r",""));
+      var rs =  parseInt(match[7].toLowerCase().replace("r",""));
+      var lower = rs*8 + rd + (1<<7);
+      appendMachineCode(lower);
+      appendMachineCode(66);
+      break;
+    case "cmn":
+      // 00111
+      var rd =  parseInt(match[3].toLowerCase().replace("r",""));
+      var rs =  parseInt(match[7].toLowerCase().replace("r",""));
+      var lower = rs*8 + rd + (3<<6);
+      appendMachineCode(lower);
+      appendMachineCode(66);
+      break;
+    case "orr":
+      // 00111
+      var rd =  parseInt(match[3].toLowerCase().replace("r",""));
+      var rs =  parseInt(match[7].toLowerCase().replace("r",""));
+      var lower = rs*8 + rd;
+      appendMachineCode(lower);
+      appendMachineCode(67);
+      break;
+    case "mul":
+      // 00111
+      var rd =  parseInt(match[3].toLowerCase().replace("r",""));
+      var rs =  parseInt(match[7].toLowerCase().replace("r",""));
+      var lower = rs*8 + rd + (1<<6);
+      appendMachineCode(lower);
+      appendMachineCode(67);
+      break;
+    case "bic":
+      // 00111
+      var rd =  parseInt(match[3].toLowerCase().replace("r",""));
+      var rs =  parseInt(match[7].toLowerCase().replace("r",""));
+      var lower = rs*8 + rd + (1<<7);
+      appendMachineCode(lower);
+      appendMachineCode(67);
+      break;
+    case "mvn":
+      // 00111
+      var rd =  parseInt(match[3].toLowerCase().replace("r",""));
+      var rs =  parseInt(match[7].toLowerCase().replace("r",""));
+      var lower = rs*8 + rd + (3<<6);
+      appendMachineCode(lower);
+      appendMachineCode(67);
+      break;
+
+    case "beq":
+      var rd =  parseInt(match[3].toLowerCase());
+      appendMachineCode(rd);
+      appendMachineCode(parseInt(Bin2Dec("11010000")));
+      break;
+    case "bne":
+      var rd =  parseInt(match[3].toLowerCase());
+      appendMachineCode(rd);
+      appendMachineCode(parseInt(Bin2Dec("11010001")));
+      break;
+    case "bcs":
+      var rd =  parseInt(match[3].toLowerCase());
+      appendMachineCode(rd);
+      appendMachineCode(parseInt(Bin2Dec("11010010")));
+      break;
+    case "bcc":
+      var rd =  parseInt(match[3].toLowerCase());
+      appendMachineCode(rd);
+      appendMachineCode(parseInt(Bin2Dec("11010011")));
+      break;
+    case "bmi":
+      var rd =  parseInt(match[3].toLowerCase());
+      appendMachineCode(rd);
+      appendMachineCode(parseInt(Bin2Dec("11010100")));
+      break;
+    case "bpl":
+      var rd =  parseInt(match[3].toLowerCase());
+      appendMachineCode(rd);
+      appendMachineCode(parseInt(Bin2Dec("11010101")));
+      break;
+    case "bvs":
+      var rd =  parseInt(match[3].toLowerCase());
+      appendMachineCode(rd);
+      appendMachineCode(parseInt(Bin2Dec("11010110")));
+      break;
+    case "bvc":
+      var rd =  parseInt(match[3].toLowerCase());
+      appendMachineCode(rd);
+      appendMachineCode(parseInt(Bin2Dec("11010111")));
+      break;
+    case "bhi":
+      var rd =  parseInt(match[3].toLowerCase());
+      appendMachineCode(rd);
+      appendMachineCode(parseInt(Bin2Dec("11011000")));
+      break;
+    case "bls":
+      var rd =  parseInt(match[3].toLowerCase());
+      appendMachineCode(rd);
+      appendMachineCode(parseInt(Bin2Dec("11011001")));
+      break;
+    case "bge":
+      var rd =  parseInt(match[3].toLowerCase());
+      appendMachineCode(rd);
+      appendMachineCode(parseInt(Bin2Dec("11011010")));
+      break;
+    case "blt":
+      var rd =  parseInt(match[3].toLowerCase());
+      appendMachineCode(rd);
+      appendMachineCode(parseInt(Bin2Dec("11011011")));
+      break;
+    case "bgt":
+      var rd =  parseInt(match[3].toLowerCase());
+      appendMachineCode(rd);
+      appendMachineCode(parseInt(Bin2Dec("11011100")));
+      break;
+    case "ble":
+      var rd =  parseInt(match[3].toLowerCase());
+      appendMachineCode(rd);
+      appendMachineCode(parseInt(Bin2Dec("11011101")));
+      break;
+    default:
+  }
 }

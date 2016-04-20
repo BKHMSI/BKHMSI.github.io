@@ -52,7 +52,7 @@
                             <form role="form">
                                 <textarea id="sourceCode"
                                           class="form-control source-code"
-                                          placeholder="Enter Instructions in Decimal (base 10)"
+                                          placeholder="Enter Machine Code Instructions in Decimal (base 10)"
                                           style="margin-bottom:5px;"
                                           rows="15"
                                           tab-support
@@ -60,9 +60,10 @@
                                           ng-mode='code'></textarea>
                                 <textarea id="result"
                                           class="form-control source-code"
+                                          placeholder="Enter ARM Thumb Assembly Code"
                                           style="margin-bottom:5px;"
                                           ng-keydown="processSWI($event)"
-                                          rows="20"
+                                          rows="21"
                                           tab-support
                                           select-line
                                           ng-mode='code'></textarea>
@@ -101,24 +102,12 @@
                                        <th style="text-align:center">C</th>
                                        <th style="text-align:center">N</th>
                                        <th style="text-align:center">V</th>
-                                       <th style="text-align:center">PC</th>
-                                       <th style="text-align:center">SP</th>
-                                       <th style="text-align:center">LR</th>
                                    </tr>
                                </thead>
                                <tbody>
                                    <tr style="text-align:center;" class="source-code">
                                        <td ng-repeat="f in flags track by $index">
                                          <div style="margin:auto;" ng-class="displayA && 'marker marker-a'"><small>{{ f }}</small></div>
-                                       </td>
-                                       <td>
-                                         <div style="margin:auto;" ng-class="displayA && 'marker marker-a'"><small>{{ pc }}</small></div>
-                                       </td>
-                                       <td>
-                                         <div style="margin:auto;" ng-class="displayA && 'marker marker-a'"><small>{{ sp }}</small></div>
-                                       </td>
-                                       <td>
-                                         <div style="margin:auto;" ng-class="displayA && 'marker marker-a'"><small>{{ lr }}</small></div>
                                        </td>
                                    </tr>
                                </tbody>
@@ -142,7 +131,7 @@
                             </thead>
                             <tbody>
                                 <tr style="text-align:center;" class="source-code" ng-repeat="reg in regs track by $index">
-                                    <td><div style="margin:auto;" ng-class="displayA && 'marker marker-a'"><small>{{ $index }}</small></div></td>
+                                    <td><div style="margin:auto;" ng-class="displayA && 'marker marker-a'"><small>{{ $index | RegNum }}</small></div></td>
                                     <td><div style="margin:auto;" ng-class="displayB && 'marker marker-b'"><small>{{ reg | BinFilter}}</small></div></td>
                                     <td><div style="margin:auto;" ng-class="displayC && 'marker marker-c'"><small>{{ reg | HexFilter}}</small></div></td>
                                     <td><div style="margin:auto;" ng-class="displayD && 'marker marker-d'"><small>{{ reg }}</small></div></td>
