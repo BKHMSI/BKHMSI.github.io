@@ -87,10 +87,11 @@ function isCarry(x,y){
 }
 
 function isShiftOverflow(x,y){
-  var j = 0;
+  var j = -1;
   for(var i = 0; i<32; i++)
       if(x>>i) j = i;
-  return (32-j)>=y;
+  if(j == -1) return 0;
+  return (32-j)<=y;
 }
 
 function format_0(instr,scope){
@@ -738,9 +739,9 @@ function appendMachineCode(txt){
 
 // swi 2
 // orr r1, r0
-// cmp r1, #0
-// beq 8
-// mul r0, r1
+// cmp r1, #1
+// beq 6
 // sub r1, #1
-// bne -8
+// mul r0, r1
+// bne -10
 // swi 1
