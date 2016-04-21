@@ -177,6 +177,7 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
               var ascii = value.charCodeAt(i);
               memory.store(adrs++,ascii);
             }
+            memory.store(adrs++,0);
             break;
           default:
         }
@@ -257,6 +258,12 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
           var match = regex.exec(instr[i]);
           if(instr[i][0].toLowerCase() == 'b')
               match[3] = instr[i].split(' ')[1];
+          else if((instr[i].indexOf("str") != -1) || (instr[i].indexOf("ldr") != -1)){
+              var tmp = instr[i].split('[')[1];
+              tmp = tmp.replace("]","");
+              match[7] = tmp.split(",")[0];
+              match[8] = tmp.split(",")[1];
+          }
           printMatch(match);
           assembler(match);
         }
@@ -521,6 +528,43 @@ assembler = function(match){
       appendMachineCode(rd);
       appendMachineCode(parseInt(Bin2Dec("11011101")));
       break;
+
+    case "str":
+      if(match[8].indexOf("#") != -1){
+        var rd =  parseInt(match[3].toLowerCase().replace("r",""));
+        var rb =  parseInt(match[7].toLowerCase().replace("r",""));
+        var ro =  parseInt(match[8].toLowerCase().replace("#",""));
+        var upper = imm & 0x1c;
+        var lower = rd + rb*8 + ((imm&3)<<6);
+        appendMachineCode(lower);
+        appendMachineCode(parseInt(Bin2Dec("01100")<<3)+upper);
+      }else{
+        var rd =  parseInt(match[3].toLowerCase().replace("r",""));
+        var rb =  parseInt(match[7].toLowerCase().replace("r",""));
+        var ro =  parseInt(match[8].toLowerCase().replace("r",""));
+        var lower = rd + rb*8 + (ro*64 & 3)
+        appendMachineCode(lower);
+        appendMachineCode(parseInt(Bin2Dec("0101000")<<1)+((ro&4)>>2));
+      }
+      break;
+    case "ldr":
+    if(match[8].indexOf("#") != -1){
+      var rd =  parseInt(match[3].toLowerCase().replace("r",""));
+      var rb =  parseInt(match[7].toLowerCase().replace("r",""));
+      var imm =  parseInt(match[8].toLowerCase().replace("#",""));
+      var upper = imm & 0x1c;
+      var lower = rd + rb*8 + ((imm&3)<<6);
+      appendMachineCode(lower);
+      appendMachineCode(parseInt(Bin2Dec("01101")<<3)+upper);
+    }else{
+      var rd =  parseInt(match[3].toLowerCase().replace("r",""));
+      var rb =  parseInt(match[7].toLowerCase().replace("r",""));
+      var ro =  parseInt(match[8].toLowerCase().replace("r",""));
+      var lower = rd + rb*8 + (ro*64 & 3)
+      appendMachineCode(lower);
+      appendMachineCode(parseInt(Bin2Dec("0101100")<<1)+((ro&4)>>2));
+    }
+    break;
     default:
   }
 }

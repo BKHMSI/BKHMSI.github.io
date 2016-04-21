@@ -9,7 +9,7 @@ var format30 = ["str","ldr","strb","ldrb"];
 var format61 = ["beq","bne","bcs","bcc","bmi","bpl","bvs","bvc","bhi","bls","bge","blt","bgt","ble"];
 var format40 = ["strh", "ldrh"];
 var format41 = ["str", "ldr"];
-var format50 = ["pc", "sp"];
+var format50 = ["PC", "SP"];
 var condVal = 0;
 
 function PC(scope){ return scope.regs[10]; }
@@ -64,7 +64,7 @@ String.prototype.format = function() {
 
 function setConditionFlags(scope){
   scope.flags[0] = (condVal == 0) ? 1:0;
-  scope.flags[1] = (condVal>>31 == 2) ? 1:0;
+  scope.flags[1] = (condVal>=0xFFFFFFFF) ? 1:0;
   scope.flags[2] = (condVal < 0) ? 1:0;
   scope.flags[3] = overflow ? 1:0;
 }
@@ -81,9 +81,7 @@ function isOverFlow(x,y,z){
 function isCarry(x,y){
   if((x >= 0 && y < 0) || (x < 0 && y >= 0))
       return 0; // no carry if opposite signs
-  if(x < 0&& y < 0)
-      return parseInt((parseInt(x) + parseInt(y))>>32 & 1 == 0); // carry for negative if bit zero
-  return (parseInt(x) + parseInt(y))>>32 & 1;
+  return x+y>=0xFFFFFFFF;
 }
 
 function isShiftOverflow(x,y){
@@ -448,7 +446,7 @@ function format_41(instr,scope){
 function format_5(instr,scope){
   var op = (instr >> 12) & 1;
   var src = (instr >> 11) & 1;
-  var rd = (instr >> 8) & 3;
+  var rd = (instr >> 8) & 7;
   var word8 = instr & 8;
 
   switch (op) {
@@ -479,16 +477,15 @@ function format_51(instr,scope){
 
     switch(S){
       case 0:
-      scope.sp = scope.sp + SWord7;
-      appendResult("add\t SP, #{0}\n".format(SWord7));
+      scope.sp = scope.sp + (SWord7<<2);
+      appendResult("add\t SP, #{0}\n".format(SWord7<<2));
       break;
       case 1:
-      scope.sp = scope.sp - SWord7;
-      appendResult("add\t SP, #-{0}\n".format(SWord7));
+      scope.sp = scope.sp - (SWord7<<2);
+      appendResult("add\t SP, #-{0}\n".format(SWord7<<2));
       break;
     }
     break;
-
     default:
     format_52(instr,scope);
     break;
@@ -541,13 +538,14 @@ function format_52(instr,scope){
       break;
       case 1:
 
+      scope.sp+=4;
+      scope.pc = scope.memory.loadWord(scope.sp);
+
       for (var i = 0; i < ArrayLength; i++) {
         scope.sp+=4;
         scope.regs[RListArray[i]] = scope.memory.loadWord(scope.sp);
       }
 
-      scope.sp+=4;
-      scope.pc = scope.memory.loadWord(scope.pc,scope.sp);
 
       appendResult("pop\t {{0}, PC}\n".format(RListString));
       break;
@@ -610,7 +608,7 @@ function getListString(list){
            for(j = i; j<8; j++)
                if(!(list>>j & 1))
                   break;
-           if(i == j) result+=("r{0}".format(i));
+           if(i == j-1) result+=("r{0}".format(i));
            else result+=("r{0}-r{1}".format(i,j-1));
            if(j < 7) result+=",";
            i = j;
@@ -682,7 +680,7 @@ function format_7(instr,scope){
     // Format 19
     h = (instr >> 11) & 1;
     offset11 = (instr) & 0x7FF;
-    format_71(h,offset11,scope.regs);
+    format_71(h,offset11,scope);
   }else{
     // Format 18
     //Branch PC relative +/- Offset11 << 1, where label is PC +/- 2048 bytes.
@@ -697,10 +695,10 @@ function format_7(instr,scope){
   }
 }
 
-function format_71(h,offset11,Reg){
-  if(h){
+function format_71(h,offset11,scope){
+  if(!h){
     //LR := PC + OffsetHigh << 12
-    scope.lr = scope.pc + (offset11<<12);
+    scope.lr = scope.pc+2 + (offset11<<12);
     appendResult("BL\t 0x{0}\n".format(Dec2Hex(offset11).toUpperCase()));
   }else{
     //temp := next instruction address
@@ -708,7 +706,7 @@ function format_71(h,offset11,Reg){
     //LR := temp | 1
     var tmp = scope.pc+2;
     scope.pc = scope.lr + (offset11<<1);
-    scope.lr = scope.pc | 1;
+    //scope.lr = scope.pc | 1;
   }
 }
 

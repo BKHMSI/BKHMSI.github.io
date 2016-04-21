@@ -136,7 +136,11 @@ function readFile(evt) {
       var read = new FileReader();
       read.onload = function(e){
         var contents = e.target.result;
-        $("#sourceCode").val(contents);
+        var data =  new Uint8Array(contents);
+        for(var i = 0; i<data.length; i++){
+          appendMachineCode(data[i]);
+        }
+        //$("#sourceCode").val(contents);
         // for(var i = 0; i<contents.length; i+=2){
         //   $("#sourceCode").append(pad(contents.charCodeAt(i).toString(2),8));
         //   if(i%2)
@@ -145,7 +149,8 @@ function readFile(evt) {
         //     $("#sourceCode").append(pad(contents.charCodeAt(i+1).toString(2),8)+'\n');
         // }
     }
-    read.readAsBinaryString(file);
+    //read.readAsBinaryString(file);
+    read.readAsArrayBuffer(file);
   } else {
     alert("Failed to load file");
   }
