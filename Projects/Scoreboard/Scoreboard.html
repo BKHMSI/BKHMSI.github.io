@@ -1,31 +1,110 @@
 <!Doctype HTML>
-<html>
+<html ng-app="Scoreboard">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"/></script>
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <script type="text/javascript"
+         src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js">
+        </script>
+        <script type="text/javascript"
+         src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js">
+        </script>
+        <script type="text/javascript"
+         src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
+        </script>
+        <script type="text/javascript"
+         src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.pt-BR.js">
+        </script>
+        <link href="Scoreboard.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" media="screen"
+         href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.js"></script>
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.css">
+        <script type="text/javascript" charset="utf8" src="app.js"></script>
+        <script type="text/javascript" charset="utf8" src="main-controller.js"></script>
         <script type="text/javascript" charset="utf8" src="Scoreboard.js"></script>
         <script type="text/javascript" charset="utf8" src="date.js"></script>
-        <link href="Scoreboard.css" rel="stylesheet" type="text/css" />
         <title>Codeforces Scoreboard</title>
+
     </head>
 
-    <body>
-      <div id="devMode">
-        <textarea id="handles" placeholder="Users Codeforces Handles"></textarea>
-        <textarea id="problems" placeholder="Problems"></textarea>
-        <input type="datetime" id="sDate" class="input" placeholder="Start Datetime"/>
-        <input type="datetime" id="eDate" class="input" placeholder="End Datetime"/><br>
-        <input placeholder="# of Problems" class="input" type="text" id="count"/>
-        <button class="btn" onclick="run()">Generate Table</button>
-        <button class="btn" onclick="filter()">Filter</button>
-        <button class="btn" onclick="dateFilter()">Get Problem With Time</button>
-        <button class="btn" onclick="preparation()">Best Prepared</button>
+    <body ng-controller="MainController" style="background-color:lightgray">
+      <nav class="navbar navbar-inverse" role="navigation" style="background-color:black;border:0px;border-radius:0px;">
+          <div class="container">
+              <div class="navbar-header">
+                <a class="navbar-brand" style="color:#FFFFFF">Codeforces Scoreboard</a>
+              </div>
+              <div class="navbar-header navbar-right">
+                <a class="navbar-brand" style="color:#FFFFFF"><small>&copy; Badr AlKhamissi</small></a>
+              </div>
+          </div>
+      </nav>
+
+      <div class="container">
+        <div id="devMode">
+          <!-- <div class="alert alert-danger" ng-hide="error === 'e'">{{error}}</div> -->
+          <div class="row">
+              <div class="col-lg-6 col-md-6">
+                  <div class="panel panel-default">
+                      <div class="panel-heading">
+                          <h4 class="panel-title">Handles</h4>
+                      </div>
+                      <div class="panel-body">
+                          <form role="form">
+                              <textarea id="handles"
+                                        class="form-control"
+                                        placeholder="Users Codeforces Handles"
+                                        style="margin-bottom:5px;"
+                                        rows="15"
+                                        tab-support
+                                        select-line></textarea>
+                            </form>
+                        </div>
+                  </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                  <div class="panel panel-default">
+                      <div class="panel-heading">
+                          <h4 class="panel-title">Problems</h4>
+                      </div>
+                      <div class="panel-body">
+                          <form role="form">
+                              <textarea id="problems"
+                                        class="form-control"
+                                        placeholder="Problems"
+                                        style="margin-bottom:5px;"
+                                        rows="15"
+                                        tab-support
+                                        select-line></textarea>
+                            </form>
+                        </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row" align="center">
+            <div class="input-append date" style="display:inline-block">
+              <input type="text" id="sDate"  placeholder="Start Datetime" style="height:200%"/>
+            </div>
+            <div  class="input-append date">
+              <input type="text" id="eDate" placeholder="End Datetime" style="height:200%"/>
+            </div>
+            <input placeholder="# of Problems (Optional)" class="input" type="text" id="count"/>
+            <br><a onClick="window.open('http://www.onlineconversion.com/unix_time.htm', '_blank')">Convert to UNIX</a>
+          </div>
+          <div class="row" style="margin:auto 0;">
+            <button type="button" class="btn btn-success navbar-btn" onclick="run()">Generate Table</button>
+            <button type="button" class="btn btn-default" onclick="filter()">Filter</button>
+            <button type="button" class="btn btn-default" onclick="dateFilter()">Get Problem With Time</button>
+            <button type="button" class="btn btn-default" onclick="preparation()">Best Prepared</button>
+          </div>
+        </div>
+        <br>
+        <input type="checkbox" id="hideCB" value="Hide" onchange="hideShow()">
+        <span>Contest Mode</span>
+        <div id="scoreboard" style="padding:100px"></div>
       </div>
-      <br>
-      <input type="checkbox" id="hideCB" value="Hide" onchange="hideShow()">
-      <span>Contest Mode</span>
-      <div id="scoreboard" style="padding:100px"></div>
     </body>
 </html>

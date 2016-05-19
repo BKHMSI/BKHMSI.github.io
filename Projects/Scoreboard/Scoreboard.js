@@ -189,7 +189,7 @@ function dateFilter(){
   getProblemsDate(handles,problem);
 }
 
-function bestPrepared(handles, max){
+function bestPrepared(handles, max,start,end){
   html = "<table id=\"table_id\" class=\"display\"><thead><tr>";
   html+=("<td> Handle </td>");
   html+=("<td> Count </td>");
@@ -202,8 +202,9 @@ function bestPrepared(handles, max){
         var problem = json.result[k].problem.name;
         var verdict = json.result[k].verdict;
         var time = json.result[k].creationTimeSeconds;
-        var myDate = new Date(time * 1000);
-        count++;
+        if(time >= start && time <= end){
+          count++;
+        }
     }
     html+="<td>"+count+"</td>";
     html+="</tr>";
@@ -217,8 +218,12 @@ function bestPrepared(handles, max){
 function preparation(){
   html = "";
   var usersText = $("#handles").val();
+  var startTime = $("#sDate").val();
+  var endTime = $("#eDate").val();
+  var start = parseInt(startTime);
+  var end  = parseInt(endTime);
   var handles = usersText.split("\n");
-  bestPrepared(handles,150);
+  bestPrepared(handles,150,start,end);
 }
 
 function run(){
