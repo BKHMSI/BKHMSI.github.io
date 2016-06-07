@@ -102,6 +102,11 @@ textarea{
   word-spacing: 0px;
 }
 
+#result{
+  transition: all 2s;
+  -webkit-transition: all 2s; /* Safari */
+}
+
 label{
   color: rgb(119, 119, 119);
   display: block;

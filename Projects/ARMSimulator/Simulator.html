@@ -39,12 +39,14 @@
                 <div class="col-lg-7 col-md-6">
                     <div class="panel panel-default">
                         <div class="panel-heading" style="height:60px">
-                            <h4 class="panel-title">Code <small>(<a href="https://github.com/BKHMSI/ARM-Thumb-Simulator/blob/master/thumb-isa.pdf" target="_blank" style="color: #337AB7">Instruction Set</a>)</small></h4>
+                            <h4 class="panel-title">Code <small>(<a href="https://ece.uwaterloo.ca/~ece222/ARM/ARM7-TDMI-manual-pt3.pdf" target="_blank" style="color: #337AB7">Instruction Set</a>)</small></h4>
                             <select class="sel" style="display:inline; margin-top:7px" id="instType" onChange="displayPlaceHolder(value);">
                               <option value="0">Binary</option>
                               <option value="1">Hexadecimal</option>
                               <option value="2" selected="selected">Decimal</option>
                             </select>
+                            <small style="color:black">&nbsp;&nbsp;Hide Machine Code</small>
+                            <input type="checkbox" ng-model="hideMachineCode" ng-change="expandAssmbly()"/>
                             <input class="inputfile" type="file" id="fileinput"/>
                             <script>document.getElementById('fileinput').addEventListener('change', readFile, false);</script>
                         </div>
@@ -57,6 +59,7 @@
                                           rows="15"
                                           tab-support
                                           select-line
+                                          ng-hide="hideMachineCode"
                                           ng-mode='code'></textarea>
                                 <textarea id="result"
                                           class="form-control source-code"
@@ -160,41 +163,118 @@
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4 class="panel-title">Converters</h4>
+                    <h4 class="panel-title">Convertors</h4>
+                </div>
+              <div class="panel-body">
+                <table width="100%">
+                  <tr>
+                    <td>
+                      <div style="display:inline">
+                        <label> Convert From: </label>
+                        <select class="sel" id="cvtFromType" onChange="displayPlaceHolder(value);">
+                          <option value="0">Binary</option>
+                          <option value="1">Hexadecimal</option>
+                          <option value="2">Decimal</option>
+                        </select>
+                        <input class="txtbox" type="text" id="cvtFrom" placeholder="Binary"/>
+                      </div>
+                    </td>
+                    <td align="center"><button onclick="convert()" class="btn">Convert</button></td>
+                    <td>
+                      <div style="float:right;">
+                        <label> Convert To: </label>
+                        <select class="sel" id="cvtToType" onChange="displayPlaceHolder(value);">
+                          <option value="0">Binary</option>
+                          <option value="1">Hexadecimal</option>
+                          <option value="2">Decimal</option>
+                        </select>
+                        <input class="txtbox" type="text" id="cvtTo" placeholder="Hexadecimal"/>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+          </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">IEEE 754 Floating Point Convertor  <small>(Still Not Working)</small></h4>
                 </div>
                 <div class="panel-body">
-                  <table width="100%">
+                  <table width="70%" cellSpacing="5px" style="color:black" cellPadding="5px;" align="center" border="0">
+                    <tr style="color:black">
+                      <td colspan="1">S</td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                      <td colspan="8" align="center">Exponent</td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                      <td colspan="23" align="center">Mantissa</td>
+                    </tr>
                     <tr>
-                      <td>
-                        <div style="display:inline">
-                          <label> Convert From: </label>
-                          <select class="sel" id="cvtFromType" onChange="displayPlaceHolder(value);">
-                            <option value="0">Binary</option>
-                            <option value="1">Hexadecimal</option>
-                            <option value="2">Decimal</option>
-                          </select>
-                          <input class="txtbox" type="text" id="cvtFrom" placeholder="Binary"/>
-                        </div>
+                      <td><input type="checkbox" value="s"></td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                      <td><input type="checkbox" value="e1"></td>
+                      <td><input type="checkbox" value="e2"></td>
+                      <td><input type="checkbox" value="e3"></td>
+                      <td><input type="checkbox" value="e4"></td>
+                      <td><input type="checkbox" value="e5"></td>
+                      <td><input type="checkbox" value="e6"></td>
+                      <td><input type="checkbox" value="e7"></td>
+                      <td><input type="checkbox" value="e8"></td>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                      <td><input type="checkbox" value="m1"></td>
+                      <td><input type="checkbox" value="m2"></td>
+                      <td><input type="checkbox" value="m3"></td>
+                      <td><input type="checkbox" value="m4"></td>
+                      <td><input type="checkbox" value="m5"></td>
+                      <td><input type="checkbox" value="m6"></td>
+                      <td><input type="checkbox" value="m7"></td>
+                      <td><input type="checkbox" value="m8"></td>
+                      <td><input type="checkbox" value="m9"></td>
+                      <td><input type="checkbox" value="m10"></td>
+                      <td><input type="checkbox" value="m11"></td>
+                      <td><input type="checkbox" value="m12"></td>
+                      <td><input type="checkbox" value="m13"></td>
+                      <td><input type="checkbox" value="m14"></td>
+                      <td><input type="checkbox" value="m15"></td>
+                      <td><input type="checkbox" value="m16"></td>
+                      <td><input type="checkbox" value="m17"></td>
+                      <td><input type="checkbox" value="m18"></td>
+                      <td><input type="checkbox" value="m19"></td>
+                      <td><input type="checkbox" value="m20"></td>
+                      <td><input type="checkbox" value="m21"></td>
+                      <td><input type="checkbox" value="m22"></td>
+                      <td><input type="checkbox" value="m23"></td>
+                    </tr>
+                  </table><br>
+                  <table width="100%" cellSpacing="5px" style="color:black" cellPadding="5px;" align="center" border="0">
+                    <tr>
+                      <td colspan="2">
+                        <label>Binary Representation:</label>
+                        <input class="txtbox" type="text" id="floatBin" style="width:80%" placeholder="Single-Precision Floating Point"/>
                       </td>
-                      <td align="center"><button onclick="convert()" class="btn">Convert</button></td>
                       <td>
-                        <div style="float:right;">
-                          <label> Convert To: </label>
-                          <select class="sel" id="cvtToType" onChange="displayPlaceHolder(value);">
-                            <option value="0">Binary</option>
-                            <option value="1">Hexadecimal</option>
-                            <option value="2">Decimal</option>
-                          </select>
-                          <input class="txtbox" type="text" id="cvtTo" placeholder="Hexadecimal"/>
-                        </div>
+                        <label>Decimal Representation:</label>
+                        <input class="txtbox" type="text" id="floatBin" width="220%" placeholder="Single-Precision Floating Point"/>
                       </td>
+                      <td>
+                        <label>Hexadecimal Representation:</label>
+                        <input class="txtbox" type="text" id="floatBin" width="220%" placeholder="Single-Precision Floating Point"/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td width="25%"></td>
+                      <td width="25%"></td>
+                      <td width="25%"></td>
+                      <td width="25%"></td>
                     </tr>
                   </table>
                 </div>
-            </div>
-
+              </div>
             <hr style="margin-top:10px;margin-bottom:10px;"/>
-            <p><small> &copy; Badr AlKhamissi and Malak Sadek</small></p>
+            <p><small> &copy; Badr AlKhamissi</small></p>
         </div>
       </div>
     </body>

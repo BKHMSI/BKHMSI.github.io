@@ -33,6 +33,7 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
     $scope.displayMemory = memory.subset(0,255);
     $scope.error = 'e';
     $scope.speed = 4;
+    $scope.hideMachineCode = false;
     $scope.regs = [0,0,0,0,0,0,0,0,0,0,0];
     $scope.flags = [
       0,0,0,0
@@ -52,12 +53,20 @@ app.controller('MainController', ['$scope', '$timeout', 'memory', function ($sco
         $("#result").val("");
         $scope.error = 'e';
         $scope.selectedLine = -1;
-        for(var i = 0; i<16; i++) $scope.regs[i] = 0;
+        for(var i = 0; i<11; i++) $scope.regs[i] = 0;
         for(var i = 0; i< 4; i++) $scope.flags[i] = 0;
         for(var i = 0; i<25; i++) $scope.output[i] = "";
         $scope.memory.reset();
         index = outputIdx = ic = 0;
         lastSWI = -1;
+    };
+
+    $scope.expandAssmbly = function(){
+      if($scope.hideMachineCode){
+        $("#result").attr('rows','40');
+      }else{
+        $("#result").attr('rows','21');
+      }
     };
 
     load = function(){
