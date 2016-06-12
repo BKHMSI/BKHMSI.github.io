@@ -179,9 +179,13 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
         switch (lastSWI) {
           case 2:
             $scope.regs[0] = parseInt(value);
+            $scope.continue = "Continue";
+            lastSWI = -1;
             break;
           case 3:
             $scope.regs[0] = value.charCodeAt(0);
+            $scope.continue = "Continue";
+            lastSWI = -1;
             break;
           case 4:
             var adrs = $scope.regs[0];
@@ -190,11 +194,11 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
               memory.store(adrs++,ascii);
             }
             memory.store(adrs++,0);
+            $scope.continue = "Continue";
+            lastSWI = -1;
             break;
           default:
         }
-        $scope.continue = "Continue";
-        lastSWI = -1;
       }
     };
 
