@@ -1,4 +1,4 @@
-textarea{
+.CleanTxtArea{
   -webkit-box-shadow: rgb(221, 221, 221) 0px 1px 3px 0px inset;
   -webkit-transition-delay: 0s;
   -webkit-transition-duration: 0.3s;
@@ -105,6 +105,9 @@ textarea{
 #result{
   transition: all 2s;
   -webkit-transition: all 2s; /* Safari */
+  font-size: 20px;
+  font-weight: lighter;
+  font-family: monospace;
 }
 
 label{

@@ -715,6 +715,14 @@ function appendResult(txt){
   box.val(box.val() + txt);
 }
 
+function append16MachineCode(txt){
+  var box = $("#sourceCode");
+  var one = txt&0xFF;
+  var two = txt>>8;
+  box.val(box.val() + one + "\n");
+  box.val(box.val() + two + "\n");
+}
+
 function appendMachineCode(txt){
   var box = $("#sourceCode");
   box.val(box.val() + txt + "\n");
