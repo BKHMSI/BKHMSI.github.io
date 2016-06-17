@@ -1,20 +1,95 @@
 function displayPlaceHolder(value){
-  var placeholder = "";
-  if(value = 0)
-     placeholder = "Enter Instructions in Binary (base 2)";
-  else if(value == 1)
-     placeholder = "Enter Instructions in Hexadecimal (base 16)";
-  else if(value == 2)
-     placeholder = "Enter Instructions in Decimal (base 10)";
-  $("#sourceCode").attr("placeholder", placeholder);
+  var machineCode = $("#sourceCode").val().split("\n");
+  $("#sourceCode").val("");
+  if(machineCode.length == 0){
+    var placeholder = "";
+    if(value == 0)
+       placeholder = "Enter Instructions in Binary (base 2)";
+    else if(value == 1)
+       placeholder = "Enter Instructions in Hexadecimal (base 16)";
+    else if(value == 2)
+       placeholder = "Enter Instructions in Decimal (base 10)";
+    $("#sourceCode").attr("placeholder", placeholder);
+  }else{
+    // if(value == 0){
+    //   for(var i = 0; i<machineCode.length; i++){
+    //     if(checkDec(machineCode[0])){
+    //       appendMachineCode(pad(Dec2Bin(parseInt(machineCode[i])),8));
+    //     }else if(checkHex(machineCode[0])){
+    //       appendMachineCode(pad(Hex2Bin(parseInt(machineCode[i])),8));
+    //     }
+    //   }
+    // }else if(value == 2){
+    //   for(var i = 0; i<machineCode.length; i++){
+    //     if(checkBin(machineCode[0])){
+    //       appendMachineCode(Bin2Dec(parseInt(machineCode[i])));
+    //     }else if(checkHex(machineCode[0])){
+    //       appendMachineCode(Hex2Dec(parseInt(machineCode[i])));
+    //     }
+    //   }
+    // }else if(value == 1){
+    //   for(var i = 0; i<machineCode.length; i++){
+    //     if(checkBin(machineCode[0])){
+    //       appendMachineCode("0x"+Bin2Hex(parseInt(machineCode[i])));
+    //     }else if(checkDec(machineCode[0])){
+    //       appendMachineCode("0x"+Dec2Hex(parseInt(machineCode[i])));
+    //     }
+    //   }
+    // }
+  }
 }
 
 $(document).ready(function() {
-  $(".lined").linedtextarea({selectedLine: 1});
+  $(".lined").linedtextarea();
   $('pre code').each(function(i, block) {
     hljs.highlightBlock(block);
   });
 });
+
+function selectLine(line){
+  selectTextareaLine($("#result")[0],line);
+}
+
+function selectTextareaLine(tarea,lineNum) {
+    lineNum--; // array starts at 0
+    var lines = tarea.value.split("\n");
+
+    // calculate start/end
+    var startPos = 0, endPos = tarea.value.length;
+    for(var x = 0; x < lines.length; x++) {
+        if(x == lineNum) {
+            break;
+        }
+        startPos += (lines[x].length+1);
+
+    }
+
+    var endPos = lines[lineNum].length+startPos;
+
+    // do selection
+    // Chrome / Firefox
+
+    if(typeof(tarea.selectionStart) != "undefined") {
+        tarea.focus();
+        tarea.selectionStart = startPos;
+        tarea.selectionEnd = endPos;
+        return true;
+    }
+
+    // IE
+    if (document.selection && document.selection.createRange) {
+        tarea.focus();
+        tarea.select();
+        var range = document.selection.createRange();
+        range.collapse(true);
+        range.moveEnd("character", endPos);
+        range.moveStart("character", startPos);
+        range.select();
+        return true;
+    }
+
+    return false;
+}
 
 String.prototype.format = function() {
   var formatted = this;

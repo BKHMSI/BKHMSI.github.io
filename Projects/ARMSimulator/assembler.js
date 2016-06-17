@@ -85,6 +85,38 @@ app.service('assembler', [function () {
                   }
                 }else{
                   // PUSH/POP
+                  var men = instr[i].substring(0,instr[i].indexOf(" "));
+                  var list = instr[i].substring(instr[i].indexOf(" "),instr[i].length);
+                  var flag = false;
+                  if(men == "pop" || men == "push"){
+                    list = list.replace("{","");
+                    list = list.replace("}","");
+                    flag = list.indexOf("lr") != -1 || list.indexOf("pc") != -1;
+                    var regList = list.split(',');
+                    for(var j = 0; j<regList.length; j++){regList[j] = regList[j].trim();}
+                    if(flag){regList.pop();}
+                    if(!this.evaluate8(men,regList,flag))
+                      throw "Error in Line "+i+1;
+                  }else{
+                    /*** Format 15 ***/
+                    var rb = list.substring(0,list.indexOf(',')).trim();
+                    var instr = 0;
+                    rb = rb.replace("!","");
+                    rb = rb.replace("r","");
+                    var rlist = list.substring(list.indexOf(','),list.length).trim();
+                    rlist = rlist.replace("{","");
+                    rlist = rlist.replace("}","");
+                    var regList = rlist.split(',');
+                    for(var j = 0; j<regList.length; j++){regList[j] = regList[j].trim();}
+                    if(men == "stmia"){
+                      instr = (12<<12)+(parseInt(rb))+this.parseRList(regList);
+                    }else if(men == "ldmia"){
+                      instr = (12<<12)+(1<<11)+(parseInt(rb))+this.parseRList(regList);
+                    }else{
+                      throw "Error in Line "+i+1;
+                    }
+                    append16MachineCode(instr);
+                  }
                 }
               }else{
                 // Software Interrupt
@@ -350,7 +382,7 @@ app.service('assembler', [function () {
                 instr = (1<<14)+(1<<10)+(2<<6)+(rs<<3)+rd;
               }else{
                 // ADD Hd, Hs
-                rd = parseInt(regs[0].replace("r",""));
+                rd = parseInt(regs[0].replace("h",""));
                 rs = parseInt(regs[1].replace("h",""));
                 instr = (1<<14)+(1<<10)+(3<<6)+(rs<<3)+rd;
               }
@@ -368,7 +400,7 @@ app.service('assembler', [function () {
               instr = (1<<14)+(1<<10)+(1<<8)+(2<<6)+(rs<<3)+rd;
             }else{
               // CMP Hd, Hs
-              rd = parseInt(regs[0].replace("r",""));
+              rd = parseInt(regs[0].replace("h",""));
               rs = parseInt(regs[1].replace("h",""));
               instr = (1<<14)+(1<<10)+(1<<8)+(3<<6)+(rs<<3)+rd;
             }
@@ -386,7 +418,7 @@ app.service('assembler', [function () {
               instr = (1<<14)+(1<<10)+(2<<8)+(2<<6)+(rs<<3)+rd;
             }else{
               // ADD Hd, Hs
-              rd = parseInt(regs[0].replace("r",""));
+              rd = parseInt(regs[0].replace("h",""));
               rs = parseInt(regs[1].replace("h",""));
               instr = (1<<14)+(1<<10)+(2<<8)+(3<<6)+(rs<<3)+rd;
             }
@@ -574,6 +606,59 @@ app.service('assembler', [function () {
           default: return false; break;
         }
         return true;
+      },
+
+      evaluate8: function(men,regs,flag){
+        var rlist = 0, instr, l, r;
+        switch (men) {
+          /*** Format 14 ***/
+          case "push":
+            if(flag){
+              l = 0;
+              r = 1;
+              rlist = this.parseRList(regs);
+              instr = (11<<12)+(l<<11)+(1<<10)+(r<<8)+rlist;
+            }else{
+              l = r = 0;
+              rlist = this.parseRList(regs);
+              instr = (11<<12)+(l<<11)+(1<<10)+(r<<8)+rlist;
+            }
+            break;
+          case "pop":
+            if(flag){
+              l = 1;
+              r = 0;
+              rlist = this.parseRList(regs);
+              instr = (11<<12)+(l<<11)+(1<<10)+(r<<8)+rlist;
+            }else{
+              l = 1;
+              r = 1;
+              rlist = this.parseRList(regs);
+              instr = (11<<12)+(l<<11)+(1<<10)+(r<<8)+rlist;
+            }
+            break;
+          default: return false; break;
+        }
+        append16MachineCode(instr);
+        return true;
+      },
+
+      parseRList: function(list){
+        var rlist = 0;
+        for(var i = 0; i<list.length; i++){
+          if(list[i].indexOf('-') != -1){
+            var sublist = list[i].split('-');
+            var r1 = parseInt(sublist[0].replace("r",""));
+            var r2 = parseInt(sublist[1].replace("r",""));
+            for(var j = r1; j<=r2; j++){
+              rlist += (1<<j);
+            }
+          }else{
+            var r = parseInt(list[i].replace("r",""));
+            rlist += (1<<r);
+          }
+        }
+        return rlist;
       },
 
       evaluate: function(match){

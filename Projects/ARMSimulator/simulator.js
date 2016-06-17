@@ -715,6 +715,11 @@ function appendResult(txt){
   box.val(box.val() + txt);
 }
 
+function appendSWI(txt){
+  var box = $("#swi");
+  box.val(box.val() + txt);
+}
+
 function append16MachineCode(txt){
   var box = $("#sourceCode");
   var one = txt&0xFF;

@@ -45,7 +45,7 @@
             <div class="alert alert-danger" ng-hide="error === ''">{{error}}</div>
             <div class="row">
                 <div class="col-lg-7 col-md-6">
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" ng-hide="dev">
                         <div class="panel-heading" style="height:60px">
                             <h4 class="panel-title">Code <small>(<a href="https://ece.uwaterloo.ca/~ece222/ARM/ARM7-TDMI-manual-pt3.pdf" target="_blank" style="color: #337AB7">Instruction Set</a>)</small></h4>
                             <select class="sel" style="display:inline; margin-top:7px" id="instType" onChange="displayPlaceHolder(value);">
@@ -55,6 +55,9 @@
                             </select>
                             <small style="color:black">&nbsp;&nbsp;Show Machine Code</small>
                             <input type="checkbox" ng-model="hideMachineCode"/>
+                            <!-- <div type="button" id="fileinput" class="btn btn-default" style="float:right;" ng-click="action()">
+                              <span class="glyphicon glyphicon-share"></span> Action
+                            </div> -->
                             <input class="inputfile" type="file" id="fileinput"/>
                             <script>document.getElementById('fileinput').addEventListener('change', readFile, false);</script>
                         </div>
@@ -67,22 +70,68 @@
                                           rows="15"
                                           tab-support
                                           select-line
-                                          ng-hide="!hideMachineCode"
-                                          ng-mode='code'></textarea>
-                                <textarea id="result"
+                                          ng-hide="!hideMachineCode"></textarea>
+                                <textarea id="assemblyCode"
                                           class="lined"
                                           class="form-control source-code"
                                           placeholder="Enter ARM Thumb Assembly Code"
                                           style="margin-bottom:5px; color:black; width:100%"
                                           ng-keydown="processSWI($event)"
-                                          rows="50"
+                                          rows="40"
                                           tab-support
                                           select-line
                                           ng-mode='code'></textarea>
-                                  <pre style="display:none"><code class="ARM Assembly"></code></pre>
+                                <textarea id="result"
+                                          class="form-control source-code"
+                                          placeholder="Generated ARM Thumb Assembly Code"
+                                          style="margin-bottom:5px; color:black; width:100%;"
+                                          ng-keydown="processSWI($event)"
+                                          rows="40"
+                                          tab-support
+                                          select-line
+                                          ng-hide="hideGen"
+                                          ng-mode='code'></textarea>
+                                <pre style="display:none"><code class="ARM Assembly"></code></pre>
                                 <button type="button" class="btn btn-default" ng-click="assemble()">Assemble</button>
-                                <button type="button" class="btn btn-default" ng-click="test()"><span class="glyphicon glyphicon-forward"></span>Test</button>
                             </form>
+                        </div>
+                    </div>
+                    <div class="panel panel-default" ng-hide="dev">
+                        <div class="panel-heading">
+                            <h4 class="panel-title" style="display:inline-block">Dubugging Mode</h4>
+                            <small style="color:black; display:inline-block">&nbsp;&nbsp;Return to Editor</small>
+                            <input type="checkbox" ng-model="dev"/>
+                        </div>
+                        <div class="panel-body source-code">
+                           <div class="table table-condensed table-striped">
+                             <table style="color:black" class="table table-condensed table-striped">
+                               <thead>
+                                   <tr>
+                                       <th style="text-align:center">Breakpoint</th>
+                                       <th style="text-align:center">Address</th>
+                                       <th style="text-align:center">Code</th>
+                                       <th style="text-align:center">Source</th>
+                                   </tr>
+                               </thead>
+                               <tbody>
+                                   <tr style="text-align:center; background-color:{{code.color}}" class="source-code" ng-repeat="code in sourceCode">
+                                       <td><div style="margin:auto;" ng-class="displayA && 'marker marker-a'"><input type="checkbox" ng-model="code.break"/></div></td>
+                                       <td><div style="margin:auto;" ng-class="displayA && 'marker marker-a'"><small>{{ code.address | MemFilter }}</small></div></td>
+                                       <td><div style="margin:auto;" ng-class="displayB && 'marker marker-b'"><small>{{ code.code | BinFilter}}</small></div></td>
+                                       <td><div style="margin:auto;" ng-class="displayC && 'marker marker-c'">{{ code.source }}</div></td>
+                                   </tr>
+                               </tbody>
+                             </table>
+                           </div>
+                        </div><br>
+                        <div style="color:black" class="table table-condensed table-striped">
+                        <h4 class="panel-title" style="padding:5px">Software Interrupts</h4>
+                        <textarea id="swi"
+                                  class="form-control source-code"
+                                  style="margin-bottom:5px; color:black; width:100%; "
+                                  ng-keydown="processSWI($event)"
+                                  rows="5"
+                                  ng-mode='code'></textarea>
                         </div>
                     </div>
                 </div>
@@ -198,7 +247,7 @@
                         </table>
                         </div>
                     </div>
-                    <div class="panel panel-default">
+                    <!-- <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">Labels</h4>
                         </div>
@@ -218,7 +267,7 @@
                             </tbody>
                         </table>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="panel panel-default">
