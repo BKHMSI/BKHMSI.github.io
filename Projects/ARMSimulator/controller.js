@@ -36,7 +36,7 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
     $scope.speed = 4;
     $scope.hideMachineCode = false;
     $scope.hideGen = true;
-    $scope.dev = true;
+    $scope.isDev = true;
     $scope.regs = [0,0,0,0,0,0,0,0,0,0,0];
     $scope.flags = [0,0,0,0];
     $scope.output = Array(25);
@@ -72,7 +72,7 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
         $scope.error = '';
         $scope.selectedLine = -1;
         $scope.sourceCode = [];
-        $scope.dev = true;
+        $scope.isDev = true;
         for(var i = 0; i<11; i++) $scope.regs[i] = 0;
         for(var i = 0; i< 4; i++) $scope.flags[i] = 0;
         for(var i = 0; i<25; i++) $scope.output[i] = "";
@@ -91,7 +91,7 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
 
     load = function(){
       // load instructions into memory
-      $scope.dev = false;
+      $scope.isDev = false;
       instType = parseInt($( "#instType option:selected" ).val())
       var instructions = $("#sourceCode").val();
       var assemblyInstr = $("#assemblyCode").val().split("\n");
@@ -108,7 +108,7 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
 
       var j = 0;
       for(var i = 8; i<instr.length-4; i+=2)
-        $scope.sourceCode.push({address:i,code:memory.loadHalf(i),source:assemblyInstr[j++],color:"none",break:false});
+        $scope.sourceCode.push({address:i,code:memory.loadHalf(i),source:assemblyInstr[j++],color:"none"});
 
       $scope.sp = parseInt(memory.loadWord(0));
       $scope.pc = parseInt(memory.loadWord(4));
@@ -138,6 +138,7 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
 
     $scope.run = function(){
       var machineCode = $("#sourceCode").val();
+      var breakFlag = false;
       if(machineCode == ""){
         alert("You have to assemble program first!! Assemble button is at the bottom of the code area")
       }else{
@@ -147,22 +148,21 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
           var instr = parseInt(memory.loadHalf($scope.pc));
           while(instr != 0xDEAD && !isSWI(instr) && lastSWI == -1 && !exit){
 
-            for(var i = 0; i<$scope.sourceCode.length; i++)
-               if($scope.pc == $scope.sourceCode[i].address && $scope.sourceCode[i].break)
-                  exit = true;
-
-            if(exit) break;
             decode(instr,$scope);
             $scope.pc+=2;
+            for(var i = 0; i<$scope.sourceCode.length; i++)
+               if($scope.pc-2 == $scope.sourceCode[i].address && $scope.sourceCode[i].break)
+                  breakFlag = true;
+            if(breakFlag) break;
             instr = parseInt(memory.loadHalf($scope.pc));
-            if(isSWI(instr)) break;
+            if(isSWI(instr)) {breakFlag = true; break;}
           }
           updateSpecialRegs();
         }catch(err){
           $scope.error = err.message;
         }
       }
-      if(!exit)
+      if(!breakFlag)
         $scope.continue = "Run";
     };
 
