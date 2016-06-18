@@ -711,8 +711,17 @@ function format_71(h,offset11,scope){
 }
 
 function appendResult(txt){
-  var box = $("#result");
-  box.val(box.val() + txt);
+  // var box = $("#result");
+  // box.val(box.val() + txt);
+  var resultEditor = $($("#result")[0]).data('CodeMirrorResultInstance');
+  var resultSoFar = resultEditor.getValue();
+  clearResult();
+  resultEditor.getDoc().setValue(resultSoFar + txt);
+}
+
+function clearResult(){
+  var resultEditor = $($("#result")[0]).data('CodeMirrorResultInstance');
+  resultEditor.getDoc().setValue("");
 }
 
 function appendSWI(txt){

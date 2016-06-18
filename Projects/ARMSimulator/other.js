@@ -40,7 +40,21 @@ function displayPlaceHolder(value){
 }
 
 $(document).ready(function() {
-  $(".lined").linedtextarea();
+  var textArea = $("#assemblyCode")[0];
+  var editor = CodeMirror.fromTextArea(textArea, {
+      lineNumbers: true,
+      gutter: true,
+      lineWrapping: true,
+      smartIndent: true
+  });
+  editor.getDoc().setValue("// Write Assembly Code Here");
+  editor.setSize("100%","592px");
+  $('#assemblyCode').data('CodeMirrorInstance', editor);
+
+  var resultArea = $("#result")[0];
+  var resultEditor = CodeMirror.fromTextArea(resultArea, {lineNumbers: true,gutter: true,lineWrapping: true,readOnly:true,autoRefresh:true});
+  $('#result').data('CodeMirrorResultInstance', resultEditor);
+
   $('pre code').each(function(i, block) {
     hljs.highlightBlock(block);
   });

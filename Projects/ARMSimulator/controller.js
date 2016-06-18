@@ -64,9 +64,25 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
         return labelsObj;
     };
 
+    $scope.returnToEditor = function(){
+      $("#sourceCode").val("");
+      clearResult();
+      $scope.continue = "Run";
+      $scope.error = '';
+      $scope.selectedLine = -1;
+      $scope.sourceCode = [];
+      $scope.isDev = true;
+      for(var i = 0; i<11; i++) $scope.regs[i] = 0;
+      for(var i = 0; i< 4; i++) $scope.flags[i] = 0;
+      for(var i = 0; i<25; i++) $scope.output[i] = "";
+      $scope.memory.reset();
+      index = outputIdx = ic = 0;
+      lastSWI = -1;
+    };
+
     $scope.reset = function () {
         $("#sourceCode").val("");
-        $("#result").val("");
+        clearResult();
         $("#assemblyCode").val("");
         $scope.continue = "Run";
         $scope.error = '';
@@ -91,10 +107,10 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
 
     load = function(){
       // load instructions into memory
-      $scope.isDev = false;
       instType = parseInt($( "#instType option:selected" ).val())
       var instructions = $("#sourceCode").val();
-      var assemblyInstr = $("#assemblyCode").val().split("\n");
+      var editor = $($("#assemblyCode")[0]).data('CodeMirrorInstance');
+      var assemblyInstr = editor.getValue().split('\n');
       var instr = instructions.split("\n");
       if(instType == 0)
         for(var i = 0; i<instr.length; i++)
@@ -107,8 +123,15 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
           memory.store(i,instr[i]);
 
       var j = 0;
-      for(var i = 8; i<instr.length-4; i+=2)
+      for(var i = 8; i<instr.length-4; i+=2){
+        while(assemblyInstr[j].indexOf("//") != -1){
+          var comment = assemblyInstr[j].substring(assemblyInstr[j].indexOf("//"),assemblyInstr[j].length);
+          assemblyInstr[j] = assemblyInstr[j].replace(comment,"");
+          if(assemblyInstr[j].trim() != "") break;
+          j++;
+        }
         $scope.sourceCode.push({address:i,code:memory.loadHalf(i),source:assemblyInstr[j++],color:"none"});
+      }
 
       $scope.sp = parseInt(memory.loadWord(0));
       $scope.pc = parseInt(memory.loadWord(4));
@@ -149,10 +172,11 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
           while(instr != 0xDEAD && !isSWI(instr) && lastSWI == -1 && !exit){
 
             decode(instr,$scope);
-            $scope.pc+=2;
             for(var i = 0; i<$scope.sourceCode.length; i++)
-               if($scope.pc-2 == $scope.sourceCode[i].address && $scope.sourceCode[i].break)
+               if($scope.pc == $scope.sourceCode[i].address && $scope.sourceCode[i].break)
                   breakFlag = true;
+
+            $scope.pc+=2;
             if(breakFlag) break;
             instr = parseInt(memory.loadHalf($scope.pc));
             if(isSWI(instr)) {breakFlag = true; break;}
@@ -178,7 +202,7 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
           if(instr != 0xDEAD && !isSWI(instr) && lastSWI == -1 && !exit){
             $scope.continue = "Continue";
             for(var i = 0; i<$scope.sourceCode.length; i++)
-              $scope.sourceCode[i].color = $scope.pc == $scope.sourceCode[i].address ? "green":"none";
+              $scope.sourceCode[i].color = $scope.pc == $scope.sourceCode[i].address ? "rgba(72,156,72,0.6)":"none";
             decode(instr,$scope);
             $scope.pc+=2;
           }else{
@@ -241,7 +265,7 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
       1101111100000101
       */
       for(var i = 0; i<$scope.sourceCode.length; i++)
-        $scope.sourceCode[i].color = $scope.pc == $scope.sourceCode[i].address ? "green":"none";
+        $scope.sourceCode[i].color = $scope.pc == $scope.sourceCode[i].address ? "rgba(72,156,72,0.6)":"none";
 
         if(((instr) >> 13) == 6){
           if(((instr>>8) & 0x1F) == 0x1F){
@@ -295,10 +319,13 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
     $scope.assemble = function(){
       try {
         $("#sourceCode").val("");
-        var instructions = $("#assemblyCode").val();
+        var editor = $($("#assemblyCode")[0]).data('CodeMirrorInstance');
+        var instructions = editor.getValue();
         var instr = instructions.toLowerCase().split("\n");
         appendHeader();
         assembler.parse(instr);
+        load();
+        $scope.isDev = false;
       } catch (e) {
         $scope.error = e;
         // selectLine(parseInt(e.split(" ")[e.length-1]));

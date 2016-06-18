@@ -11,10 +11,16 @@
         <script type="text/javascript" src="simulator.js"></script>
         <script type="text/javascript" src="other.js"></script>
 
+        <!-- CodeMriror -->
+        <script src="CodeMirror-master/lib/codemirror.js"></script>
+        <link rel="stylesheet" href="CodeMirror-master/lib/codemirror.css">
+        <script src="CodeMirror-master/mode/javascript/javascript.js"></script>
+
         <!-- HighlightJS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
 
+        <!-- Bootstrap -->
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
         <link href="jQuery_LineTxtArea/jquery-linedtextarea.css" rel="stylesheet" type="text/css"/>
@@ -72,24 +78,13 @@
                                           select-line
                                           ng-hide="!hideMachineCode"></textarea>
                                 <textarea id="assemblyCode"
-                                          class="lined"
                                           class="form-control source-code"
                                           placeholder="Enter ARM Thumb Assembly Code"
-                                          style="margin-bottom:5px; color:black; width:100%"
-                                          ng-keydown="processSWI($event)"
-                                          rows="40"
-                                          tab-support
-                                          select-line
-                                          ng-mode='code'></textarea>
-                                <textarea id="result"
-                                          class="form-control source-code"
-                                          placeholder="Generated ARM Thumb Assembly Code"
                                           style="margin-bottom:5px; color:black; width:100%;"
                                           ng-keydown="processSWI($event)"
                                           rows="40"
                                           tab-support
                                           select-line
-                                          ng-hide="hideGen"
                                           ng-mode='code'></textarea>
                                 <pre style="display:none"><code class="ARM Assembly"></code></pre>
                                 <button type="button" class="btn btn-default" ng-click="assemble()">Assemble</button>
@@ -99,8 +94,12 @@
                     <div class="panel panel-default" ng-hide="isDev">
                         <div class="panel-heading">
                             <h4 class="panel-title" style="display:inline-block">Dubugging Mode</h4>
-                            <small style="color:black; display:inline-block">&nbsp;&nbsp;Return to Editor</small>
-                            <input type="checkbox" ng-model="isDev"/>
+                            <!-- <small style="color:black; display:inline-block">&nbsp;&nbsp;Return to Editor</small> -->
+                            <!-- <input type="checkbox" ng-model="isDev"/> -->
+                          <div style="padding-left:320px; padding-bottom:5px; display:inline-block">
+                            <button ng-click="returnToEditor()" class="btn btn-primary" style="width:130px; height:40px; font-size:12px">
+                              <span class="glyphicon glyphicon-backward"></span> Return to Editor</button>
+                          </div>
                         </div>
                         <div class="panel-body source-code">
                            <div class="table table-condensed table-striped">
@@ -132,7 +131,16 @@
                                   ng-keydown="processSWI($event)"
                                   rows="5"
                                   ng-mode='code'></textarea>
-                        </div>
+                        </div><br>
+                        <h4 class="panel-title" style="padding:5px; color:black">Generated Assembly Code</h4>
+                        <textarea id="result"
+                                  placeholder="Generated ARM Thumb Assembly Code"
+                                  style="margin-bottom:5px; color:black; width:100%;"
+                                  ng-keydown="processSWI($event)"
+                                  rows="15"
+                                  tab-support
+                                  select-line
+                                  ng-mode='code'></textarea>
                     </div>
                 </div>
 

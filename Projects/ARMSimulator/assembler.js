@@ -142,6 +142,14 @@ app.service('assembler', [function () {
 
       addLabels: function(instr){
         for(var i = 0; i<instr.length; i++){
+
+          // There is a comment so remove it
+          if(instr[i].indexOf("//") != -1){
+            var comment = instr[i].substring(instr[i].indexOf("//"),instr[i].length);
+            instr[i] = instr[i].replace(comment,"");
+          }
+
+          // Label
           if(instr[i].indexOf(":") != -1){
             var label = instr[i].substring(0,instr[i].indexOf(":")).trim();
             if(instr[i].substring(instr[i].indexOf(":")+1,instr[i].length).trim() != ""){
