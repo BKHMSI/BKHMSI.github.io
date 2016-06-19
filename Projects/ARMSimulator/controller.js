@@ -70,6 +70,7 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
 
     $scope.returnToEditor = function(){
       $("#sourceCode").val("");
+      $("#swi").val("");
       clearResult();
       codeSegmentIndex = dataSegmentIndex = 0;
       $scope.continue = "Run";
@@ -88,6 +89,7 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
 
     $scope.reset = function () {
         $("#sourceCode").val("");
+        $("#swi").val("");
         clearResult();
         var editor = $($("#assemblyCode")[0]).data('CodeMirrorInstance');
         var instructions = editor.setValue("// Write Assembly Code Here");
@@ -433,7 +435,7 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
         assembler.parse(instr);
         load();
         $scope.isDev = false;
-        $scope.hideDataLabels = $scope.dataLabels == 0;
+        $scope.hideDataLabels = Object.keys($scope.dataLabels).length == 0;
       } catch (e) {
         $scope.error = e;
         // selectLine(parseInt(e.split(" ")[e.length-1]));

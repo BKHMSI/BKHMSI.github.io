@@ -96,7 +96,7 @@
                             <h4 class="panel-title" style="display:inline-block">Dubugging Mode</h4>
                             <!-- <small style="color:black; display:inline-block">&nbsp;&nbsp;Return to Editor</small> -->
                             <!-- <input type="checkbox" ng-model="isDev"/> -->
-                          <div style="padding-left:320px; padding-bottom:5px; display:inline-block">
+                          <div style="padding-left:320px; padding-bottom:1px; display:inline-block">
                             <button ng-click="returnToEditor()" class="btn btn-primary" style="width:130px; height:40px; font-size:12px">
                               <span class="glyphicon glyphicon-backward"></span> Return to Editor</button>
                           </div>
@@ -122,7 +122,7 @@
                                </tbody>
                              </table>
                            </div>
-                        </div><br>
+                        </div><hr>
                         <div style="color:black" class="table table-condensed table-striped">
                         <h4 class="panel-title" style="padding:5px">Software Interrupts Console</h4>
                         <textarea id="swi"
@@ -131,7 +131,7 @@
                                   ng-keydown="processSWI($event)"
                                   rows="3"
                                   ng-mode='code'></textarea>
-                        </div><br>
+                        </div><hr>
                           <div class="panel panel-default" ng-hide="hideDataLabels">
                               <div class="panel-heading">
                                   <h4 class="panel-title">Data Labels</h4>
@@ -156,7 +156,7 @@
                                    </table>
                                  </div>
                               </div>
-                          </div>
+                          </div><hr>
                           <h4 class="panel-title" style="padding:5px; color:black">Generated Assembly Code</h4>
                           <textarea id="result"
                                     placeholder="Generated ARM Thumb Assembly Code"
