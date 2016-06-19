@@ -3,10 +3,11 @@ Questions (Things I am not sure of)
 2. Is there MOV Rd,Rs?
 3. Overflow Flag
 4  Carry Flag (in some operations)
+5. How can the user load from memory data using label
 
 Features
 1. Assembler directives
-	1. .txt / .code
+	1. .text / .code
 	2. .data
 	3. .byte
 	4. .short
@@ -15,5 +16,9 @@ Features
 	7. .space
 
 2. Syntax highlighting for ARM assembly 
-3. Testing
+3. Importing/Exporting Machine/Assembly Code
+4. Changing Theme of Code Mirror / ACE Editor
+5. Testing!!!
+6. User Layer — User accounts using AngularFire, to store/share programs.
+
 

@@ -124,26 +124,50 @@
                            </div>
                         </div><br>
                         <div style="color:black" class="table table-condensed table-striped">
-                        <h4 class="panel-title" style="padding:5px">Software Interrupts</h4>
+                        <h4 class="panel-title" style="padding:5px">Software Interrupts Console</h4>
                         <textarea id="swi"
                                   class="form-control source-code"
                                   style="margin-bottom:5px; color:black; width:100%; "
                                   ng-keydown="processSWI($event)"
-                                  rows="5"
+                                  rows="3"
                                   ng-mode='code'></textarea>
                         </div><br>
-                        <h4 class="panel-title" style="padding:5px; color:black">Generated Assembly Code</h4>
-                        <textarea id="result"
-                                  placeholder="Generated ARM Thumb Assembly Code"
-                                  style="margin-bottom:5px; color:black; width:100%;"
-                                  ng-keydown="processSWI($event)"
-                                  rows="15"
-                                  tab-support
-                                  select-line
-                                  ng-mode='code'></textarea>
+                          <div class="panel panel-default" ng-hide="hideDataLabels">
+                              <div class="panel-heading">
+                                  <h4 class="panel-title">Data Labels</h4>
+                              </div>
+                              <div class="panel-body source-code">
+                                 <div class="table table-condensed table-striped">
+                                     <table style="color:black" class="table table-condensed table-striped" ng-hide="hideDataLabels">
+                                       <thead>
+                                           <tr>
+                                               <th style="text-align:center">Label</th>
+                                               <th style="text-align:center">Address</th>
+                                           </tr>
+                                       </thead>
+                                       <tbody>
+                                           <tbody>
+                                               <tr style="text-align:center;" class="source-code" ng-repeat="(key, value) in dataLabels">
+                                                   <td><div style="margin:auto;" ng-class="displayA && 'marker marker-a'"><small>{{ key }}</small></div></td>
+                                                   <td><div style="margin:auto;" ng-class="displayB && 'marker marker-b'"><small>{{ value | HexFilter }}</small></div></td>
+                                               </tr>
+                                           </tbody>
+                                       </tbody>
+                                   </table>
+                                 </div>
+                              </div>
+                          </div>
+                          <h4 class="panel-title" style="padding:5px; color:black">Generated Assembly Code</h4>
+                          <textarea id="result"
+                                    placeholder="Generated ARM Thumb Assembly Code"
+                                    style="margin-bottom:5px; color:black; width:100%;"
+                                    ng-keydown="processSWI($event)"
+                                    rows="10"
+                                    tab-support
+                                    select-line
+                                    ng-mode='code'></textarea>
                     </div>
                 </div>
-
                 <div class="clearfix visible-xs visible-sm"></div>
                 <div class="col-lg-5 col-md-6">
                     <div class="panel panel-default">
@@ -157,7 +181,6 @@
                               </span>
                           </div>
                       </div>
-
                     </div>
                     <div class="panel panel-default">
                         <div class="panel-heading">

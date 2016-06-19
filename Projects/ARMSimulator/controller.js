@@ -36,6 +36,7 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
     $scope.speed = 4;
     $scope.hideMachineCode = false;
     $scope.hideGen = true;
+    $scope.hideDataLabels = true;
     $scope.isDev = true;
     $scope.regs = [0,0,0,0,0,0,0,0,0,0,0];
     $scope.flags = [0,0,0,0];
@@ -46,9 +47,12 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
     $scope.lr = 0;
     $scope.continue = "Run";
     $scope.sourceCode = [];
+    $scope.dataLabels = {};
+    $scope.assemblyInstr = [];
 
     var index = 0, ic = 0, exit = 0;
     var lastSWI = -1, outputIdx = 0;
+    var codeSegmentIndex = 0, dataSegmentIndex = 0; // Position of .text/.code and .data in editor
 
     $scope.bug = function(){
       $window.location.href = "mailto:badr@khamissi.com?subject=ARM%20Simultor%20Bug&body=Error:%20"+$scope.error;
@@ -67,10 +71,12 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
     $scope.returnToEditor = function(){
       $("#sourceCode").val("");
       clearResult();
+      codeSegmentIndex = dataSegmentIndex = 0;
       $scope.continue = "Run";
       $scope.error = '';
       $scope.selectedLine = -1;
       $scope.sourceCode = [];
+      $scope.dataLabels = {};
       $scope.isDev = true;
       for(var i = 0; i<11; i++) $scope.regs[i] = 0;
       for(var i = 0; i< 4; i++) $scope.flags[i] = 0;
@@ -83,11 +89,13 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
     $scope.reset = function () {
         $("#sourceCode").val("");
         clearResult();
-        $("#assemblyCode").val("");
+        var editor = $($("#assemblyCode")[0]).data('CodeMirrorInstance');
+        var instructions = editor.setValue("// Write Assembly Code Here");
         $scope.continue = "Run";
         $scope.error = '';
         $scope.selectedLine = -1;
         $scope.sourceCode = [];
+        $scope.dataLabels = {};
         $scope.isDev = true;
         for(var i = 0; i<11; i++) $scope.regs[i] = 0;
         for(var i = 0; i< 4; i++) $scope.flags[i] = 0;
@@ -95,6 +103,7 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
         $scope.memory.reset();
         index = outputIdx = ic = 0;
         lastSWI = -1;
+        codeSegmentIndex = dataSegmentIndex = 0;
     };
 
     $scope.expandAssmbly = function(){
@@ -109,8 +118,7 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
       // load instructions into memory
       instType = parseInt($( "#instType option:selected" ).val())
       var instructions = $("#sourceCode").val();
-      var editor = $($("#assemblyCode")[0]).data('CodeMirrorInstance');
-      var assemblyInstr = editor.getValue().split('\n');
+      var assemblyInstr = $scope.assemblyInstr;
       var instr = instructions.split("\n");
       if(instType == 0)
         for(var i = 0; i<instr.length; i++)
@@ -130,6 +138,7 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
           if(assemblyInstr[j].trim() != "") break;
           j++;
         }
+        while(assemblyInstr[j] == ""){ j++;}
         $scope.sourceCode.push({address:i,code:memory.loadHalf(i),source:assemblyInstr[j++],color:"none"});
       }
 
@@ -316,16 +325,115 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
         }
     };
 
+    handleDirectives = function(instr){
+      var memoryIndex = 2048; // Start of Data Segment
+      var label = "";
+      for(var i = 0; i<instr.length; i++){
+        if(instr[i].indexOf(".") != -1){
+          instr[i] = instr[i].trim();
+          if(instr[i].indexOf(".text") != -1 || instr[i].indexOf(".code") != -1){
+            instr[i] = "";
+            codeSegmentIndex = i;
+          }else if(instr[i].indexOf(".data") != -1){
+              dataSegmentIndex = i;
+              instr[i] = "";
+          }else if(instr[i].indexOf(".byte") != -1 && i>dataSegmentIndex){
+            if(instr[i].indexOf(":") != -1){
+              label = instr[i].substring(0,instr[i].indexOf(":"));
+              instr[i] = instr[i].replace(label+":","").trim();
+            }
+            instr[i] = instr[i].replace(".byte","").trim();
+            var bytes = instr[i].split(",");
+            instr[i] = "";
+            $scope.dataLabels[label] = memoryIndex;
+            for(var j = 0; j<bytes.length; j++){
+              bytes[j] = bytes[j].replace('\'',"");
+              bytes[j] = bytes[j].replace('\'',"");
+              var ascii = bytes[j].charCodeAt(0);
+              memory.store(memoryIndex,ascii);
+              memoryIndex++;
+            }
+          }else if((instr[i].indexOf(".short") != -1 || instr[i].indexOf(".half") != -1)  && i>dataSegmentIndex){
+            if(instr[i].indexOf(":") != -1){
+              label = instr[i].substring(0,instr[i].indexOf(":"));
+              instr[i] = instr[i].replace(label+":","").trim();
+            }
+            if(instr[i].indexOf(".short") != -1){
+              instr[i] = instr[i].replace(".short","").trim();
+            }else{
+              instr[i] = instr[i].replace(".half","").trim();
+            }
+            var shorts = instr[i].split(",");
+            instr[i] = "";
+            if(memoryIndex%2 != 0) memoryIndex++; // Align Shorts
+            $scope.dataLabels[label] = memoryIndex;
+            for(var j = 0; j<shorts.length; j++){
+              memory.storeHalf(memoryIndex,parseInt(shorts[j]));
+              memoryIndex+=2;
+            }
+          }else if(instr[i].indexOf(".word") != -1 && i>dataSegmentIndex){
+            if(instr[i].indexOf(":") != -1){
+              label = instr[i].substring(0,instr[i].indexOf(":"));
+              instr[i] = instr[i].replace(label+":","").trim();
+            }
+            instr[i] = instr[i].replace(".word","").trim();
+            var words = instr[i].split(",");
+            instr[i] = "";
+            while(memoryIndex%4 != 0) memoryIndex++; // Align Words
+            $scope.dataLabels[label] = memoryIndex;
+            for(var j = 0; j<words.length; j++){
+              memory.storeWord(memoryIndex,parseInt(words[j]));
+              memoryIndex+=4;
+            }
+          }else if(instr[i].indexOf(".asciiz") != -1 && i>dataSegmentIndex){
+            if(instr[i].indexOf(":") != -1){
+              label = instr[i].substring(0,instr[i].indexOf(":"));
+              instr[i] = instr[i].replace(label+":","").trim();
+            }
+            instr[i] = instr[i].replace(".asciiz","").trim();
+            var strings = instr[i].split(",");
+            instr[i] = "";
+            $scope.dataLabels[label] = memoryIndex;
+            for(var j = 0; j<strings.length; j++){
+              strings[j] = strings[j].replace("\"","");
+              strings[j] = strings[j].replace("\"","");
+              for(var k = 0; k<strings[j].length;k++){
+                var ascii = strings[j].charCodeAt(k);
+                memory.store(memoryIndex,ascii);
+                memoryIndex++;
+              }
+            }
+          }else if(instr[i].indexOf(".space") != -1 && i>dataSegmentIndex){
+            if(instr[i].indexOf(":") != -1){
+              label = instr[i].substring(0,instr[i].indexOf(":"));
+              instr[i] = instr[i].replace(label+":","").trim();
+            }
+            instr[i] = instr[i].replace(".space","").trim();
+            var spaces = instr[i].split(",");
+            instr[i] = "";
+            $scope.dataLabels[label] = memoryIndex;
+            for(var j = 0; j<strings.length; j++){
+              for(var k = 0; k<parseInt(spaces[j]); k++)
+                memory.store(memoryIndex,0xFF);
+            }
+          }
+        }
+      }
+    }
+
     $scope.assemble = function(){
       try {
         $("#sourceCode").val("");
         var editor = $($("#assemblyCode")[0]).data('CodeMirrorInstance');
         var instructions = editor.getValue();
         var instr = instructions.toLowerCase().split("\n");
+        handleDirectives(instr);
+        $scope.assemblyInstr = instr;
         appendHeader();
         assembler.parse(instr);
         load();
         $scope.isDev = false;
+        $scope.hideDataLabels = $scope.dataLabels == 0;
       } catch (e) {
         $scope.error = e;
         // selectLine(parseInt(e.split(" ")[e.length-1]));
