@@ -1,0 +1,2 @@
+Some of the bugs fixed starting from 23/7/2016
+1. Addresses of labels were not calculated properly if there were spaces between the code and the label.

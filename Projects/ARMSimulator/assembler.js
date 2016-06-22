@@ -1,23 +1,33 @@
 app.service('assembler', [function () {
     var assembler = {
       labels: {},
+      dataLabels: {},
       parse: function(instr){
         this.addLabels(instr);
         var wasLabel = false;
+        var instIdx = 0; // Used to calculate offset to compensate for white spaces
         for(var i = 0; i<instr.length; i++){
-          if(instr[i] != ""){
+          if(instr[i].trim() != ""){
+            instIdx++;
             if(instr[i].indexOf(":") == -1 || wasLabel){
               if(instr[i].indexOf("swi") == -1){
                 if(wasLabel){instr[i] = instr[i].substring(instr[i].indexOf(":")+1,instr[i].length).trim(); wasLabel = false;}
                 if(instr[i].indexOf("{") == -1){
                   if(instr[i].indexOf("[") == -1){
-                    if(instr[i][0] != 'b'){
-                      var men = instr[i].substring(0,instr[i].indexOf(" "));
+                    if(instr[i].trim()[0] != 'b'){
+                      var men = instr[i].substring(0,instr[i].indexOf(" ")).trim();
                       var regs = instr[i].substring(instr[i].indexOf(" "),instr[i].length).split(",");
                       for(var j = 0; j<regs.length; j++){regs[j] = regs[j].trim();}
                       if(regs.length == 2){
-                        if(!this.evaluate2(men,regs))
-                            throw "Error in Line: "+(i+1);
+                        var rss = parseInt(regs[0].replace("r","")); // For High Registers
+                        var rdd = parseInt(regs[1].replace("r","")); // For High Registers
+                        if(rdd > 7 || rss > 7){
+                          if(!this.evaluate3(men,regs))
+                              throw "Error in Line: "+(i+1);
+                        }else{
+                          if(!this.evaluate2(men,regs))
+                              throw "Error in Line: "+(i+1);
+                        }
                       }else if(regs.length == 3){
                         if(!this.evaluate1(men,regs))
                             throw "Error in Line: "+(i+1);
@@ -26,25 +36,39 @@ app.service('assembler', [function () {
                       }
                     }else{
                       // Branch on Condition
-                      var men = instr[i].substring(0,instr[i].indexOf(" "));
+                      var men = instr[i].substring(0,instr[i].indexOf(" ")).trim();
                       var label = instr[i].substring(instr[i].indexOf(" "),instr[i].length).trim();
+                      var inst, rs, rd;
                       if(men == "bx"){
                         // Format 5
-                        if(label.indexOf("h") != -1){
-                          var hs = parseInt(label.replace("h",""));
-                          var instr = (1<<14)+(1<<10)+(13<<6)+(hs<<3);
+                        if(label.indexOf("lr") != -1){
+                          rs = 14-8;
+                          inst = (1<<14)+(1<<10)+(13<<6)+(rs<<3);
+                        }else if(label.indexOf("pc") != -1){
+                          rs = 15-8;
+                          inst = (1<<14)+(1<<10)+(13<<6)+(rs<<3);
+                        }else if(label.indexOf("sp") != -1){
+                          rs = 13-8;
+                          inst = (1<<14)+(1<<10)+(13<<6)+(rs<<3);
                         }else{
-                          var rs = parseInt(label.replace("r",""));
-                          var instr = (1<<14)+(1<<10)+(12<<6)+(rs<<3);
+                          rs = parseInt(label.replace("r",""));
+                          if(rs>7){
+                            rs = rs-8;
+                            inst = (1<<14)+(1<<10)+(13<<6)+(rs<<3);
+                          }else{
+                            inst = (1<<14)+(1<<10)+(12<<6)+(rs<<3);
+                          }
                         }
+                        append16MachineCode(inst);
                       }else{
                         // Check if Label is Present then calculate offset
                         var address = this.labels[label];
                         var offset = 0;
-                        if(address - i < 0){
-                           offset = (address - i - 1)*2;
+                        if(address - instIdx < 0){
+                           offset = (address - instIdx)*2;
                         }else{
-                          offset = (address - i)*2;
+                          // TODO: Check This
+                          offset = (address - instIdx)*2;
                         }
                         if(!this.evaluate7(men,offset))
                           throw "Error in Line: "+(i+1);
@@ -52,7 +76,7 @@ app.service('assembler', [function () {
                     }
                   }else{
                     // Store/Load Operations
-                    var men = instr[i].substring(0,instr[i].indexOf(" "));
+                    var men = instr[i].substring(0,instr[i].indexOf(" ")).trim();
                     var regs = instr[i].substring(instr[i].indexOf(" "),instr[i].length).split(",");
                     regs[1] = regs[1].replace("[","");
                     regs[2] = regs[2].replace("]","");
@@ -85,7 +109,7 @@ app.service('assembler', [function () {
                   }
                 }else{
                   // PUSH/POP
-                  var men = instr[i].substring(0,instr[i].indexOf(" "));
+                  var men = instr[i].substring(0,instr[i].indexOf(" ")).trim();
                   var list = instr[i].substring(instr[i].indexOf(" "),instr[i].length);
                   var flag = false;
                   if(men == "pop" || men == "push"){
@@ -140,7 +164,13 @@ app.service('assembler', [function () {
         append16MachineCode(0xDEAD);
       },
 
+      setDataLabels: function(memLabels){
+        this.dataLabels = {};
+        this.dataLabels = memLabels;
+      },
+
       addLabels: function(instr){
+        var idx = 0;
         for(var i = 0; i<instr.length; i++){
 
           // There is a comment so remove it
@@ -149,16 +179,19 @@ app.service('assembler', [function () {
             instr[i] = instr[i].replace(comment,"");
           }
 
+          if(instr[i].trim() != "") idx++;
+
           // Label
           if(instr[i].indexOf(":") != -1){
             var label = instr[i].substring(0,instr[i].indexOf(":")).trim();
             if(instr[i].substring(instr[i].indexOf(":")+1,instr[i].length).trim() != ""){
-              this.labels[label] = i;
+              this.labels[label] = idx;
               instr[i] = instr[i].substring(instr[i].indexOf(":")+1,instr[i].length).trim();
             }else{
               // If label is not in the same line as instruction
-              instr.splice(i,1);
-              this.labels[label] = i;
+              while(instr[i].trim() == "")
+                  instr.splice(i,1);
+              this.labels[label] = idx;
             }
           }
         }
@@ -172,21 +205,21 @@ app.service('assembler', [function () {
               // Format 1
               rd = parseInt(regs[0].replace("r",""));
               rs = parseInt(regs[1].replace("r",""));
-              imm = parseInt(regs[2].replace("#",""));
+              imm = parseInt(regs[2].replace("#","")) & 0x1F;
               instr = (imm<<6)+(rs<<3)+rd;
             break;
           case "lsr":
             // Format 1
               rd = parseInt(regs[0].replace("r",""));
               rs = parseInt(regs[1].replace("r",""));
-              imm = parseInt(regs[2].replace("#",""));
+              imm = parseInt(regs[2].replace("#","")) & 0x1F;
               instr = (1<<11)+(imm<<6)+(rs<<3)+rd;
             break;
           case "asr":
             // Format 1
               rd = parseInt(regs[0].replace("r",""));
               rs = parseInt(regs[1].replace("r",""));
-              imm = parseInt(regs[2].replace("#",""));
+              imm = parseInt(regs[2].replace("#","")) & 0x1F;
               instr = (1<<12)+(imm<<6)+(rs<<3)+rd;
             break;
           case "add":
@@ -194,12 +227,12 @@ app.service('assembler', [function () {
             if(regs[1] == "pc"){
               // Format 12
               rd = parseInt(regs[0].replace("r",""));
-              imm = parseInt(regs[2].replace("#",""));
+              imm = parseInt(regs[2].replace("#","")) & 0xFF;
               instr = (1<<15)+(1<<13)+(0<<11)+(rd<<8)+imm;
             }else if(regs[1] == "sp"){
               // Format 12
               rd = parseInt(regs[0].replace("r",""));
-              imm = parseInt(regs[2].replace("#",""));
+              imm = parseInt(regs[2].replace("#","")) & 0xFF;
               instr = (1<<15)+(1<<13)+(1<<11)+(rd<<8)+imm;
             }else{
               // Format 2
@@ -209,7 +242,7 @@ app.service('assembler', [function () {
                 rn = parseInt(regs[2].replace("r",""));
                 instr = (12<<9)+(rn<<6)+(rs<<3)+rd;
               }else{
-                imm = parseInt(regs[2].replace("#",""));
+                imm = parseInt(regs[2].replace("#","")) & 0x7;
                 instr = (14<<9)+(imm<<6)+(rs<<3)+rd;
               }
             }
@@ -222,7 +255,7 @@ app.service('assembler', [function () {
               rn = parseInt(regs[2].replace("r",""));
               instr = (13<<9)+(rn<<6)+(rs<<3)+rd;
             }else{
-              imm = parseInt(regs[2].replace("#",""));
+              imm = parseInt(regs[2].replace("#","")) & 0x7;
               instr = (15<<9)+(imm<<6)+(rs<<3)+rd;
             }
             break;
@@ -239,13 +272,19 @@ app.service('assembler', [function () {
           /*** Format 3 ***/
           case "mov":
             rd = parseInt(regs[0].replace("r",""));
-            imm = parseInt(regs[1].replace("#",""));
-            instr = (4<<11)+(rd<<8)+imm;
+            if(regs[1].indexOf("#") != -1){
+              imm = parseInt(regs[1].replace("#","")) & 0xFF;
+              instr = (4<<11)+(rd<<8)+imm;
+            }else if(regs[1].indexOf("r") != -1){
+              // Pseudo Instruction - Convert MOV Rd,Rs to ADD Rd,RS,#0
+              rs = parseInt(regs[1].replace("r",""));
+              instr = (14<<9)+(0<<6)+(rs<<3)+rd;
+            }
             break;
           case "cmp":
             rd = parseInt(regs[0].replace("r",""));
             if(regs[1].indexOf("#") != -1){
-              imm = parseInt(regs[1].replace("#",""));
+              imm = parseInt(regs[1].replace("#","")) & 0xFF;
               instr = (5<<11)+(rd<<8)+imm;
             }else{
               // 00111
@@ -257,21 +296,21 @@ app.service('assembler', [function () {
             if(regs[0] == "sp"){
               // Format 13
               if(regs[1].indexOf("-") == -1){
-                imm = parseInt(regs[1].replace("#",""));
+                imm = parseInt(regs[1].replace("#","")) & 0x7F;
                 instr = (11<<12)+(0<<7)+imm;
               }else{
-                imm = parseInt(regs[1].replace("#-",""));
+                imm = parseInt(regs[1].replace("#-","")) & 0x7F;
                 instr = (11<<12)+(1<<7)+imm;
               }
             }else{
               rd = parseInt(regs[0].replace("r",""));
-              imm = parseInt(regs[1].replace("#",""));
+              imm = parseInt(regs[1].replace("#","")) & 0xFF;
               instr = (6<<11)+(rd<<8)+imm;
             }
             break;
           case "sub":
             rd = parseInt(regs[0].replace("r",""));
-            imm = parseInt(regs[1].replace("#",""));
+            imm = parseInt(regs[1].replace("#","")) & 0xFF;
             instr = (7<<11)+(rd<<8)+imm;
             break;
           /*** Format 4 ***/
@@ -365,6 +404,27 @@ app.service('assembler', [function () {
             rs = parseInt(regs[1].replace("r",""));
             instr = (1<<14)+(15<<6)+(rs<<3)+rd;
             break;
+          case "ldr":
+            rd = parseInt(regs[0].replace("r",""));
+            regs[1] = regs[1].replace("=","");
+            imm = this.dataLabels[regs[1]];
+            if(!imm){
+              imm = parseInt(regs[1]);
+            }
+            imm -= 510;
+
+            // MOV Rd,255
+            instr = (4<<11)+(rd<<8)+0xFF;
+            append16MachineCode(instr);
+
+            // Shift Left by 2
+            instr = (0x1<<6)+(rd<<3)+rd;
+            append16MachineCode(instr);
+
+            // Add Imm
+            instr = (6<<11)+(rd<<8)+imm;
+
+            break;
           default:
             return false;
             break;
@@ -376,58 +436,51 @@ app.service('assembler', [function () {
       evaluate3: function(men,regs){
         /*** Format 5 ***/
         var rd,rs,rn,imm,op,instr;
+        rd = parseInt(regs[0].replace("r",""));
+        rs = parseInt(regs[1].replace("r",""));
         switch (men) {
           case "add":
-              if(regs[0].indexOf("r") != -1){
+              if(rs>7 && rd<8){
                 // ADD Rd, Hs
-                rd = parseInt(regs[0].replace("r",""));
-                rs = parseInt(regs[1].replace("h",""));
+                rs-=8;
                 instr = (1<<14)+(1<<10)+(1<<6)+(rs<<3)+rd;
-              }else if(regs[1].indexOf("r") != -1){
+              }else if(rd>7 && rs<8){
                 // ADD Hd, Rs
-                rd = parseInt(regs[0].replace("r",""));
-                rs = parseInt(regs[1].replace("h",""));
+                rd-=8;
                 instr = (1<<14)+(1<<10)+(2<<6)+(rs<<3)+rd;
               }else{
+                rs-=8;rd-=8;
                 // ADD Hd, Hs
-                rd = parseInt(regs[0].replace("h",""));
-                rs = parseInt(regs[1].replace("h",""));
                 instr = (1<<14)+(1<<10)+(3<<6)+(rs<<3)+rd;
               }
             break;
           case "cmp":
-            if(regs[0].indexOf("r") != -1){
+            if(rs>7 && rd<8){
               // CMP Rd, Hs
-              rd = parseInt(regs[0].replace("r",""));
-              rs = parseInt(regs[1].replace("h",""));
+              rs-=8;
               instr = (1<<14)+(1<<10)+(1<<8)+(1<<6)+(rs<<3)+rd;
-            }else if(regs[1].indexOf("r") != -1){
+            }else if(rd>7 && rs<8){
               // CMP Hd, Rs
-              rd = parseInt(regs[0].replace("r",""));
-              rs = parseInt(regs[1].replace("h",""));
+              rd-=8;
               instr = (1<<14)+(1<<10)+(1<<8)+(2<<6)+(rs<<3)+rd;
             }else{
               // CMP Hd, Hs
-              rd = parseInt(regs[0].replace("h",""));
-              rs = parseInt(regs[1].replace("h",""));
+              rs-=8;rd-=8;
               instr = (1<<14)+(1<<10)+(1<<8)+(3<<6)+(rs<<3)+rd;
             }
             break;
           case "mov":
-            if(regs[0].indexOf("r") != -1){
-              // ADD Rd, Hs
-              rd = parseInt(regs[0].replace("r",""));
-              rs = parseInt(regs[1].replace("h",""));
+            if(rs>7 && rd<8){
+              // MOV Rd, Hs
+              rs-=8;
               instr = (1<<14)+(1<<10)+(2<<8)+(1<<6)+(rs<<3)+rd;
-            }else if(regs[1].indexOf("r") != -1){
-              // ADD Hd, Rs
-              rd = parseInt(regs[0].replace("r",""));
-              rs = parseInt(regs[1].replace("h",""));
+            }else if(rd>7 && rs<8){
+              // MOV Hd, Rs
+              rd-=8;
               instr = (1<<14)+(1<<10)+(2<<8)+(2<<6)+(rs<<3)+rd;
             }else{
-              // ADD Hd, Hs
-              rd = parseInt(regs[0].replace("h",""));
-              rs = parseInt(regs[1].replace("h",""));
+              // MOV Hd, Hs
+              rs-=8;rd-=8;
               instr = (1<<14)+(1<<10)+(2<<8)+(3<<6)+(rs<<3)+rd;
             }
             break;
@@ -503,38 +556,38 @@ app.service('assembler', [function () {
           case "str":
             rd = parseInt(regs[0].replace("r",""));
             rb = parseInt(regs[1].replace("r",""));
-            imm = parseInt(regs[2].replace("#",""));
+            imm = parseInt(regs[2].replace("#","")) & 0x1F;
             instr = (1<<14)+(1<<13)+(0<<11)+(imm<<6)+(rb<<3)+(rd);
             break;
           case "strb":
             rd = parseInt(regs[0].replace("r",""));
             rb = parseInt(regs[1].replace("r",""));
-            imm = parseInt(regs[2].replace("#",""));
+            imm = parseInt(regs[2].replace("#","")) & 0x1F;
             instr = (1<<14)+(1<<13)+(2<<11)+(imm<<6)+(rb<<3)+(rd);
             break;
           case "ldr":
             rd = parseInt(regs[0].replace("r",""));
             rb = parseInt(regs[1].replace("r",""));
-            imm = parseInt(regs[2].replace("#",""));
+            imm = parseInt(regs[2].replace("#","")) & 0x1F;
             instr = (1<<14)+(1<<13)+(1<<11)+(imm<<6)+(rb<<3)+(rd);
             break;
           case "ldrb":
             rd = parseInt(regs[0].replace("r",""));
             rb = parseInt(regs[1].replace("r",""));
-            imm = parseInt(regs[2].replace("#",""));
+            imm = parseInt(regs[2].replace("#","")) & 0x1F;
             instr = (1<<14)+(1<<13)+(3<<11)+(imm<<6)+(rb<<3)+(rd);
             break;
           /*** Format 10 ***/
           case "strh":
             rd = parseInt(regs[0].replace("r",""));
             rb = parseInt(regs[1].replace("r",""));
-            imm = parseInt(regs[2].replace("#",""));
+            imm = parseInt(regs[2].replace("#","")) & 0x1F;
             instr = (1<<15)+(imm<<6)+(rb<<3)+(rd);
             break;
           case "ldrh":
             rd = parseInt(regs[0].replace("r",""));
             rb = parseInt(regs[1].replace("r",""));
-            imm = parseInt(regs[2].replace("#",""));
+            imm = parseInt(regs[2].replace("#","")) & 0x1F;
             instr = (1<<15)+(1<<11)+(imm<<6)+(rb<<3)+(rd);
             break;
           default: return false; break;
@@ -608,6 +661,7 @@ app.service('assembler', [function () {
             break
           case "bl":
             /*** Format 19 ***/
+            offset = offset & 0x7FF;
             var instr = ((parseInt(Bin2Dec("11110")))<<11)+offset;
             append16MachineCode(instr);
             break;
@@ -633,7 +687,7 @@ app.service('assembler', [function () {
             }
             break;
           case "pop":
-            if(flag){
+            if(!flag){
               l = 1;
               r = 0;
               rlist = this.parseRList(regs);

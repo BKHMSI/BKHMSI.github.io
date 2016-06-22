@@ -37,10 +37,11 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
     $scope.hideMachineCode = false;
     $scope.hideGen = true;
     $scope.hideDataLabels = true;
+    $scope.showHighRegisters = false;
     $scope.isDev = true;
-    $scope.regs = [0,0,0,0,0,0,0,0,0,0,0];
+    $scope.regs = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
     $scope.flags = [0,0,0,0];
-    $scope.output = Array(25);
+    $scope.output = Array(60);
     $scope.memDisplaySize = 255;
     $scope.pc = 0;
     $scope.sp = 200;
@@ -49,10 +50,12 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
     $scope.sourceCode = [];
     $scope.dataLabels = {};
     $scope.assemblyInstr = [];
+    $scope.outputIdx = 0;
 
     var index = 0, ic = 0, exit = 0;
-    var lastSWI = -1, outputIdx = 0;
+    var lastSWI = -1;
     var codeSegmentIndex = 0, dataSegmentIndex = 0; // Position of .text/.code and .data in editor
+    var ppc, psp, plr; // Previous Values
 
     $scope.bug = function(){
       $window.location.href = "mailto:badr@khamissi.com?subject=ARM%20Simultor%20Bug&body=Error:%20"+$scope.error;
@@ -72,18 +75,18 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
       $("#sourceCode").val("");
       $("#swi").val("");
       clearResult();
-      codeSegmentIndex = dataSegmentIndex = 0;
+      codeSegmentIndex = dataSegmentIndex = exit = 0;
       $scope.continue = "Run";
       $scope.error = '';
       $scope.selectedLine = -1;
       $scope.sourceCode = [];
       $scope.dataLabels = {};
       $scope.isDev = true;
-      for(var i = 0; i<11; i++) $scope.regs[i] = 0;
+      for(var i = 0; i<16; i++) $scope.regs[i] = 0;
       for(var i = 0; i< 4; i++) $scope.flags[i] = 0;
-      for(var i = 0; i<25; i++) $scope.output[i] = "";
+      for(var i = 0; i<60; i++) $scope.output[i] = "";
       $scope.memory.reset();
-      index = outputIdx = ic = 0;
+      index = $scope.outputIdx = ic = 0;
       lastSWI = -1;
     };
 
@@ -99,13 +102,13 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
         $scope.sourceCode = [];
         $scope.dataLabels = {};
         $scope.isDev = true;
-        for(var i = 0; i<11; i++) $scope.regs[i] = 0;
+        for(var i = 0; i<16; i++) $scope.regs[i] = 0;
         for(var i = 0; i< 4; i++) $scope.flags[i] = 0;
-        for(var i = 0; i<25; i++) $scope.output[i] = "";
+        for(var i = 0; i<60; i++) $scope.output[i] = "";
         $scope.memory.reset();
-        index = outputIdx = ic = 0;
+        index = $scope.outputIdx = ic = 0;
         lastSWI = -1;
-        codeSegmentIndex = dataSegmentIndex = 0;
+        codeSegmentIndex = dataSegmentIndex = exit = 0;
     };
 
     $scope.expandAssmbly = function(){
@@ -142,6 +145,11 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
         }
         while(assemblyInstr[j] == ""){ j++;}
         $scope.sourceCode.push({address:i,code:memory.loadHalf(i),source:assemblyInstr[j++],color:"none"});
+        if(assemblyInstr[j-1].indexOf("ldr") != -1 && assemblyInstr[j-1].indexOf("[") == -1){
+          $scope.sourceCode.push({address:i+2,code:memory.loadHalf(i+2),source:"",color:"none"});
+          $scope.sourceCode.push({address:i+4,code:memory.loadHalf(i+4),source:"",color:"none"});
+          i+=4;
+        }
       }
 
       $scope.sp = parseInt(memory.loadWord(0));
@@ -181,18 +189,18 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
               load();
           var instr = parseInt(memory.loadHalf($scope.pc));
           while(instr != 0xDEAD && !isSWI(instr) && lastSWI == -1 && !exit){
-
+            updateSpecialRegs();
             decode(instr,$scope);
             for(var i = 0; i<$scope.sourceCode.length; i++)
                if($scope.pc == $scope.sourceCode[i].address && $scope.sourceCode[i].break)
                   breakFlag = true;
 
-            $scope.pc+=2;
+            if(ppc == $scope.pc)
+                $scope.pc+=2;
             if(breakFlag) break;
             instr = parseInt(memory.loadHalf($scope.pc));
             if(isSWI(instr)) {breakFlag = true; break;}
           }
-          updateSpecialRegs();
         }catch(err){
           $scope.error = err.message;
         }
@@ -210,16 +218,17 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
           if(!isMemoryLoaded())
               load();
           var instr = parseInt(memory.loadHalf($scope.pc));
-          if(instr != 0xDEAD && !isSWI(instr) && lastSWI == -1 && !exit){
+          updateSpecialRegs();
+          if(instr != 0xDEAD && !exit && !isSWI(instr) && lastSWI == -1){
             $scope.continue = "Continue";
             for(var i = 0; i<$scope.sourceCode.length; i++)
               $scope.sourceCode[i].color = $scope.pc == $scope.sourceCode[i].address ? "rgba(72,156,72,0.6)":"none";
             decode(instr,$scope);
-            $scope.pc+=2;
+            if(ppc == $scope.pc)
+              $scope.pc+=2;
           }else{
             $scope.continue = "Run";
           }
-          updateSpecialRegs();
         }catch(err){
           $scope.error = err.message;
         }
@@ -227,9 +236,14 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
     };
 
     updateSpecialRegs = function(){
-      $scope.regs[10] = $scope.pc;
-      $scope.regs[9] = $scope.lr;
-      $scope.regs[8] = $scope.sp;
+      $scope.regs[15] = $scope.pc;
+      $scope.regs[14] = $scope.lr;
+      $scope.regs[13] = $scope.sp;
+      ppc = $scope.pc;
+    };
+
+    $scope.getRegs = function(){
+      return $scope.showHighRegisters ? $scope.regs.slice(0,13):$scope.regs.slice(0,8);
     };
 
 
@@ -275,8 +289,11 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
       1101111100000100
       1101111100000101
       */
-      for(var i = 0; i<$scope.sourceCode.length; i++)
-        $scope.sourceCode[i].color = $scope.pc == $scope.sourceCode[i].address ? "rgba(72,156,72,0.6)":"none";
+      //if(!exit){
+        for(var i = 0; i<$scope.sourceCode.length; i++)
+          $scope.sourceCode[i].color = $scope.pc == $scope.sourceCode[i].address ? "rgba(72,156,72,0.6)":"none";
+      //}
+
 
         if(((instr) >> 13) == 6){
           if(((instr>>8) & 0x1F) == 0x1F){
@@ -286,12 +303,21 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
             appendSWI("SWI\t {0}\n".format(value8));
             lastSWI = value8;
             switch (value8) {
-              case 0: $scope.output[outputIdx++] = String.fromCharCode($scope.regs[0]); break;
+              case 0:
+                $scope.output[$scope.outputIdx++] = String.fromCharCode($scope.regs[0]);
+                $scope.output[$scope.outputIdx++] = "";
+                appendSWI(String.fromCharCode($scope.regs[0])+"\n");
+                lastSWI = -1;
+                break;
               case 1:
                 var value = $scope.regs[0].toString();
                 for(var i = 0; i<value.length; i++){
-                  $scope.output[outputIdx++] = value[i];
+                  $scope.output[$scope.outputIdx++] = value[i];
+                  appendSWI(value[i]);
                 }
+                $scope.output[$scope.outputIdx++] = "";
+                appendSWI("\n");
+                lastSWI = -1;
                 break;
               case 2:
                 appendSWI("Enter Integer: ");
@@ -308,9 +334,13 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
                 var adrs = $scope.regs[0];
                 var c = memory.load(adrs++);
                 while(c){
-                  $scope.output[outputIdx++] = getChar(c);
+                  $scope.output[$scope.outputIdx++] = getChar(c);
+                  appendSWI(getChar(c));
                   c = memory.load(adrs++);
                 }
+                $scope.output[$scope.outputIdx++] = "";
+                appendSWI("\n");
+                lastSWI = -1;
                 break;
               case 6:
                 appendSWI("Bye Bye\n");
@@ -327,8 +357,9 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
         }
     };
 
+
     handleDirectives = function(instr){
-      var memoryIndex = 2048; // Start of Data Segment
+      var memoryIndex = 512; // Start of Data Segment
       var label = "";
       for(var i = 0; i<instr.length; i++){
         if(instr[i].indexOf(".") != -1){
@@ -355,16 +386,20 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
               memory.store(memoryIndex,ascii);
               memoryIndex++;
             }
-          }else if((instr[i].indexOf(".short") != -1 || instr[i].indexOf(".half") != -1)  && i>dataSegmentIndex){
+          }else if((instr[i].indexOf(".short") != -1 || instr[i].indexOf(".half") != -1 || instr[i].indexOf(".hword") != -1)  && i>dataSegmentIndex){
             if(instr[i].indexOf(":") != -1){
               label = instr[i].substring(0,instr[i].indexOf(":"));
               instr[i] = instr[i].replace(label+":","").trim();
             }
+
             if(instr[i].indexOf(".short") != -1){
               instr[i] = instr[i].replace(".short","").trim();
-            }else{
+            }else if(instr[i].indexOf(".half") != -1){
               instr[i] = instr[i].replace(".half","").trim();
+            }else{
+              instr[i] = instr[i].replace(".hword","").trim();
             }
+
             var shorts = instr[i].split(",");
             instr[i] = "";
             if(memoryIndex%2 != 0) memoryIndex++; // Align Shorts
@@ -404,6 +439,8 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
                 memory.store(memoryIndex,ascii);
                 memoryIndex++;
               }
+              memory.store(memoryIndex,0x0); // NULL Terminated String
+              memoryIndex++;
             }
           }else if(instr[i].indexOf(".space") != -1 && i>dataSegmentIndex){
             if(instr[i].indexOf(":") != -1){
@@ -429,9 +466,11 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
         var editor = $($("#assemblyCode")[0]).data('CodeMirrorInstance');
         var instructions = editor.getValue();
         var instr = instructions.toLowerCase().split("\n");
+        for(var i = 0; i<instr.length; i++){instr[i] = instr[i].trim();}
         handleDirectives(instr);
         $scope.assemblyInstr = instr;
         appendHeader();
+        assembler.setDataLabels($scope.dataLabels);
         assembler.parse(instr);
         load();
         $scope.isDev = false;

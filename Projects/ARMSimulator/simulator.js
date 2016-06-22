@@ -12,11 +12,11 @@ var format41 = ["str", "ldr"];
 var format50 = ["PC", "SP"];
 var condVal = 0;
 
-function PC(scope){ return scope.regs[10]; }
+function PC(scope){ return scope.regs[15]; }
 
-function LR(scope){ return scope.regs[9]; }
+function LR(scope){ return scope.regs[14]; }
 
-function SP(scope){ return scope.regs[8];}
+function SP(scope){ return scope.regs[13];}
 
 
 function decode(instr,scope){
@@ -97,6 +97,7 @@ function format_0(instr,scope){
   var rd = instr & 7;
   var rs = (instr >>  3) & 7;
   var offset5 = (instr >> 6) & 0x1F;
+  //offset5 = getImmediate(offset5,0x1F);
   switch (op) {
     case 0:
     overflow = isShiftOverflow(scope.regs[rs],offset5);
@@ -175,7 +176,7 @@ function format_2(instr,scope){
   var l, b, h, s, hi1, hi2, offset8;
   var signBit = 0;
 
-  if(!op){
+  if(!subformat){
     // Format 4
     op = (instr >> 6) & 0xF;
     rs = (instr >> 3) & 7;
@@ -247,7 +248,7 @@ function format_2(instr,scope){
     if(op!=8){
       if(op!=10){ condVal = scope.regs[rd];}
     }
-  }else if(op == 1){
+  }else if(subformat == 1){
     // Format 5
     op = (instr >> 8) & 3;
     hi1 = (instr >> 7) & 1;
@@ -255,7 +256,7 @@ function format_2(instr,scope){
     rs = (instr >> 3) & 7;
     rd = (instr) & 7;
     format_21(op,hi1,hi2,rs,rd,scope);
-  }else if(op<=3){
+  }else if(subformat<=3){
     // Format 6: PC Relative Load
     rd = (instr >> 8) & 7;
     offset8 = instr & 0xFF;
@@ -286,50 +287,101 @@ function format_21(op,hi1,hi2,rs,rd,scope){
   switch (op) {
     case 0:
     if(hi1 && hi2){
-      appendResult("add\t h{0}, h{1}\n".format(rd,rs));
-      scope.regs[rd] = (scope.regs[rd] & 0xFF00) + (scope.regs[rs] & 0xFF00);
-      overflow = isOverFlow(scope.regs[rd]& 0xFF00,scope.regs[rd] & 0xFF00,scope.regs[rd]);
-    }else if (hi1 && !hi2){
-      appendResult("add\t r{0}, h{1}\n".format(rd,rs));
-      scope.regs[rd] = (scope.regs[rd] & 0xFF) + (scope.regs[rs] & 0xFF00);
-      overflow = isOverFlow(scope.regs[rd] & 0xFF,scope.regs[rs] & 0xFF00,scope.regs[rd]);
+      rd+=8;rs+=8;
+      appendResult("add\t r{0}, r{1}\n".format(rd,rs));
+      switch (rd) {
+        case 13:  scope.sp = (scope.regs[rd]) + (scope.regs[rs]);break;
+        case 14:  scope.lr = (scope.regs[rd]) + (scope.regs[rs]);break;
+        case 15:  scope.pc = (scope.regs[rd]) + (scope.regs[rs]);break;
+        default:  scope.regs[rd] = (scope.regs[rd]) + (scope.regs[rs]);break;
+      }
+      scope.regs[13] = scope.sp;
+      scope.regs[14] = scope.lr;
+      scope.regs[15] = scope.pc;
+      overflow = isOverFlow(scope.regs[rd],scope.regs[rs],scope.regs[rd]);
+    }else if (!hi1 && hi2){
+      rs+=8;
+      appendResult("add\t r{0}, r{1}\n".format(rd,rs));
+      scope.regs[rd] = (scope.regs[rd]) + (scope.regs[rs]);
+      overflow = isOverFlow(scope.regs[rd],scope.regs[rs],scope.regs[rd]);
     }else{
-      appendResult("add\t h{0}, r{1}\n".format(rd,rs));
-      scope.regs[rd] = (scope.regs[rd] & 0xFF00) + (scope.regs[rs] & 0xFF);
-      overflow = isOverFlow(scope.regs[rd] & 0xFF00,scope.regs[rs] & 0xFF,scope.regs[rd]);
+      rd+=8;
+      appendResult("add\t r{0}, r{1}\n".format(rd,rs));
+      switch (rd) {
+        case 13:  scope.sp = (scope.regs[rd]) + (scope.regs[rs]);break;
+        case 14:  scope.lr = (scope.regs[rd]) + (scope.regs[rs]);break;
+        case 15:  scope.pc = (scope.regs[rd]) + (scope.regs[rs]);break;
+        default:  scope.regs[rd] = (scope.regs[rd]) + (scope.regs[rs]);break;
+      }
+      scope.regs[13] = scope.sp;
+      scope.regs[14] = scope.lr;
+      scope.regs[15] = scope.pc;
+      overflow = isOverFlow(scope.regs[rd],scope.regs[rs],scope.regs[rd]);
     }
     break;
     case 1:
     if(hi1 && hi2){
-      appendResult("cmp\t h{0}, h{1}\n".format(rd,rs));
-      condVal = ((scope.regs[rd] & 0xFF00) >> 8) - ((scope.regs[rs] & 0xFF00) >> 8);
-    }else if (hi1 && !hi2){
-      appendResult("cmp\t r{0}, h{1}\n".format(rd,rs));
-      condVal = (scope.regs[rd] & 0xFF) - ((scope.regs[rs] & 0xFF00)>>8);
+      rd+=8;rs+=8;
+      appendResult("cmp\t r{0}, r{1}\n".format(rd,rs));
+      condVal = scope.regs[rd] - scope.regs[rs];
+    }else if (!hi1 && hi2){
+      rs+=8;
+      appendResult("cmp\t r{0}, r{1}\n".format(rd,rs));
+      condVal = (scope.regs[rd]) - (scope.regs[rs]);
     }else{
-      appendResult("cmp\t h{0}, r{1}\n".format(rd,rs));
-      condVal = ((scope.regs[rd] & 0xFF00)>>8) - (scope.regs[rs] & 0xFF);
+      rd+=8;
+      appendResult("cmp\t r{0}, r{1}\n".format(rd,rs));
+      condVal = scope.regs[rd] - scope.regs[rs];
     }
     break;
     case 2:
     if(hi1 && hi2){
-      appendResult("mov\t h{0}, h{1}\n".format(rd,rs));
-      scope.regs[rd] = (scope.regs[rs] & 0xFF00);
-    }else if (hi1 && !hi2){
-      appendResult("mov\t r{0}, h{1}\n".format(rd,rs));
-      scope.regs[rd] = (scope.regs[rs] & 0xFF00) >> 8;
+      rd+=8;rs+=8;
+      appendResult("mov\t r{0}, r{1}\n".format(rd,rs));
+      switch (rd) {
+        case 13:  scope.sp = (scope.regs[rs]); break;
+        case 14:  scope.lr = (scope.regs[rs]); break;
+        case 15:  scope.pc = (scope.regs[rs]); break;
+        default:  scope.regs[rd] = (scope.regs[rs]);;break;
+      }
+      scope.regs[13] = scope.sp;
+      scope.regs[14] = scope.lr;
+      scope.regs[15] = scope.pc;
+    }else if (!hi1 && hi2){
+      rs+=8;
+      appendResult("mov\t r{0}, r{1}\n".format(rd,rs));
+      scope.regs[rd] = scope.regs[rs];
     }else{
-      appendResult("mov\t h{0}, r{1}\n".format(rd,rs));
-      scope.regs[rd] = (scope.regs[rs] & 0xFF) << 8;
+      rd+=8;
+      switch (rd) {
+        case 13:  scope.sp = (scope.regs[rs]); break;
+        case 14:  scope.lr = (scope.regs[rs]); break;
+        case 15:  scope.pc = (scope.regs[rs]); break;
+        default:  scope.regs[rd] = (scope.regs[rs]);;break;
+      }
+      scope.regs[13] = scope.sp;
+      scope.regs[14] = scope.lr;
+      scope.regs[15] = scope.pc;
+      appendResult("mov\t r{0}, r{1}\n".format(rd,rs));
+      scope.regs[rd] = scope.regs[rs];
     }
     break;
     case 3:
     if(!hi1 && !hi2){
       appendResult("bx\t r{0}\n".format(rs));
-      scope.pc = scope.regs[rs] & 0xFF;
+      scope.pc = scope.regs[rs];
     }else{
-      scope.pc = (scope.regs[rs] & 0xFF00) >> 8;
-      appendResult("bx\t h{0}\n".format(rs));
+      rs+=8;
+      if(rs == 15){
+        scope.pc = scope.pc;
+      }else if(rs == 14){
+        scope.pc = scope.lr;
+      }else if(rs == 13){
+        scope.pc = scope.sp;
+      }else{
+        scope.pc = scope.regs[rs];
+      }
+      appendResult("bx\t r{0}\n".format(rs));
     }
     break;
     default:
@@ -442,12 +494,13 @@ function format_41(instr,scope){
     break;
   }
 }
+
 //load address
 function format_5(instr,scope){
   var op = (instr >> 12) & 1;
   var src = (instr >> 11) & 1;
   var rd = (instr >> 8) & 7;
-  var word8 = instr & 8;
+  var word8 = instr & 0xFF;
 
   switch (op) {
     case 0:
@@ -470,19 +523,19 @@ function format_5(instr,scope){
 function format_51(instr,scope){
   var op = (instr >> 8) & 5;
   var S = (instr >> 7) & 1;
-  var SWord7 = instr & 7;
+  var SWord7 = instr & 0x7F;
 
   switch (op){
     case 0:
 
     switch(S){
       case 0:
-      scope.sp = scope.sp + (SWord7<<2);
-      appendResult("add\t SP, #{0}\n".format(SWord7<<2));
+      scope.sp = scope.sp + (SWord7);
+      appendResult("add\t SP, #{0}\n".format(SWord7));
       break;
       case 1:
-      scope.sp = scope.sp - (SWord7<<2);
-      appendResult("add\t SP, #-{0}\n".format(SWord7<<2));
+      scope.sp = scope.sp - (SWord7);
+      appendResult("add\t SP, #-{0}\n".format(SWord7));
       break;
     }
     break;
@@ -608,13 +661,12 @@ function getListString(list){
            for(j = i; j<8; j++)
                if(!(list>>j & 1))
                   break;
-           if(i == j-1) result+=("r{0}".format(i));
-           else result+=("r{0}-r{1}".format(i,j-1));
-           if(j < 7) result+=",";
+           if(i == j-1) result+=("r{0},".format(i));
+           else result+=("r{0}-r{1},".format(i,j-1));
            i = j;
        }
    }
-  return result;
+  return result.slice(0,-1);
 }
 
 function getList(list){
@@ -698,8 +750,17 @@ function format_7(instr,scope){
 function format_71(h,offset11,scope){
   if(!h){
     //LR := PC + OffsetHigh << 12
-    scope.lr = scope.pc+2 + (offset11<<12);
-    appendResult("BL\t 0x{0}\n".format(Dec2Hex(offset11).toUpperCase()));
+    //scope.lr = scope.pc+2 + (offset11<<12);
+    var sign = offset11 >> 10 & 1;
+    scope.lr = scope.pc+2;
+    if(!sign){
+      appendResult("BL\t 0x{0}\n".format(Dec2Hex(offset11).toUpperCase()));
+      scope.pc = scope.pc+offset11;
+    }else{
+      offset11 = (~offset11+1) & 0x7FF;
+      appendResult("BL\t -0x{0}\n".format(Dec2Hex(offset11).toUpperCase()));
+      scope.pc = scope.pc-offset11;
+    }
   }else{
     //temp := next instruction address
     //PC := LR + OffsetLow << 1
@@ -711,17 +772,18 @@ function format_71(h,offset11,scope){
 }
 
 function appendResult(txt){
-  // var box = $("#result");
-  // box.val(box.val() + txt);
-  var resultEditor = $($("#result")[0]).data('CodeMirrorResultInstance');
-  var resultSoFar = resultEditor.getValue();
-  clearResult();
-  resultEditor.getDoc().setValue(resultSoFar + txt);
+  var box = $("#result");
+  box.val(box.val() + txt);
+  // var resultEditor = $($("#result")[0]).data('CodeMirrorResultInstance');
+  // var resultSoFar = resultEditor.getValue();
+  // resultEditor.getDoc().setValue(resultSoFar + txt);
 }
 
 function clearResult(){
-  var resultEditor = $($("#result")[0]).data('CodeMirrorResultInstance');
-  resultEditor.getDoc().setValue("");
+  var box = $("#result");
+  box.val("");
+  // var resultEditor = $($("#result")[0]).data('CodeMirrorResultInstance');
+  // resultEditor.getDoc().setValue("");
 }
 
 function appendSWI(txt){
@@ -741,6 +803,11 @@ function appendMachineCode(txt){
   var box = $("#sourceCode");
   box.val(box.val() + txt + "\n");
 }
+
+function getImmediate(imm,mask){
+  return imm & mask ? ~(imm)+1:imm;
+}
+
 
 // BINARY - MOVE - PUSH - CLEAR - THEN POP
 // 0010000100000111

@@ -47,13 +47,18 @@ $(document).ready(function() {
       lineWrapping: true,
       smartIndent: true
   });
-  editor.getDoc().setValue("// Write Assembly Code Here");
+
+  var primaryComment = "// Hello World\n\n";
+  var primaryCode = ".code \nbl printHello \nswi 6 \n\nprintHello: \n\tldr r0,=hello\n\tswi 5\n\tbx lr\n\n";
+  var primaryData = ".data \n\t hello: .asciiz \"Hello World\"";
+
+  editor.getDoc().setValue(primaryComment+primaryCode+primaryData);
   editor.setSize("100%","592px");
   $('#assemblyCode').data('CodeMirrorInstance', editor);
 
-  var resultArea = $("#result")[0];
-  var resultEditor = CodeMirror.fromTextArea(resultArea, {lineNumbers: true,gutter: true,lineWrapping: true,readOnly:true,autoRefresh:true});
-  $('#result').data('CodeMirrorResultInstance', resultEditor);
+  // var resultArea = $("#result")[0];
+  // var resultEditor = CodeMirror.fromTextArea(resultArea, {lineNumbers: true,gutter: true,lineWrapping: true,readOnly:true,autoRefresh:true});
+  // $('#result').data('CodeMirrorResultInstance', resultEditor);
 
   $('pre code').each(function(i, block) {
     hljs.highlightBlock(block);

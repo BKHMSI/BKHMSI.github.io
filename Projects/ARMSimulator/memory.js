@@ -1,6 +1,7 @@
 app.service('memory', [function () {
     var memory = {
         data: new Uint8Array(4096),
+        displayMem: [],
         lastAccess: -1,
         load: function (address) {
             var self = this;
@@ -91,9 +92,19 @@ app.service('memory', [function () {
             }
         },
 
+        getColor: function(i){
+          if(i == 200) return  "rgba(86,182,194,0.6)"; // SP
+          else if(i == 8) return "rgba(198,120,221,0.6)"; // PC
+          else if(this.data[i] != 0 && i<2048) return "rgba(72,156,72,0.6)";// Text Segment
+          else if(this.data[i] != 0 && i>=2048) return "rgba(209,154,102,0.6)"; // Data Segment
+          else return "none";
+        },
+
         subset: function(start,end){
           var mem = new Uint8Array(end-start);
-          for(var i = start; i<=end; i++) mem[i] = this.data[i];
+          for(var i = start; i<=end; i++)
+            mem[i] = this.data[i];
+            //this.displayMem[i-start] = {data: this.data[i], color:this.getColor(i)};
           return mem;
         }
     };
