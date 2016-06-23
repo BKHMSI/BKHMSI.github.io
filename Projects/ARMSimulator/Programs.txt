@@ -66,6 +66,9 @@ swi 1
 swi 6
 exit: swi 6
 
+**************************************
+
+
 /******** Recursive Factorial **********\
 
 .code
@@ -88,13 +91,50 @@ Fact_General:
     str r3,[r2,#0]
     sub r0,#1
     bl Factorial
-    mov r2,r13 // Put Stack Pointer into R2
-    ldr r0,[r2,#4] // Load R0 from Memory
+    mov r2,r13 ; Put Stack Pointer into R2
+    ldr r0,[r2,#4] ; Load R0 from Memory
     mul r1,r0
-    ldr r2,[r2,#0] // Load LR from Memory
-    mov r14,r2 // Put it into LR Reg
-    add sp,#8  // Add 8 to Stack Pointer
+    ldr r2,[r2,#0] ; Load LR from Memory
+    mov r14,r2 ; Put it into LR Reg
+    add sp,#8  ; Add 8 to Stack Pointer
     bx lr 
+
+**************************************
+
+/******** Recursive Fibonacci **********\
+
+.code
+
+swi 2
+BL Fib 
+mov r0,r1
+swi 1
+swi 6
+	
+Fib:
+    cmp r0, #1
+    bgt Fib_General
+    mov r1, r0
+    bx lr
+Fib_General:
+    add sp,#-12
+    mov r4,r14 ; Put LR into R4
+    str r4,[SP,#0] ; Store Return Address
+    str r0,[SP,#4] ; Store R0
+    sub r0, #1 ; R0 = R0 -1
+    BL Fib ; Brancha and Link to Fib
+    str r1,[SP,#8] ; Store Return Value
+    ldr r0,[SP,#4] ; Get Argument
+    sub r0,#2 ; R0 = R0 - 2
+    BL Fib
+    ldr r2, [SP,#8]
+    add r1,r1,r2 ; R1 = R1 + R2
+    ldr r4, [SP,#0]
+    mov r14,r4 ; PUT Return Value into LR 
+    add SP,#12
+    bx lr
+
+**************************************
 
 
 /****Comments***\

@@ -48,7 +48,7 @@ $(document).ready(function() {
       smartIndent: true
   });
 
-  var primaryComment = "// Hello World\n\n";
+  var primaryComment = ";Hello World\n\n";
   var primaryCode = ".code \nbl printHello \nswi 6 \n\nprintHello: \n\tldr r0,=hello\n\tswi 5\n\tbx lr\n\n";
   var primaryData = ".data \n\t hello: .asciiz \"Hello World\"";
 
@@ -289,6 +289,27 @@ getChar = function (value) {
   }
 }
 
+/******* Action Dialog Code *****/
+
+showActionDialog = function(){
+  $( ".action_dialog" ).dialog({
+    resizable: false,
+    modal: true,
+    "open": function() {
+        $( "#page" ).addClass( "blur" );
+        $(".action_dialog").show();
+      },
+      "close": function() {
+        $( "#page" ).removeClass( "blur" );
+        $(".action_dialog").hide();
+      }
+    });
+}
+
+function hideActionDialog(){
+  $(".action_dialog").dialog( "close" );
+}
+
 function readFile(evt) {
   //Retrieve the first (and only!) File from the FileList object
   if (window.File && window.FileReader && window.FileList && window.Blob) {
@@ -309,4 +330,196 @@ function readFile(evt) {
   }
  }else
   alert('The File APIs are not fully supported by your browser.');
+}
+
+function importMachineCode(evt) {
+  //Retrieve the first (and only!) File from the FileList object
+  if (window.File && window.FileReader && window.FileList && window.Blob) {
+    var file = evt.target.files[0];
+    if (file) {
+      var read = new FileReader();
+      read.onload = function(e){
+        var contents = e.target.result;
+        var data =  new Uint8Array(contents);
+        for(var i = 0; i<data.length; i++){
+          appendMachineCode(data[i]);
+        }
+    }
+    //read.readAsBinaryString(file);
+    read.readAsArrayBuffer(file);
+  } else {
+    alert("Failed to load file");
+  }
+ }else
+  alert('The File APIs are not fully supported by your browser.');
+}
+
+function importAssemblyCode(evt) {
+  //Retrieve the first (and only!) File from the FileList object
+  if (window.File && window.FileReader && window.FileList && window.Blob) {
+    var file = evt.target.files[0];
+    clearAssembly();
+    if (file) {
+      var read = new FileReader();
+      read.onload = function(e){
+        var contents = e.target.result;
+        var data =  new Array(contents);
+        for(var i = 0; i<data.length; i++){
+          appendAssembly(data[i]);
+        }
+    }
+    read.readAsText(file);
+  } else {
+    alert("Failed to load file");
+  }
+ }else
+  alert('The File APIs are not fully supported by your browser.');
+}
+
+function exportCode(){
+  alert("Feature still not working");
+}
+
+
+function showSamplePrograms(){
+  hideActionDialog();
+  $( ".sample_dialog" ).dialog({
+    resizable: false,
+    modal: true,
+    "open": function() {
+        $(".sample_dialog").show();
+      },
+      "close": function() {
+        $(".sample_dialog").hide();
+      }
+    });
+}
+
+function closeSampleDialog(){
+  $(".sample_dialog").dialog( "close" );
+}
+
+/******* Sample Program Code *****/
+
+function writeFactorial(){
+  clearAssembly();
+  var program = [
+    "; Recusrive Factorial",
+    ".code",
+    "",
+    "swi 2",
+    "bl Factorial",
+    "mov r0,r1",
+    "swi 1",
+    "swi 6",
+    "",
+    "Factorial:",
+    "\tcmp r0, #1",
+    "\tbgt Fact_General",
+    "\tmov r1,#1",
+    "\tbx lr",
+    "Fact_General:",
+    "\tadd sp,#-8",
+    "\tmov r2,r13",
+    "\tstr r0,[r2,#4]",
+    "\tmov r3,r14",
+    "\tstr r3,[r2,#0]",
+    "\tsub r0,#1",
+    "\tbl Factorial",
+    "\tmov r2,r13 ; Put Stack Pointer into R2",
+    "\tldr r0,[r2,#4] ; Load R0 from Memory",
+    "\tmul r1,r0",
+    "\tldr r2,[r2,#0] ; Load LR from Memory",
+    "\tmov r14,r2 ; Put it into LR Reg",
+    "\tadd sp,#8  ; Add 8 to Stack Pointer",
+    "\tbx lr"
+  ];
+  for(var i = 0; i<program.length; i++){
+    appendAssembly(program[i]+"\n");
+  }
+  closeSampleDialog();
+}
+
+function writeFibonnaci(){
+  clearAssembly();
+  var program = [
+    "; Recusrive Fibonnaci",
+    ".code",
+    "",
+    "swi 2",
+    "BL Fib",
+    "mov r0,r1",
+    "swi 1",
+    "swi 6",
+    "",
+    "Fib:",
+    "\tcmp r0, #1",
+    "\tbgt Fib_General",
+    "\tmov r1, r0",
+    "\tbx lr",
+    "Fib_General:",
+    "\tadd sp,#-12",
+    "\tmov r4,r14 ; Put LR into R4",
+    "\tstr r4,[SP,#0] ; Push Return Address",
+    "\tstr r0,[SP,#4] ; Push R0",
+    "\tsub r0, #1 ; R0 = R0 -1",
+    "\tBL Fib ; Brancha and Link to Fib",
+    "\tstr r1,[SP,#8] ; Push Return Value",
+    "\tldr r0,[SP,#4] ; POP Argument/R0",
+    "\tsub r0,#2 ; R0 = R0 - 2",
+    "\tBL Fib",
+    "\tldr r2, [SP,#8]",
+    "\tadd r1,r1,r2 ; R1 = R1 + R2",
+    "\tldr r4, [SP,#0]",
+    "\tmov r14,r4 ; PUT Return Value into LR ",
+    "\tadd SP,#12",
+    "\tbx lr"
+  ];
+  for(var i = 0; i<program.length; i++){
+    appendAssembly(program[i]+"\n");
+  }
+  closeSampleDialog();
+}
+
+function writeSummation(){
+  clearAssembly();
+  var program = [
+    "; Calculate Summation",
+    ".text",
+    "",
+    "swi 2",
+    "add r1,r0,#0",
+    "loop: sub r1,#1",
+    "add r0,r0,r1",
+    "cmp r1,#0",
+    "bne loop",
+    "exit: swi 1"
+  ];
+  for(var i = 0; i<program.length; i++){
+    appendAssembly(program[i]+"\n");
+  }
+  closeSampleDialog();
+}
+
+
+function writePUSHPOP(){
+  clearAssembly();
+  var program = [
+    "; Random Push Pop Operation",
+    ".text",
+    "",
+    "mov r0,#5",
+    "mov r1,r0",
+    "add r1,#10",
+    "push {r0-r1}",
+    "pop {r2-r3}",
+    "mov r0,r2",
+    "swi 1",
+    "mov r0,r3",
+    "swi 1"
+  ];
+  for(var i = 0; i<program.length; i++){
+    appendAssembly(program[i]+"\n");
+  }
+  closeSampleDialog();
 }

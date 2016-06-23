@@ -481,16 +481,17 @@ function format_4(instr,scope){
 //sp relative load/store
 function format_41(instr,scope){
   var L = (instr >> 11) & 1;
-  var rd = (instr >> 8) & 3;
-  var word8 = instr & 8;
-  appendResult("{0}\t r{1}, [SP, #{2}]\n".format(format41[op], rd, word8));
+  var rd = (instr >> 8) & 7;
+  var word8 = instr & 0xFF;
 
   switch (L)  {
     case 0:
-    scope.storeWord(scope.regs[rd], scope.sp+word8);
+    scope.memory.storeWord(scope.sp+word8,scope.regs[rd]);
+    appendResult("str\t r{0}, [SP, #{1}]\n".format(rd, word8));
     break;
     case 1:
-    scope.regs[rd] = scope.loadWord(scope.sp+word8);
+    scope.regs[rd] = scope.memory.loadWord(scope.sp+word8);
+    appendResult("ldr\t r{0}, [SP, #{1}]\n".format(rd, word8));
     break;
   }
 }
@@ -784,6 +785,17 @@ function clearResult(){
   box.val("");
   // var resultEditor = $($("#result")[0]).data('CodeMirrorResultInstance');
   // resultEditor.getDoc().setValue("");
+}
+
+function appendAssembly(txt){
+  var editor = $($("#assemblyCode")[0]).data('CodeMirrorInstance');
+  var resultSoFar = editor.getValue();
+  editor.getDoc().setValue(resultSoFar + txt);
+}
+
+function clearAssembly(){
+  var editor = $($("#assemblyCode")[0]).data('CodeMirrorInstance');
+  editor.getDoc().setValue("");
 }
 
 function appendSWI(txt){

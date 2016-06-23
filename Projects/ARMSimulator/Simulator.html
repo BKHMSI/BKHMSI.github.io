@@ -13,6 +13,10 @@
         <script type="text/javascript" src="simulator.js"></script>
         <script type="text/javascript" src="other.js"></script>
 
+        <!-- JQuery UI -->
+        <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+
         <!-- CodeMriror -->
         <script src="Dependencies/CodeMirror-master/lib/codemirror.js"></script>
         <link rel="stylesheet" href="Dependencies/CodeMirror-master/lib/codemirror.css">
@@ -56,7 +60,13 @@
                 <div class="col-lg-7 col-md-6">
                     <div class="panel panel-default" ng-hide="!isDev">
                         <div class="panel-heading" style="height:60px">
-                            <h4 class="panel-title">Code <small>(<a href="https://ece.uwaterloo.ca/~ece222/ARM/ARM7-TDMI-manual-pt3.pdf" target="_blank" style="color: #337AB7">Instruction Set</a>)</small></h4>
+                            <h4 class="panel-title" style="display:inline-block">Code <small>(<a href="https://ece.uwaterloo.ca/~ece222/ARM/ARM7-TDMI-manual-pt3.pdf" target="_blank" style="color: #337AB7">Instruction Set</a>)</small></h4>
+
+                            <div style="float:right; display:inline-block">
+                              <button onclick="showActionDialog()" class="btn btn-primary" style="width:130px; height:40px; font-size:12px">
+                                <span class="glyphicon glyphicon-share"></span> Action</button>
+                            </div>
+                            <br>
                             <select class="sel" style="display:inline; margin-top:7px" id="instType" onChange="displayPlaceHolder(value);">
                               <option value="0">Binary</option>
                               <option value="1">Hexadecimal</option>
@@ -64,11 +74,10 @@
                             </select>
                             <small style="color:black">&nbsp;&nbsp;Show Machine Code</small>
                             <input type="checkbox" ng-model="hideMachineCode"/>
-                            <!-- <div type="button" id="fileinput" class="btn btn-default" style="float:right;" ng-click="action()">
-                              <span class="glyphicon glyphicon-share"></span> Action
-                            </div> -->
-                            <input class="inputfile" type="file" id="fileinput"/>
-                            <script>document.getElementById('fileinput').addEventListener('change', readFile, false);</script>
+
+
+                            <!-- <input class="inputfile" type="file" id="fileinput"/>
+                            <script>document.getElementById('fileinput').addEventListener('change', readFile, false);</script> -->
                         </div>
                         <div class="panel-body">
                             <form role="form">
@@ -441,6 +450,26 @@
                   </table>
                 </div>
               </div>
+              <div class="action_dialog" style="display:none;">
+                <h2 style="text-align:center">Choose Action</h2>
+                <button type="button" class="btn btn-default" style="width:100%" onclick="showSamplePrograms()">Sample Programs</button><br>
+                <button type="button" class="btn btn-default" style="width:100%" onclick="exportCode()">Export Code</button><br><br>
+                <strong>Import Machine Code</strong><br>
+                <input type="file" id="binaryFileInput" class="btn btn-default" style="width:100%"/><br>
+                <script>document.getElementById('binaryFileInput').addEventListener('change', importMachineCode, false);</script>
+                <strong>Import Assembly Code</strong><br>
+                <input type="file" id="assemblyFileInput" class="btn btn-default" style="width:100%"/>
+                <script>document.getElementById('assemblyFileInput').addEventListener('change', importAssemblyCode, false);</script>
+             </div>
+
+             <div class="sample_dialog" style="display:none;">
+               <h2 style="text-align:center">Sample Programs</h2>
+               <button type="button" class="btn btn-default" style="width:100%" onclick="writeFactorial()">Factorial</button><br>
+               <button type="button" class="btn btn-default" style="width:100%" onclick="writeFibonnaci()">Fibonnaci</button><br>
+               <button type="button" class="btn btn-default" style="width:100%" onclick="writeSummation()">Summation</button><br>
+               <button type="button" class="btn btn-default" style="width:100%" onclick="writePUSHPOP()">PUSH/POP</button>
+            </div>
+
             <hr style="margin-top:10px;margin-bottom:10px;"/>
             <p><small> &copy; Badr AlKhamissi</small></p>
         </div>

@@ -95,7 +95,7 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
         $("#swi").val("");
         clearResult();
         var editor = $($("#assemblyCode")[0]).data('CodeMirrorInstance');
-        var instructions = editor.setValue("// Write Assembly Code Here");
+        var instructions = editor.setValue("; Write Assembly Code Here");
         $scope.continue = "Run";
         $scope.error = '';
         $scope.selectedLine = -1;
@@ -137,8 +137,8 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
 
       var j = 0;
       for(var i = 8; i<instr.length-4; i+=2){
-        while(assemblyInstr[j].indexOf("//") != -1){
-          var comment = assemblyInstr[j].substring(assemblyInstr[j].indexOf("//"),assemblyInstr[j].length);
+        while(assemblyInstr[j].indexOf(";") != -1){
+          var comment = assemblyInstr[j].substring(assemblyInstr[j].indexOf(";"),assemblyInstr[j].length);
           assemblyInstr[j] = assemblyInstr[j].replace(comment,"");
           if(assemblyInstr[j].trim() != "") break;
           j++;

@@ -85,18 +85,18 @@ app.service('assembler', [function () {
                       /*** Format 6 ***/
                       var rd = parseInt(regs[0].replace("r",""));
                       var imm = parseInt(regs[2].replace("#",""));
-                      var instr = (1<<14) + (1<<11) + (rd<<8) + imm;
-                      append16MachineCode(instr);
+                      var inst = (1<<14) + (1<<11) + (rd<<8) + imm;
+                      append16MachineCode(inst);
                     }else if(regs[1] == "sp"){
                       /*** Format 11 ***/
                       var rd = parseInt(regs[0].replace("r",""));
                       var imm = parseInt(regs[2].replace("#",""));
                       if(men == "str"){
-                        instr = (1<<15)+(1<<12)+(rd<<8)+imm;
+                        inst = (1<<15)+(1<<12)+(rd<<8)+imm;
                       }else if(men == "ldr"){
-                        instr = (1<<15)+(1<<12)+(1<<11)+(rd<<8)+imm;
+                        inst = (1<<15)+(1<<12)+(1<<11)+(rd<<8)+imm;
                       }else{ throw "Error in Line: "+(i+1);}
-                      append16MachineCode(instr);
+                      append16MachineCode(inst);
                     }else{
                       if(regs[2].indexOf("#") == -1){
                         if(!this.evaluate5(men,regs))
@@ -124,7 +124,7 @@ app.service('assembler', [function () {
                   }else{
                     /*** Format 15 ***/
                     var rb = list.substring(0,list.indexOf(',')).trim();
-                    var instr = 0;
+                    var inst = 0;
                     rb = rb.replace("!","");
                     rb = rb.replace("r","");
                     var rlist = list.substring(list.indexOf(','),list.length).trim();
@@ -133,13 +133,13 @@ app.service('assembler', [function () {
                     var regList = rlist.split(',');
                     for(var j = 0; j<regList.length; j++){regList[j] = regList[j].trim();}
                     if(men == "stmia"){
-                      instr = (12<<12)+(parseInt(rb))+this.parseRList(regList);
+                      inst = (12<<12)+(parseInt(rb))+this.parseRList(regList);
                     }else if(men == "ldmia"){
-                      instr = (12<<12)+(1<<11)+(parseInt(rb))+this.parseRList(regList);
+                      inst = (12<<12)+(1<<11)+(parseInt(rb))+this.parseRList(regList);
                     }else{
                       throw "Error in Line "+i+1;
                     }
-                    append16MachineCode(instr);
+                    append16MachineCode(inst);
                   }
                 }
               }else{
@@ -174,8 +174,8 @@ app.service('assembler', [function () {
         for(var i = 0; i<instr.length; i++){
 
           // There is a comment so remove it
-          if(instr[i].indexOf("//") != -1){
-            var comment = instr[i].substring(instr[i].indexOf("//"),instr[i].length);
+          if(instr[i].indexOf(";") != -1){
+            var comment = instr[i].substring(instr[i].indexOf(";"),instr[i].length);
             instr[i] = instr[i].replace(comment,"");
           }
 
@@ -189,6 +189,7 @@ app.service('assembler', [function () {
               instr[i] = instr[i].substring(instr[i].indexOf(":")+1,instr[i].length).trim();
             }else{
               // If label is not in the same line as instruction
+              instr.splice(i,1);
               while(instr[i].trim() == "")
                   instr.splice(i,1);
               this.labels[label] = idx;
