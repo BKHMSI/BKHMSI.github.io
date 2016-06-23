@@ -188,6 +188,7 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
           if(!isMemoryLoaded())
               load();
           var instr = parseInt(memory.loadHalf($scope.pc));
+          if(lastSWI != -1 && !exit) alert("Take a look at the Software Interrupts Console, looks like it needs your attention");
           while(instr != 0xDEAD && !isSWI(instr) && lastSWI == -1 && !exit){
             updateSpecialRegs();
             decode(instr,$scope);
@@ -219,6 +220,7 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
               load();
           var instr = parseInt(memory.loadHalf($scope.pc));
           updateSpecialRegs();
+          if(lastSWI != -1 && !exit) alert("Take a look at the Software Interrupts Console, looks like it needs your attention");
           if(instr != 0xDEAD && !exit && !isSWI(instr) && lastSWI == -1){
             $scope.continue = "Continue";
             for(var i = 0; i<$scope.sourceCode.length; i++)
