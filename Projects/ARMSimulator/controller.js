@@ -94,8 +94,8 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
         $("#sourceCode").val("");
         $("#swi").val("");
         clearResult();
-        var editor = $($("#assemblyCode")[0]).data('CodeMirrorInstance');
-        var instructions = editor.setValue("; Write Assembly Code Here");
+        var editor = ace.edit("assemblyCode");
+        editor.setValue("; Write Assembly Code Here");
         $scope.continue = "Run";
         $scope.error = '';
         $scope.selectedLine = -1;
@@ -465,7 +465,9 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
     $scope.assemble = function(){
       try {
         $("#sourceCode").val("");
-        var editor = $($("#assemblyCode")[0]).data('CodeMirrorInstance');
+        // var editor = $($("#assemblyCode")[0]).data('CodeMirrorInstance');
+        // var instructions = editor.getValue();
+        var editor = ace.edit("assemblyCode");
         var instructions = editor.getValue();
         var instr = instructions.toLowerCase().split("\n");
         for(var i = 0; i<instr.length; i++){instr[i] = instr[i].trim();}
@@ -475,6 +477,8 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
         assembler.setDataLabels($scope.dataLabels);
         assembler.parse(instr);
         load();
+        var rEditor = ace.edit("result");
+        rEditor.setTheme("ace/theme/"+selectedTheme);
         $scope.isDev = false;
         $scope.hideDataLabels = Object.keys($scope.dataLabels).length == 0;
       } catch (e) {

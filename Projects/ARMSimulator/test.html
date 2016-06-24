@@ -5,6 +5,9 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"/></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ace.js"/></script>
 
+        <script src="Dependencies/ace-builds-master/src/ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="Dependencies/ace-builds-master/src/theme-twilight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="Dependencies/ace-builds-master/src/mode-assembly_x86.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Bootstrap -->
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
@@ -12,15 +15,50 @@
         <title>Testing Editor</title>
     </head>
 
+    <style>
+    #editor, #editor2 {
+        position: absolute;
+        width: 600px;
+        height: 400px;
+    }
+
+    </style>
+
+    <script>
+    window.onload = function() {
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/twilight");
+        var assemblyMode = require("ace/mode/assembly_x86").Mode;
+        editor.getSession().setMode(new assemblyMode());
+
+        var editor2 = ace.edit("editor2");
+        editor2.setTheme("ace/theme/twilight");
+        editor2.getSession().setMode(new assemblyMode());
+        editor2.getSession().setValue("Hello From the other side");
+        console.log(editor2.getSession().getValue());
+
+    };
+    </script>
+
     <body>
       <div id="page">
-        <textarea id="assemblyCode"
+        <!-- <textarea id="assemblyCode"
                   class="form-control source-code"
                   placeholder="Enter ARM Thumb Assembly Code"
                   style="margin-bottom:5px; color:black; width:100%;"
                   rows="40"
                   tab-support
-                  select-line></textarea>
+                  select-line></textarea> -->
+
+                  <div style="position:relative; height: 450px; " >
+                  &nbsp;
+                  <div id="editor">some text</div>
+                  </div>
+                  <div style="position:relative; height: 450px; " >
+                  &nbsp;
+                  <div id="editor2">some text</div>
+                  </div>
         </div>
+
     </body>
 </html>

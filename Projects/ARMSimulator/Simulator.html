@@ -22,6 +22,17 @@
         <link rel="stylesheet" href="Dependencies/CodeMirror-master/lib/codemirror.css">
         <script src="Dependencies/CodeMirror-master/mode/javascript/javascript.js"></script>
 
+        <!-- ACE Editor -->
+        <script src="Dependencies/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="Dependencies/ace/mode-assembly_x86.js" type="text/javascript" charset="utf-8"></script>
+        <script src="Dependencies/ace/theme-twilight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="Dependencies/ace/theme-xcode.js" type="text/javascript" charset="utf-8"></script>
+        <script src="Dependencies/ace/theme-ambiance.js" type="text/javascript" charset="utf-8"></script>
+        <script src="Dependencies/ace/theme-clouds_midnight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="Dependencies/ace/theme-github.js" type="text/javascript" charset="utf-8"></script>
+        <script src="Dependencies/ace/theme-pastel_on_dark.js" type="text/javascript" charset="utf-8"></script>
+
+
         <!-- HighlightJS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
@@ -67,7 +78,16 @@
                                 <span class="glyphicon glyphicon-share"></span> Action</button>
                             </div>
                             <br>
-                            <select class="sel" style="display:inline; margin-top:7px" id="instType" onChange="displayPlaceHolder(value);">
+                            <select class="sel" style="display:inline; margin-top:7px" id="theme" onChange="changeTheme(value);">
+                              <option value="0">Ambiance Theme</option>
+                              <option value="1">Chrome Theme</option>
+                              <option value="2">Clouds_midnight Theme</option>
+                              <option value="3">Github Theme</option>
+                              <option value="4">Twilight Theme</option>
+                              <option value="5">Pastel on Dark Theme</option>
+                              <option value="6" selected="selected">Xcode Theme</option>
+                            </select>
+                            <select class="sel" ng-show="hideMachineCode" style="display:inline; margin-top:7px" id="instType" onChange="displayPlaceHolder(value);">
                               <option value="0">Binary</option>
                               <option value="1">Hexadecimal</option>
                               <option value="2" selected="selected">Decimal</option>
@@ -89,7 +109,7 @@
                                           tab-support
                                           select-line
                                           ng-hide="!hideMachineCode"></textarea>
-                                <textarea id="assemblyCode"
+                                <!-- <textarea id="assemblyCode"
                                           class="form-control source-code"
                                           placeholder="Enter ARM Thumb Assembly Code"
                                           style="margin-bottom:5px; color:black; width:100%;"
@@ -97,7 +117,9 @@
                                           rows="40"
                                           tab-support
                                           select-line
-                                          ng-mode='code'></textarea>
+                                          ng-mode='code'></textarea> -->
+                                          <div style="height:700px;width:100%;margin-bottom:5px;font-size:16px" id="assemblyCode"></div>
+
                                 <pre style="display:none"><code class="ARM Assembly"></code></pre>
                                 <button type="button" class="btn btn-default" ng-click="assemble()"><i class="fa fa-gears" aria-hidden="true"></i> Assemble</button>
                             </form>
@@ -170,14 +192,16 @@
                               </div>
                           </div><hr>
                           <h4 class="panel-title" style="padding:5px; color:black">Generated Assembly Code</h4>
-                          <textarea id="result"
+                          <div style="width:100%;margin-bottom:5px; height:300px;" id="result"></div>
+
+                          <!-- <textarea id="result"
                                     placeholder="Generated ARM Thumb Assembly Code"
                                     style="margin-bottom:5px; color:black; width:100%;"
                                     ng-keydown="processSWI($event)"
                                     rows="10"
                                     tab-support
                                     select-line
-                                    ng-mode='code'></textarea>
+                                    ng-mode='code'></textarea> -->
                     </div>
                 </div>
                 <div class="clearfix visible-xs visible-sm"></div>
@@ -453,7 +477,7 @@
               <div class="action_dialog" style="display:none;">
                 <h2 style="text-align:center">Choose Action</h2>
                 <button type="button" class="btn btn-default" style="width:100%" onclick="showSamplePrograms()">Sample Programs</button><br>
-                <button type="button" class="btn btn-default" style="width:100%" onclick="exportCode()">Export Code</button><br><br>
+                <button type="button" class="btn btn-default" style="width:100%" onclick="exportCode()">Email Code</button><br><br>
                 <strong>Import Machine Code</strong><br>
                 <input type="file" id="binaryFileInput" class="btn btn-default" style="width:100%"/><br>
                 <script>document.getElementById('binaryFileInput').addEventListener('change', importMachineCode, false);</script>
@@ -465,7 +489,7 @@
              <div class="sample_dialog" style="display:none;">
                <h2 style="text-align:center">Sample Programs</h2>
                <button type="button" class="btn btn-default" style="width:100%" onclick="writeFactorial()">Factorial</button><br>
-               <button type="button" class="btn btn-default" style="width:100%" onclick="writeFibonnaci()">Fibonnaci</button><br>
+               <button type="button" class="btn btn-default" style="width:100%" onclick="writeFibonnaci()">Fibonacci</button><br>
                <button type="button" class="btn btn-default" style="width:100%" onclick="writeSummation()">Summation</button><br>
                <button type="button" class="btn btn-default" style="width:100%" onclick="writePUSHPOP()">PUSH/POP</button>
             </div>

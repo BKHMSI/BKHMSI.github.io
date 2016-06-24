@@ -1,3 +1,5 @@
+var selectedTheme = "xcode";
+
 function displayPlaceHolder(value){
   var machineCode = $("#sourceCode").val().split("\n");
   $("#sourceCode").val("");
@@ -40,30 +42,51 @@ function displayPlaceHolder(value){
 }
 
 $(document).ready(function() {
-  var textArea = $("#assemblyCode")[0];
-  var editor = CodeMirror.fromTextArea(textArea, {
-      lineNumbers: true,
-      gutter: true,
-      lineWrapping: true,
-      smartIndent: true
-  });
+  // var textArea = $("#assemblyCode")[0];
+  // var editor = CodeMirror.fromTextArea(textArea, {
+  //     lineNumbers: true,
+  //     gutter: true,
+  //     lineWrapping: true,
+  //     smartIndent: true
+  // });
 
   var primaryComment = ";Hello World\n\n";
   var primaryCode = ".code \nbl printHello \nswi 6 \n\nprintHello: \n\tldr r0,=hello\n\tswi 5\n\tbx lr\n\n";
   var primaryData = ".data \n\t hello: .asciiz \"Hello World\"";
 
-  editor.getDoc().setValue(primaryComment+primaryCode+primaryData);
-  editor.setSize("100%","592px");
-  $('#assemblyCode').data('CodeMirrorInstance', editor);
+  // editor.getDoc().setValue(primaryComment+primaryCode+primaryData);
+  // editor.setSize("100%","592px");
+  // $('#assemblyCode').data('CodeMirrorInstance', editor);
 
-  // var resultArea = $("#result")[0];
-  // var resultEditor = CodeMirror.fromTextArea(resultArea, {lineNumbers: true,gutter: true,lineWrapping: true,readOnly:true,autoRefresh:true});
-  // $('#result').data('CodeMirrorResultInstance', resultEditor);
+  var editor = ace.edit("assemblyCode");
+  editor.setTheme("ace/theme/xcode");
+  var assemblyMode = require("ace/mode/assembly_x86").Mode;
+  editor.getSession().setMode(new assemblyMode());
+  editor.getSession().setValue(primaryComment+primaryCode+primaryData);
+
+  var rEditor = ace.edit("result");
+  rEditor.setTheme("ace/theme/xcode");
+  rEditor.getSession().setMode(new assemblyMode());
+
 
   $('pre code').each(function(i, block) {
     hljs.highlightBlock(block);
   });
 });
+
+function changeTheme(value){
+  var editor = ace.edit("assemblyCode");
+  switch (parseInt(value)) {
+    case 0: editor.setTheme("ace/theme/ambiance");selectedTheme = "ambiance"; break;
+    case 1: editor.setTheme("ace/theme/chrome");selectedTheme = "chrome"; break;
+    case 2: editor.setTheme("ace/theme/clouds_midnight");selectedTheme = "clouds_midnight"; break;
+    case 3: editor.setTheme("ace/theme/github"); selectedTheme = "github";break;
+    case 4: editor.setTheme("ace/theme/twilight"); selectedTheme = "twilight";break;
+    case 5: editor.setTheme("ace/theme/pastel_on_dark"); selectedTheme = "pastel_on_dark";break;
+    case 6: editor.setTheme("ace/theme/xcode"); selectedTheme = "xcode";break;
+    default: break;
+  }
+}
 
 function selectLine(line){
   selectTextareaLine($("#result")[0],line);
@@ -377,7 +400,11 @@ function importAssemblyCode(evt) {
 }
 
 function exportCode(){
-  alert("Feature still not working");
+  var editor = ace.edit("assemblyCode");
+  var program = editor.getValue().split('\n')
+  var code = "";
+  for(var i = 0; i<program.length; i++) code+=(program[i]+"\n");
+  window.location.href = "mailto:?subject=My%20ARM%20Thumb%20Program&body="+code;
 }
 
 
@@ -443,7 +470,7 @@ function writeFactorial(){
 function writeFibonnaci(){
   clearAssembly();
   var program = [
-    "; Recusrive Fibonnaci",
+    "; Recusrive Fibonacci",
     ".code",
     "",
     "swi 2",

@@ -773,29 +773,34 @@ function format_71(h,offset11,scope){
 }
 
 function appendResult(txt){
-  var box = $("#result");
-  box.val(box.val() + txt);
-  // var resultEditor = $($("#result")[0]).data('CodeMirrorResultInstance');
-  // var resultSoFar = resultEditor.getValue();
-  // resultEditor.getDoc().setValue(resultSoFar + txt);
+  // var box = $("#result");
+  // box.val(box.val() + txt);
+  var editor = ace.edit("result");
+  var resultSoFar = editor.getValue();
+  editor.getSession().setValue(resultSoFar + txt);
 }
 
 function clearResult(){
-  var box = $("#result");
-  box.val("");
-  // var resultEditor = $($("#result")[0]).data('CodeMirrorResultInstance');
-  // resultEditor.getDoc().setValue("");
+  // var box = $("#result");
+  // box.val("");
+  var editor = ace.edit("result");
+  editor.getSession().setValue("");
 }
 
 function appendAssembly(txt){
-  var editor = $($("#assemblyCode")[0]).data('CodeMirrorInstance');
+  // var editor = $($("#assemblyCode")[0]).data('CodeMirrorInstance');
+  // var resultSoFar = editor.getValue();
+  // editor.getDoc().setValue(resultSoFar + txt);
+  var editor = ace.edit("assemblyCode");
   var resultSoFar = editor.getValue();
-  editor.getDoc().setValue(resultSoFar + txt);
+  editor.getSession().setValue(resultSoFar + txt);
 }
 
 function clearAssembly(){
-  var editor = $($("#assemblyCode")[0]).data('CodeMirrorInstance');
-  editor.getDoc().setValue("");
+  // var editor = $($("#assemblyCode")[0]).data('CodeMirrorInstance');
+  // editor.getDoc().setValue("");
+  var editor = ace.edit("assemblyCode");
+  editor.getSession().setValue("");
 }
 
 function appendSWI(txt){
