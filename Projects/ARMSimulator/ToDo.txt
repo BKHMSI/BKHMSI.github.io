@@ -15,12 +15,7 @@ Unanswered
 Features
 
 1. Check for Syntax Errors during assembly phase
-2. Syntax highlighting for ARM assembly 
-3. Importing/Exporting Machine/Assembly Code and Sample Code
-4. Changing Theme of Code Mirror / ACE Editor
-5. Testing!!!
 6. User Layer — User accounts using AngularFire, to store/share programs.
-7. Alert user when trying to step and there is an SWI 
 8. Execute instruction after highlighting 
 9. Test push pop with PC and LR
 10. Test carry flag
@@ -40,3 +35,10 @@ Done
 	7. .space
 2. Pseudo Instructions
 3. Comments ;
+4. Syntax highlighting for ARM assembly 
+5. Importing/Exporting Machine/Assembly Code and Sample Code
+6. Changing Theme of Code Mirror / ACE Editor
+7. Alert user when trying to step and there is an SWI 
+8. Testing!!!
+
+
