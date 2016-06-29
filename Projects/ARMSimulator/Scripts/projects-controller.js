@@ -9,7 +9,7 @@ app.controller('ProjectsController', ['$scope', '$window', function($scope, $win
   $scope.projects = [
   ];
 
-  $scope.navTitles = ["Simulator","My Projects","All Projects","Sign Out"];
+  $scope.navTitles = ["New Project","My Projects","All Projects","Sign Out"];
 
   // Initialize Firebase
   var config = {
@@ -21,12 +21,17 @@ app.controller('ProjectsController', ['$scope', '$window', function($scope, $win
   firebase.initializeApp(config);
 
   $window.onload = function() {
-    if(window.location.href.indexOf("projects-all") != -1){
-      // Fetch all public projects
-      $scope.fetchAllProjects();
+    if(firebase.auth().currentUser){
+      if(window.location.href.indexOf("projects-all") != -1){
+        // Fetch all public projects
+        $scope.fetchAllProjects();
+      }else{
+        $scope.fetchProjects();
+      }
     }else{
-      $scope.fetchProjects();
+      window.location.href = "Simulator.html";
     }
+
   };
 
   $scope.editPressed = function(idx){
@@ -104,7 +109,6 @@ app.controller('ProjectsController', ['$scope', '$window', function($scope, $win
     }else{
       switch (i) {
         case 1: window.location.href = "sign-in.html"; break;
-        case 2: window.location.href = "projects-all.html"; break;
         default:
       }
     }

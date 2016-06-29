@@ -70,7 +70,7 @@ app.controller('MainController', ['$scope', '$routeParams', '$timeout','$window'
           ];
 
     $scope.user = {email:"",fname:"",lname:""};
-    $scope.navTitles = ["Simulator","Log-In","All Projects"];
+    $scope.navTitles = ["Simulator","Log-In"];
     $scope.project = {title: "",desc:"",isPublic:true};
     $scope.projId = "";
     $scope.isSave = false; // Hide or Show save button
@@ -144,6 +144,7 @@ app.controller('MainController', ['$scope', '$routeParams', '$timeout','$window'
           }else{
             alert("This Project is Not Public");
           }
+          $scope.updateNavBar(firebase.auth().currentUser);
       });
     };
 
@@ -696,7 +697,7 @@ app.controller('MainController', ['$scope', '$routeParams', '$timeout','$window'
           $scope.navTitles = ["New Project","My Projects","All Projects","Sign Out"];
         }
       }else{
-        $scope.navTitles = ["Simulator","Log-In","All Projects"];
+        $scope.navTitles = ["Simulator","Log-In"];
       }
     };
 
