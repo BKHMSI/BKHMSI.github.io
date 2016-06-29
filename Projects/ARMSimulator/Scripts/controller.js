@@ -100,7 +100,6 @@ app.controller('MainController', ['$scope', '$routeParams', '$timeout','$window'
         $scope.fetchProject($scope.projId);
       else
         $scope.isSave = true;
-      $scope.$apply();
     });
 
     $window.onload = function(){
@@ -109,22 +108,26 @@ app.controller('MainController', ['$scope', '$routeParams', '$timeout','$window'
 
 
     $scope.save = function(){
-      if($scope.projId){
-        // Update Code
-        if($scope.isSave){
-          var date = new Date;
-          var key = $scope.projId;
-          firebase.database().ref('projects/'+key).update({
-            project: getAssemblyCode(),
-            updated_at: date.getTime()
-          }).then(function(){
-            alert("Project Updated");
-          });
+      if(firebase.auth().currentUser){
+        if($scope.projId){
+          // Update Code
+          if($scope.isSave){
+            var date = new Date;
+            var key = $scope.projId;
+            firebase.database().ref('projects/'+key).update({
+              project: getAssemblyCode(),
+              updated_at: date.getTime()
+            }).then(function(){
+              alert("Project Updated");
+            });
+          }else{
+            alert("You can't save this project");
+          }
         }else{
-          alert("You can't save this project");
+          showSaveDialog();
         }
       }else{
-        showSaveDialog();
+        alert("You must log-in to save project");
       }
     };
 
