@@ -1,0 +1,86 @@
+<!Doctype HTML>
+<html ng-app="ArmSim">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"/></script>
+        <script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://code.angularjs.org/1.5.3/angular-route.js"></script>
+
+        <script type="text/javascript" src="Scripts/controller.js"></script>
+        <script type="text/javascript" src="Scripts/projects-controller.js"></script>
+        <script type="text/javascript" src="Scripts/other.js"></script>
+
+        <!-- FireBase -->
+        <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+        <script src="https://cdn.firebase.com/libs/angularfire/1.2.0/angularfire.min.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+
+        <!-- JQuery UI -->
+        <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+
+        <!-- Bootstrap -->
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+        <link href="Stylesheets/index.css" rel="stylesheet" type="text/css"/>
+        <link href="Stylesheets/grid.css" rel="stylesheet" type="text/css"/>
+        <title>ARM Thumb Projects</title>
+    </head>
+    <body ng-controller="ProjectsController" style="background-color: #343d46;">
+      <div id="page">
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+            <a style="color:white;">{{user.fname}} {{user.lname}}</a>
+            <a style="cursor:pointer" ng-repeat="nav in navTitles track by $index" ng-click="goToLink($index)">{{nav}}</a>
+            <a href="mailto:badr@khamissi.com?subject=ARM Thumb Simulator Bug">Report a Bug</a>
+        </div>
+        <nav class="navbar navbar-inverse" role="navigation" style="background-color:#black;border:0px;border-radius:0px;">
+          <span style="font-size:30px;cursor:pointer;color:white; float:left; padding-top:12px; padding-left:15px" onclick="openNav()">☰</span>
+            <div class="container">
+                <div class="navbar-header">
+                  <h1>All Projects</h1>
+                </div>
+                <div class="navbar-header navbar-right">
+                    <a class="navbar-brand" style="color:#FFFFFF">ARM Thumb (16-bit) Simulator
+                      <br><small style="float:right; font-size:10px">By Badr AlKhamissi</small>
+                   </a>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="alert alert-danger" ng-hide="error === ''">{{error}}</div>
+            <div class="cards row">
+              <div>
+                  <div class="card col-xs-4" ng-repeat="proj in getProjects() track by $index">
+                    <div class="panel panel-default" style="">
+                        <div class="panel-heading">
+                          <h4 class="panel-title">{{proj.title}}</h4>
+                          <small>Owner: {{proj.user}}</small>
+                        </div>
+                        <div class="panel-body" style="color:black;">
+                          <div>
+                            <div style="height:85px">
+                              Public: {{proj.isPublic}}<br>
+                              Date: {{proj.date | date}}<br>
+                              Description: {{proj.desc}}
+                            </div>
+                            <hr>
+                            <button class='btn btn-primary' ng-click="openProject($index)" style="height:50px; display:inline-block">Open</button>
+                          </div>
+                      </div>
+                  </div>
+            </div>
+           </div>
+           <div ng-hide="loading" style="width:100px;margin: auto;">
+            <h2>Loading...</h2><br>
+            <image src="Images/loading.gif"/>
+           </div>
+           <h1 ng-show="nothing" style="text-align:center; font-family:Courier New">You currently don't have any projects</h1>
+        </div>
+        <hr style="margin-top:10px;margin-bottom:10px;"/>
+        <p><small> &copy; Badr AlKhamissi</small></p>
+      </div>
+  </body>
+</html>

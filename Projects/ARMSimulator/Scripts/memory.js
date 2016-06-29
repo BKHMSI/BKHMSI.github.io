@@ -3,11 +3,15 @@ app.service('memory', [function () {
         data: new Uint8Array(4096),
         displayMem: [],
         lastAccess: -1,
+        isMonitor: false,
         load: function (address) {
             var self = this;
             if (address < 0 || address >= self.data.length) {
                 throw "Memory access violation at " + address;
             }
+
+            if(address > 500) this.isMonitor = true;
+            else this.isMonitor = false;
 
             self.lastAccess = address;
             return self.data[address];
@@ -19,6 +23,8 @@ app.service('memory', [function () {
           if (address < 0 || address >= self.data.length) {
               throw "Memory access violation at " + address;
           }
+          if(address > 500) this.isMonitor = true;
+          else this.isMonitor = false;
 
           self.lastAccess = address;
           value = self.data[address];
@@ -34,6 +40,10 @@ app.service('memory', [function () {
           if (address < 0 || address >= self.data.length) {
               throw "Memory access violation at " + address;
           }
+          
+          if(address > 500) this.isMonitor = true;
+          else this.isMonitor = false;
+
           self.lastAccess = address;
           value = self.data[address];
           value += self.data[address+1]<<8;

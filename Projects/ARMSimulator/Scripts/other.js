@@ -1,5 +1,15 @@
 var selectedTheme = "xcode";
 
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+  document.getElementById("page").style.marginLeft = "250px";
+}
+
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("page").style.marginLeft= "0";
+}
+
 function displayPlaceHolder(value){
   var machineCode = $("#sourceCode").val().split("\n");
   $("#sourceCode").val("");
@@ -72,6 +82,11 @@ $(document).ready(function() {
   $('pre code').each(function(i, block) {
     hljs.highlightBlock(block);
   });
+
+  var c = document.getElementById("monitorCanvas");
+  var ctx = c.getContext("2d");
+  ctx.fillStyle = "black";
+  ctx.fillRect(0,0,640,480);
 });
 
 function changeTheme(value){
@@ -311,6 +326,7 @@ getChar = function (value) {
       return text;
   }
 }
+
 
 /******* Action Dialog Code *****/
 

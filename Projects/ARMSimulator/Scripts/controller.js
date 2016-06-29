@@ -1,4 +1,14 @@
-var app = angular.module("ArmSim", ['BinFilter','HexFilter','MemFilter','RegNum']);
+var app = angular.module("ArmSim", ['ngRoute','BinFilter','HexFilter','MemFilter','RegNum']);
+
+
+
+app.config(function($routeProvider) {
+  $routeProvider.
+  when('/project/:proj_id',{
+      templateUrl: 'Simulator.html',
+      controller:'MainController'
+    }).otherwise({redirectTo:'/'});
+});
 
 angular.module('BinFilter', []).filter('BinFilter', function() {
   return function(input) {
@@ -27,11 +37,12 @@ angular.module('RegNum', []).filter('RegNum', function() {
   };
 });
 
-app.controller('MainController', ['$scope', '$timeout','$window','memory','assembler', function ($scope, $timeout,$window,memory,assembler){
+app.controller('MainController', ['$scope', '$routeParams', '$timeout','$window','memory','assembler', function ($scope,$routeParams, $timeout,$window,memory,assembler){
     $scope.isRunning = false;
     $scope.memory = memory;
     $scope.assembler = assembler;
     $scope.displayMemory = memory.subset(0,255);
+    $scope.isMonitor = memory.isMonitor;
     $scope.error = '';
     $scope.speed = 4;
     $scope.hideMachineCode = false;
@@ -39,6 +50,7 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
     $scope.hideDataLabels = true;
     $scope.showHighRegisters = false;
     $scope.isDev = true;
+    $scope.showMonitorBorder = false;
     $scope.regs = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
     $scope.flags = [0,0,0,0];
     $scope.output = Array(60);
@@ -51,11 +63,155 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
     $scope.dataLabels = {};
     $scope.assemblyInstr = [];
     $scope.outputIdx = 0;
+    $scope.monitor = [
+            [0,0,0,0,1,1],
+            [1,0,0,0,0,1],
+            [1,0,0,0,0,1]
+          ];
+
+    $scope.user = {email:"",fname:"",lname:""};
+    $scope.navTitles = ["Simulator","Log-In","All Projects"];
+    $scope.project = {title: "",desc:"",isPublic:true};
+    $scope.projId = "";
+    $scope.isSave = false; // Hide or Show save button
+    $scope.loading = false;
+
+
+    var config = {
+      apiKey: "AIzaSyC0RqVCfBUDd-IsZXJ-v8-g0MpGKxuM1ig",
+      authDomain: "armthumb-sim.firebaseapp.com",
+      databaseURL: "https://armthumb-sim.firebaseio.com",
+      storageBucket: "armthumb-sim.appspot.com",
+    };
+    firebase.initializeApp(config);
+    var database = firebase.database();
+
 
     var index = 0, ic = 0, exit = 0;
     var lastSWI = -1;
     var codeSegmentIndex = 0, dataSegmentIndex = 0; // Position of .text/.code and .data in editor
     var ppc, psp, plr; // Previous Values
+
+    $scope.$on('$routeChangeSuccess', function() {
+      // $routeParams should be populated here
+      $scope.projId = $routeParams.proj_id;
+      console.log($scope.projId + " " + $routeParams.proj_id);
+      if($scope.projId)
+        $scope.fetchProject($scope.projId);
+      else
+        $scope.isSave = true;
+      $scope.$apply();
+    });
+
+    $window.onload = function(){
+
+    };
+
+
+    $scope.save = function(){
+      if($scope.projId){
+        // Update Code
+        if($scope.isSave){
+          var date = new Date;
+          var key = $scope.projId;
+          firebase.database().ref('projects/'+key).update({
+            project: getAssemblyCode(),
+            updated_at: date.getTime()
+          }).then(function(){
+            alert("Project Updated");
+          });
+        }else{
+          alert("You can't save this project");
+        }
+      }else{
+        showSaveDialog();
+      }
+    };
+
+    $scope.fetchProject = function(id){
+      var editor = ace.edit("assemblyCode");
+      editor.setValue("");
+      firebase.database().ref('projects/'+id).on('value', function(data) {
+          if(data.val().isPublic  || data.val().user == getUserId()){
+            var arrProj = data.val().project;
+            $scope.isSave = data.val().user == getUserId();
+            var proj = "";
+            for(var i = 0; i<arrProj.length; i++){ proj += arrProj[i]+"\n";}
+            editor.setValue(proj);
+          }else{
+            alert("This Project is Not Public");
+          }
+      });
+    };
+
+    /*** Save Dialog ***/
+    showSaveDialog = function(){
+      $( "#dialog-form" ).dialog({
+        height: 320,
+        width: 350,
+        modal: true,
+        "open": function() {
+            $( "#page" ).addClass( "blur" );
+            $("#dialog-form").show();
+          },
+        buttons: { "Create Project": saveProject, Cancel: function() { hideSaveDialog(); }}
+      });
+    }
+
+    saveProject = function(){
+      var date = new Date();
+      // Create Project
+      firebase.database().ref('projects').push({
+        user: firebase.auth().currentUser.uid,
+        name: $scope.user.fname+" "+$scope.user.lname,
+        title: $scope.project.title,
+        description: $scope.project.desc,
+        isPublic: $scope.project.isPublic,
+        project: getAssemblyCode(),
+        created_at: date.getTime()
+      }).then(function(){
+        alert("Project Created!!");
+      });
+    }
+
+    function hideSaveDialog(){
+      $("#dialog-form").dialog( "close" );
+    }
+
+    function getAssemblyCode(){
+      var editor = ace.edit("assemblyCode");
+      return editor.getValue().split('\n');
+    }
+
+    $scope.goToLink = function(i){
+      var user = firebase.auth().currentUser;
+      if(firebase.auth().currentUser != null){
+        if($scope.isSave){
+          switch (i) {
+            case 0: window.location.href = "Simulator.html"; break;
+            case 1: window.location.href = "projects.html"; break;
+            case 2: window.location.href = "projects-all.html"; break;
+            case 3: $scope.save(); break;
+            case 4: $scope.signOut(); break;
+            default:
+          }
+        }else{
+          switch (i) {
+            case 0: window.location.href = "Simulator.html"; break;
+            case 1: window.location.href = "projects.html"; break;
+            case 2: window.location.href = "projects-all.html"; break;
+            case 3: $scope.signOut(); break;
+            default:
+          }
+        }
+      }else{
+        switch (i) {
+          case 1: window.location.href = "sign-in.html"; break;
+          case 2: window.location.href = "projects-all.html"; break;
+          default:
+        }
+      }
+    };
 
     $scope.bug = function(){
       $window.location.href = "mailto:badr@khamissi.com?subject=ARM%20Simultor%20Bug&body=Error:%20"+$scope.error;
@@ -91,21 +247,26 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
     };
 
     $scope.reset = function () {
-        $("#sourceCode").val("");
         $("#swi").val("");
         clearResult();
-        var editor = ace.edit("assemblyCode");
-        editor.setValue("; Write Assembly Code Here");
+        if($scope.isDev){
+          $("#sourceCode").val("");
+          var editor = ace.edit("assemblyCode");
+          editor.setValue("; Write Assembly Code Here");
+          $scope.memory.reset();
+          $scope.sourceCode = [];
+          $scope.dataLabels = {};
+        }else{
+          $scope.sp = parseInt(memory.loadWord(0));
+          $scope.pc = parseInt(memory.loadWord(4));
+          for(var i = 0; i<$scope.sourceCode.length; i++) $scope.sourceCode[i].color = "none";
+        }
         $scope.continue = "Run";
         $scope.error = '';
         $scope.selectedLine = -1;
-        $scope.sourceCode = [];
-        $scope.dataLabels = {};
-        $scope.isDev = true;
         for(var i = 0; i<16; i++) $scope.regs[i] = 0;
         for(var i = 0; i< 4; i++) $scope.flags[i] = 0;
         for(var i = 0; i<60; i++) $scope.output[i] = "";
-        $scope.memory.reset();
         index = $scope.outputIdx = ic = 0;
         lastSWI = -1;
         codeSegmentIndex = dataSegmentIndex = exit = 0;
@@ -246,6 +407,33 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
 
     $scope.getRegs = function(){
       return $scope.showHighRegisters ? $scope.regs.slice(0,13):$scope.regs.slice(0,8);
+    };
+
+    /*** Monitor ***/
+    $scope.getMonitor = function(){
+      var monitor = memory.subset(0,4000);
+      var monitor2D = new Uint8Array();
+      for(var i = 0; i<200; i++){
+        monitor2D.push([]);
+        for(var j = 0; j<200; j++){
+          monitor2D[i].push(monitor[i+j*200]);
+        }
+      }
+      return monitor2D;
+    };
+
+    $scope.changeMonitorBorder = function(){
+      if(!$scope.showMonitorBorder) $('.monitor-block').css('border-style','none');
+      else $('.monitor-block').css('border-style','solid');
+    };
+
+    $scope.refreshMonitor = function(){
+      var c = document.getElementById("monitorCanvas");
+      var ctx = c.getContext("2d");
+      ctx.fillStyle = "orange";
+      for(var i = 0; i<640; i++)
+        for(var j = 0; j<480; j++)
+          ctx.fillRect(i,j,1,1);
     };
 
 
@@ -486,7 +674,55 @@ app.controller('MainController', ['$scope', '$timeout','$window','memory','assem
         // selectLine(parseInt(e.split(" ")[e.length-1]));
       }
     };
+
+    /*** FireBase ***/
+    firebase.auth().onAuthStateChanged(function(user) {
+      $scope.updateNavBar(user);
+      if (user) {
+        // User is signed in.
+        getUserName();
+      } else {
+      }
+    });
+
+    $scope.updateNavBar = function(user){
+      if(user){
+        if($scope.isSave){
+          $scope.navTitles = ["New Project","My Projects","All Projects","Save","Sign Out"];
+        }else{
+          $scope.navTitles = ["New Project","My Projects","All Projects","Sign Out"];
+        }
+      }else{
+        $scope.navTitles = ["Simulator","Log-In","All Projects"];
+      }
+    };
+
+    getUserName = function(){
+      firebase.database().ref('users/' + getUserId()).on('value', function(snapshot) {
+         var val = snapshot.val();
+         $scope.user = { email: val.email, fname: val.fname, lname: val.lname};
+         $scope.$apply();
+      });
+    }
+
+    getUserId = function(){
+      return firebase.auth().currentUser.uid;
+    }
+
+    $scope.signOut = function(){
+      firebase.auth().signOut().then(function() {
+        // Sign-out successful.
+        alert("You Signed Out");
+        $scope.updateNavBar();
+        $scope.user = {email:"",fname:"",lname:""};
+        $scope.$apply();
+      }, function(error) {
+        // An error happened.
+      });
+    };
+
 }]);
+
 
 test = function(scope){
     scope.regs[0] = 100;

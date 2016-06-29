@@ -4,14 +4,21 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"/></script>
         <script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://code.angularjs.org/1.5.3/angular-route.js"></script>
+
         <!-- <script src="Dependencies/jQuery.js"/></script>
         <script src="Dependencies/angular.js"/></script> -->
 
-        <script type="text/javascript" src="controller.js"></script>
-        <script type="text/javascript" src="memory.js"></script>
-        <script type="text/javascript" src="assembler.js"></script>
-        <script type="text/javascript" src="simulator.js"></script>
-        <script type="text/javascript" src="other.js"></script>
+        <script type="text/javascript" src="Scripts/controller.js"></script>
+        <script type="text/javascript" src="Scripts/memory.js"></script>
+        <script type="text/javascript" src="Scripts/assembler.js"></script>
+        <script type="text/javascript" src="Scripts/simulator.js"></script>
+        <script type="text/javascript" src="Scripts/other.js"></script>
+
+        <!-- FireBase -->
+        <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+        <script src="https://cdn.firebase.com/libs/angularfire/1.2.0/angularfire.min.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
 
         <!-- JQuery UI -->
         <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
@@ -42,13 +49,20 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
         <!-- <link href="Dependencies/font-awesome.css" rel="stylesheet">
         <link href="Dependencies/bootstrap.css" rel="stylesheet"> -->
-        <link href="index.css" rel="stylesheet" type="text/css"/>
+        <link href="Stylesheets/index.css" rel="stylesheet" type="text/css"/>
         <title>ARM Thumb Simulator</title>
     </head>
 
     <body ng-controller="MainController">
       <div id="page">
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+            <a style="color:white;">{{user.fname}} {{user.lname}}</a>
+            <a style="cursor:pointer" ng-repeat="nav in navTitles track by $index" ng-click="goToLink($index)">{{nav}}</a>
+            <a href="mailto:badr@khamissi.com?subject=ARM Thumb Simulator Bug">Report a Bug</a>
+        </div>
         <nav class="navbar navbar-inverse" role="navigation" style="background-color:#black;border:0px;border-radius:0px;">
+          <span style="font-size:30px;cursor:pointer;color:white; float:left; padding-top:12px; padding-left:15px" onclick="openNav()">☰</span>
             <div class="container">
                 <div class="navbar-header">
                     <div class="btn-group">
@@ -72,10 +86,14 @@
                     <div class="panel panel-default" ng-hide="!isDev">
                         <div class="panel-heading" style="height:60px">
                             <h4 class="panel-title" style="display:inline-block">Code <small>(<a href="https://ece.uwaterloo.ca/~ece222/ARM/ARM7-TDMI-manual-pt3.pdf" target="_blank" style="color: #337AB7">Instruction Set</a>)</small></h4>
-
                             <div style="float:right; display:inline-block">
-                              <button onclick="showActionDialog()" class="btn btn-primary" style="width:130px; height:40px; font-size:12px">
+                              <button onclick="showActionDialog()" class="btn btn-primary" style="width:100px; height:30px; font-size:12px">
                                 <span class="glyphicon glyphicon-share"></span> Action</button>
+                            </div>
+                            <div style="float:right;display:inline-block; width:10px">&nbsp;</div>
+                            <div style="float:right; display:inline-block">
+                              <button ng-show="isSave" ng-click="save()" class="btn btn-success" style="width:100px; height:30px; font-size:12px">
+                                <span class="glyphicon glyphicon-cloud"></span> Save</button>
                             </div>
                             <br>
                             <select class="sel" style="display:inline; margin-top:7px" id="theme" onChange="changeTheme(value);">
@@ -119,12 +137,22 @@
                                           select-line
                                           ng-mode='code'></textarea> -->
                                           <div style="height:700px;width:100%;margin-bottom:5px;font-size:16px" id="assemblyCode"></div>
-
                                 <pre style="display:none"><code class="ARM Assembly"></code></pre>
                                 <button type="button" class="btn btn-default" ng-click="assemble()"><i class="fa fa-gears" aria-hidden="true"></i> Assemble</button>
                             </form>
                         </div>
                     </div>
+
+                    <div class="panel panel-default" ng-show="isDev">
+                        <div class="panel-heading">
+                            <h4 style="display:inline-block; padding-right:10px" class="panel-title">Monitor</h4><small>(640x480) still not working</small>
+                        </div>
+                        <!-- <span class="monitor-block" style="background:black;" ng-repeat="m in memory.subset(0,2511) track by $index"></span> -->
+                        <canvas id="monitorCanvas" align="center" width="640" height="480">
+                          Your browser does not support the HTML5 canvas tag.
+                        </canvas>
+                    </div>
+
                     <div class="panel panel-default" ng-hide="isDev">
                         <div class="panel-heading">
                             <h4 class="panel-title" style="display:inline-block">Dubugging Mode</h4>
@@ -346,6 +374,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 style="display:inline-block; padding-right:10px" class="panel-title">Memory</h4>
@@ -354,12 +383,12 @@
                 </div>
                 <div class="panel-body source-code">
                   <div class="source-code">
-                             <div class="memory-block" ng-repeat="m in memory.subset(0,memDisplaySize) track by $index">
-                                  <div>
-                                      <small>{{ m | MemFilter}}</small>
-                                  </div>
-                             </div>
-                         </div>
+                    <div class="memory-block" ng-repeat="m in memory.subset(0,memDisplaySize) track by $index">
+                          <div>
+                              <small>{{ m | MemFilter}}</small>
+                          </div>
+                    </div>
+                  </div>
                 </div>
             </div>
             <div class="panel panel-default">
@@ -493,6 +522,20 @@
                <button type="button" class="btn btn-default" style="width:100%" onclick="writeSummation()">Summation</button><br>
                <button type="button" class="btn btn-default" style="width:100%" onclick="writePUSHPOP()">PUSH/POP</button>
             </div>
+
+            <div id="dialog-form" title="Create New Project" style="display:none;">
+            <p class="validateTips">All form fields are required.</p>
+            <form>
+              <fieldset>
+                <label for="name">Title</label>
+                <input type="text" style="width:300px;" ng-model="project.title" name="name" id="title" placeholder="Project Title" class="text ui-widget-content ui-corner-all">
+                <label for="email">Description</label>
+                <textarea type="text" style="width:300px;" ng-model="project.desc" class="text ui-widget-content ui-corner-all"></textarea><br>
+                <input type="checkbox" ng-model="project.isPublic" checked/> Public
+                <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+              </fieldset>
+            </form>
+          </div>
 
             <hr style="margin-top:10px;margin-bottom:10px;"/>
             <p><small> &copy; Badr AlKhamissi</small></p>
