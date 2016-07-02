@@ -21,17 +21,12 @@ app.controller('ProjectsController', ['$scope', '$window', function($scope, $win
   firebase.initializeApp(config);
 
   $window.onload = function() {
-    if(firebase.auth().currentUser){
-      if(window.location.href.indexOf("projects-all") != -1){
-        // Fetch all public projects
-        $scope.fetchAllProjects();
-      }else{
-        $scope.fetchProjects();
-      }
+    if(window.location.href.indexOf("projects-all") != -1){
+      // Fetch all public projects
+      $scope.fetchAllProjects();
     }else{
-      window.location.href = "Simulator.html";
+      $scope.fetchProjects();
     }
-
   };
 
   $scope.editPressed = function(idx){
@@ -80,7 +75,8 @@ app.controller('ProjectsController', ['$scope', '$window', function($scope, $win
       // User is signed in.
       getUserName();
     } else {
-
+      alert("You must log in to view the projects");
+      window.location.href = "Simulator.html";
     }
   });
 
