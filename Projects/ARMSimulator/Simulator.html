@@ -143,12 +143,15 @@
                         </div>
                     </div>
 
-                    <div class="panel panel-default" ng-show="isDev">
+                    <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h4 style="display:inline-block; padding-right:10px" class="panel-title">Monitor</h4><small>(640x480) still not working</small>
+                            <h4 style="display:inline-block; padding-right:10px" class="panel-title">GFX Display</h4><small>(320x240)&nbsp;&nbsp;&nbsp;</small>
+                            2x <input type="checkbox" ng-change="zoomDisplayChanged()" ng-model="zoomDisplay"/>&nbsp;&nbsp;&nbsp;
+                            Frame Rate: <input style="display:inline-block; height:20px; width:50px" class="txtbox" step="1" ng-model="frameRate" ng-change="changeFrameRate()" type="text" placeholder="Rate"/>
+                            <span style="float:right">Show Display: <input type="checkbox" ng-model="showGFXDisplay"/></span>
+
                         </div>
-                        <!-- <span class="monitor-block" style="background:black;" ng-repeat="m in memory.subset(0,2511) track by $index"></span> -->
-                        <canvas id="monitorCanvas" align="center" width="640" height="480">
+                        <canvas id="monitorCanvas" ng-show="showGFXDisplay" align="center" width="640" height="480">
                           Your browser does not support the HTML5 canvas tag.
                         </canvas>
                     </div>
@@ -184,6 +187,8 @@
                                </tbody>
                              </table>
                            </div>
+                           <button type="button" class="btn btn-success navbar-btn" ng-click="run()" ><span class="glyphicon glyphicon-play"></span> {{continue}}</button>
+                           <button type="button" class="btn btn-default navbar-btn" ng-click="step()"><span class="glyphicon glyphicon-forward"></span> Step</button>
                         </div><hr>
                         <div style="color:black" class="table table-condensed table-striped">
                         <h4 class="panel-title" style="padding:5px">Software Interrupts Console</h4>

@@ -1,6 +1,6 @@
 app.service('memory', [function () {
     var memory = {
-        data: new Uint8Array(4096),
+        data: new Uint8Array(80896),
         displayMem: [],
         lastAccess: -1,
         isMonitor: false,
@@ -40,7 +40,7 @@ app.service('memory', [function () {
           if (address < 0 || address >= self.data.length) {
               throw "Memory access violation at " + address;
           }
-          
+
           if(address > 500) this.isMonitor = true;
           else this.isMonitor = false;
 

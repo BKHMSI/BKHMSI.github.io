@@ -73,10 +73,12 @@ $(document).ready(function() {
   var assemblyMode = require("ace/mode/assembly_x86").Mode;
   editor.getSession().setMode(new assemblyMode());
   editor.getSession().setValue(primaryComment+primaryCode+primaryData);
+  editor.$blockScrolling = Infinity;
 
   var rEditor = ace.edit("result");
   rEditor.setTheme("ace/theme/xcode");
   rEditor.getSession().setMode(new assemblyMode());
+  rEditor.$blockScrolling = Infinity;
 
 
   $('pre code').each(function(i, block) {

@@ -169,6 +169,7 @@ app.service('assembler', [function () {
         this.dataLabels = memLabels;
       },
 
+      // TODO: there is a problem with nested labels that needs to fixed
       addLabels: function(instr){
         var idx = 0;
         for(var i = 0; i<instr.length; i++){
@@ -179,8 +180,8 @@ app.service('assembler', [function () {
             instr[i] = instr[i].replace(comment,"");
           }
 
+          //if(instr[i].indexOf("=") != -1) idx++;
           if(instr[i].trim() != "") idx++;
-
           // Label
           if(instr[i].indexOf(":") != -1){
             var label = instr[i].substring(0,instr[i].indexOf(":")).trim();
@@ -196,6 +197,7 @@ app.service('assembler', [function () {
             }
           }
         }
+        console.log(this.labels);
       },
 
       evaluate1: function(men,regs){
@@ -412,18 +414,33 @@ app.service('assembler', [function () {
             if(!imm){
               imm = parseInt(regs[1]);
             }
-            imm -= 510;
+            if(imm>=4096){
+              imm -= 4096;
 
-            // MOV Rd,255
-            instr = (4<<11)+(rd<<8)+0xFF;
-            append16MachineCode(instr);
+              // MOV Rd,255
+              instr = (4<<11)+(rd<<8)+0xFF;
+              append16MachineCode(instr);
 
-            // Shift Left by 2
-            instr = (0x1<<6)+(rd<<3)+rd;
-            append16MachineCode(instr);
+              // Shift Left by 2
+              instr = (0x4<<6)+(rd<<3)+rd;
+              append16MachineCode(instr);
 
-            // Add Imm
-            instr = (6<<11)+(rd<<8)+imm;
+              // Add Imm
+              instr = (6<<11)+(rd<<8)+(imm+16);
+            }else{
+              imm -= 510;
+
+              // MOV Rd,255
+              instr = (4<<11)+(rd<<8)+0xFF;
+              append16MachineCode(instr);
+
+              // Shift Left by 2
+              instr = (0x1<<6)+(rd<<3)+rd;
+              append16MachineCode(instr);
+
+              // Add Imm
+              instr = (6<<11)+(rd<<8)+imm;
+            }
 
             break;
           default:
@@ -491,7 +508,7 @@ app.service('assembler', [function () {
         return true;
       },
 
-      evaulate5: function(men,regs){
+      evaluate5: function(men,regs){
         var rd,rb,ro,imm,op,instr;
         switch (men) {
           /*** Format 7 ***/

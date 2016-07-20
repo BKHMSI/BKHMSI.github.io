@@ -24,7 +24,7 @@ app.controller('SignInController', ['$scope', '$window', function($scope,$window
     alert(error);
     var errorCode = error.code;
     var errorMessage = error.message;
-  });
+    });
   };
 
   getUserId = function(){
