@@ -64,6 +64,7 @@ app.controller('SignInController', ['$scope', '$window', function($scope,$window
     firebase.auth().createUserWithEmailAndPassword($scope.user.email, $scope.user.password).then(function(){
       writeUserData(getUserId(), $scope.user.email,$scope.user.fname,$scope.user.lname);
       alert("Sign Up Successfully");
+      window.location.href = "Simulator.html";
       // Create a User Record Then go to Simulator
     }).catch(function(error) {
       // Handle Errors here.

@@ -144,9 +144,11 @@ app.controller('ProjectsController', ['$scope', '$window', function($scope, $win
   };
 
   $scope.deleteProject = function(idx){
-    firebase.database().ref('projects/'+$scope.projects[idx].key).remove();
-    $scope.projects.splice(idx,1);
-    $scope.$apply();
+    if(confirm("Are you sure you want to delete this project?")){
+      firebase.database().ref('projects/'+$scope.projects[idx].key).remove();
+      $scope.projects.splice(idx,1);
+      $scope.$apply();
+    }
   };
 
   $scope.openProject = function(idx){

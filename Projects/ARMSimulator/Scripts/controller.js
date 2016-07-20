@@ -140,7 +140,11 @@ app.controller('MainController', ['$scope','$routeParams','$timeout','$window','
       firebase.database().ref('projects/'+id).on('value', function(data) {
           if(data.val().isPublic  || data.val().user == getUserId()){
             var arrProj = data.val().project;
-            $scope.isSave = data.val().user == getUserId();
+            if(firebase.auth().currentUser != null){
+              $scope.isSave = data.val().user == getUserId();
+            }else{
+              $scope.isSave = false;
+            }
             var proj = "";
             for(var i = 0; i<arrProj.length; i++){ proj += arrProj[i]+"\n";}
             editor.setValue(proj);
