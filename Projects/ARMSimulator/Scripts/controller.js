@@ -98,7 +98,6 @@ app.controller('MainController', ['$scope','$routeParams','$timeout','$window','
     $scope.$on('$routeChangeSuccess', function() {
       // $routeParams should be populated here
       $scope.projId = $routeParams.proj_id;
-      console.log($scope.projId + " " + $routeParams.proj_id);
       if($scope.projId)
         $scope.fetchProject($scope.projId);
       else
@@ -137,22 +136,26 @@ app.controller('MainController', ['$scope','$routeParams','$timeout','$window','
     $scope.fetchProject = function(id){
       var editor = ace.edit("assemblyCode");
       editor.setValue("");
-      firebase.database().ref('projects/'+id).on('value', function(data) {
-          if(data.val().isPublic  || data.val().user == getUserId()){
-            var arrProj = data.val().project;
-            if(firebase.auth().currentUser != null){
-              $scope.isSave = data.val().user == getUserId();
+      if(firebase.auth().currentUser == null){
+        firebase.database().ref('projects/'+id).on('value', function(data) {
+            if(data.val().isPublic  || data.val().user == getUserId()){
+              var arrProj = data.val().project;
+              if(firebase.auth().currentUser){
+                $scope.isSave = data.val().user == getUserId();
+              }else{
+                $scope.isSave = false;
+              }
+              var proj = "";
+              for(var i = 0; i<arrProj.length; i++){ proj += arrProj[i]+"\n";}
+              editor.setValue(proj);
             }else{
-              $scope.isSave = false;
+              alert("This Project is Not Public");
             }
-            var proj = "";
-            for(var i = 0; i<arrProj.length; i++){ proj += arrProj[i]+"\n";}
-            editor.setValue(proj);
-          }else{
-            alert("This Project is Not Public");
-          }
-          $scope.updateNavBar(firebase.auth().currentUser);
-      });
+            $scope.updateNavBar(firebase.auth().currentUser);
+        });
+      }else{
+          alert("You must sign in to see the project");
+      }
     };
 
     /*** Save Dialog ***/
@@ -805,7 +808,7 @@ app.controller('MainController', ['$scope','$routeParams','$timeout','$window','
       firebase.auth().signOut().then(function() {
         // Sign-out successful.
         alert("You Signed Out");
-        $scope.updateNavBar();
+        $scope.updateNavBar(false);
         $scope.user = {email:"",fname:"",lname:""};
         $scope.$apply();
       }, function(error) {
