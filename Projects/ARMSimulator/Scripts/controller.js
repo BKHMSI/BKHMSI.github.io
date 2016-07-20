@@ -136,26 +136,22 @@ app.controller('MainController', ['$scope','$routeParams','$timeout','$window','
     $scope.fetchProject = function(id){
       var editor = ace.edit("assemblyCode");
       editor.setValue("");
-      if(firebase.auth().currentUser == null){
-        firebase.database().ref('projects/'+id).on('value', function(data) {
-            if(data.val().isPublic  || data.val().user == getUserId()){
-              var arrProj = data.val().project;
-              if(firebase.auth().currentUser){
-                $scope.isSave = data.val().user == getUserId();
-              }else{
-                $scope.isSave = false;
-              }
-              var proj = "";
-              for(var i = 0; i<arrProj.length; i++){ proj += arrProj[i]+"\n";}
-              editor.setValue(proj);
+      firebase.database().ref('projects/'+id).on('value', function(data) {
+          if(data.val().isPublic  || data.val().user == getUserId()){
+            var arrProj = data.val().project;
+            if(firebase.auth().currentUser){
+              $scope.isSave = data.val().user == getUserId();
             }else{
-              alert("This Project is Not Public");
+              $scope.isSave = false;
             }
-            $scope.updateNavBar(firebase.auth().currentUser);
-        });
-      }else{
-          alert("You must sign in to see the project");
-      }
+            var proj = "";
+            for(var i = 0; i<arrProj.length; i++){ proj += arrProj[i]+"\n";}
+            editor.setValue(proj);
+          }else{
+            alert("This Project is Not Public");
+          }
+          $scope.updateNavBar(firebase.auth().currentUser);
+      });
     };
 
     /*** Save Dialog ***/
