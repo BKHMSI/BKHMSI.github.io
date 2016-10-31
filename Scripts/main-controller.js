@@ -200,7 +200,7 @@ app.controller('MainController', ['$scope', '$window', function($scope,$window) 
   
   $scope.projects = [
     {
-      image:"Images/Projects/Korastak.png",
+      image:"Images/Projects/korastak.png",
       name:"Korastak",
       link:"http://korastak.com/#/",
       desc:"Document sharing platform called Korastak (means: Your Notebook in Arabic) for students in AUC to be able to share notes easily with each other",
