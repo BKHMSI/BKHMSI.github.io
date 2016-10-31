@@ -1,381 +1,229 @@
-/*
-Colors:
-Greenish Blue: #21CDB1 | #2CA39E
-Bkackish Brown: #434242 (text)
-Yellowish Orange: #F3EFE1
-*/
-
-  html {
-    font-family: sans-serif;
-    -ms-text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%;
-  }
-
-  article, aside, details, figcaption, figure, footer, header, hgroup,
-  main, nav, section, summary {
-    display: block
-  }
-
-  nav{
-    text-align: center;
-  }
-
-  nav ul li{
-    display: inline-block;
-    color: white;
-    padding:20px;
-    font-family: "proxima-nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: 600;
-    font-size: 14px;
-    letter-spacing: 1px;
-    font-family: "proxima-nova";
-    font-size: 17px;
-    text-transform: uppercase;
-    text-decoration: none;
-    letter-spacing: 2px;
-    font-weight: 400;
-    font-style: normal;
-    line-height: 1em;
-    color: rgba(255, 255, 255, .8);
-    -webkit-transition:all 0.5s ease-in-out;
-    -moz-transition:all 0.5s ease-in-out;
-    -o-transition:all 0.5s ease-in-out;
-    transition:all 0.5s ease-in-out;
-  }
-
-  h1, p{
-    color: white;
-  }
-
-  td{
-    font-weight: lighter;
-  }
-
-  td p{
-    color:black;
-  }
-
-  .bordered {
-    border-bottom: 1px solid #000;
-  }
-
-  a {
-    color: gray;
-    text-decoration: none;
-    background: transparent
-  }
-
-  a:focus {
-    outline: thin dotted
-  }
-
-  a:hover, a:active {
-    color:white;
-    outline: 0
-  }
-
-  body{
-    background-color: black;
-  }
-
-  hr{
-    margin: 40px 0px;
-    border-color: #727878;
-    opacity: 0.2;
-  }
 
 
-  #welcome .flexslider{
-    background-image: url('Images/bg.jpg');
-    background-size: cover;
-    height: 500px;
-    padding-top: 100px;
-    width: 100%;
-    text-align: center;
-    margin: .100em 0
-  }
-
- #projects{
-   height: auto;
-   width: 100%;
-   background-color: lightgray;
- }
-
-  #resume{
-    height: auto;
-    width: 100%;
-    background-color: #F3EFE1;
-  }
-
-  #skills{
-    height: auto;
-    width: 100%;
-    background-color: white;
-  }
-
-  .resumeTitle{
-    width: 50%;
-    font-size:17px;
-    font-weight:bold;
-    color: #2CA39E;
-    vertical-align: top;
-  }
-
-  .resumeTitle p{
-    font-size:13px;
-    color: black;
-  }
-
-  .resumeDesc{
-    padding-top:10px;
-    margin: 0;
-    font-size:15px;
-    color:#434242;
-    vertical-align: top;
-  }
-
-  .resumeDesc a{
-    color: #2CA39E;
-  }
-
-  .resumeSection tr td{
-  }
-
-  .star:hover{
-    width: 60px;
-    height: 60px;
-    background-color: default ;
-    -moz-box-shadow:  0 0 50px yellow;
-    -webkit-box-shadow:  0 0 50px yellow;
-    box-shadow: 0 0 50px yellow;
-  }
-
-  #star:hover{
-    background-color: lightgray;
-  }
-
-  footer{
-    background-color: rgb(51,51,51);
-    width: 100%;
-    height: auto;
-    margin: auto 0;
-    position: relative;
-    color: white;
-  }
-
-  td li{
-    list-style-type: none;
-  }
-
-  p #slide1_controls, p #slide2_controls {
-    text-align:center;
-  }
-  #slide1_controls span, #slide2_controls span{
-    padding-right:2em;
-    cursor:pointer;
-  }
-
-  #slide2_container{
-    width:600px;
-    height:260px;
-    overflow:hidden; /* So the sliding bit doesn't stick out. */
-    margin:0 auto;
-    -webkit-transition:all 1.0s ease-in-out;
-    -moz-transition:all 1.0s ease-in-out;
-    -o-transition:all 1.0s ease-in-out;
-    transition:all 1.0s ease-in-out;
-  }
-
-  #slide1_container{
-    width:600px;
-    height:250px;
-    overflow:hidden; /* So the sliding bit doesn't stick out. */
-    margin:0 auto;
-    -webkit-transition:all 1.0s ease-in-out;
-    -moz-transition:all 1.0s ease-in-out;
-    -o-transition:all 1.0s ease-in-out;
-    transition:all 1.0s ease-in-out;
-  }
-
-  #slide2_images{
-    width:1800px;
-    -webkit-transition:all 1.0s ease-in-out;
-    -moz-transition:all 1.0s ease-in-out;
-    -o-transition:all 1.0s ease-in-out;
-    transition:all 1.0s ease-in-out;
-  }
-
-  #slide1_images{
-    width:1200px;
-    -webkit-transition:all 1.0s ease-in-out;
-    -moz-transition:all 1.0s ease-in-out;
-    -o-transition:all 1.0s ease-in-out;
-    transition:all 1.0s ease-in-out;
-  }
-
-  #slide2_images .resumeTable {
-      float:left; /* All the images are in a row next to each other. */
-      padding:0;
-      margin:0;
-      width:33%;
-  }
-
-  #slide1_images .skillsTable {
-    float:left; /* All the images are in a row next to each other. */
-    padding:0;
-    margin:0;
-    width:50%;
-  }
-
-  #iOS_Apps div{
-    background-color:#2d504b;
-    height:80px
-  }
-
-  #iOS_Apps div:hover{
-    background-color:rgba(45,80,75,0.85);
-  }
-
-  #Processing_Apps div{
-    background-color:rgba(50, 16, 85, 0.87);
-    height:80px
-  }
-
-  #Processing_Apps div:hover{
-    background-color:rgba(50, 16, 85, 0.7);
-  }
-
-  #Extension_Apps div{
-    background-color:#9f4719;
-    height:80px
-  }
-
-  #Extension_Apps div:hover{
-    background-color:rgba(159,71,25,0.85);
-    height:80px
-  }
-
-  #SFML_Apps div{
-    background-color:rgba(59, 37, 4, 0.96);
-    height:80px
-  }
-
-  #SFML_Apps div:hover{
-    background-color:rgba(59, 37, 4, 0.75);
-  }
-
-  #RubyOnRails_Apps div{
-    background-color:rgba(169, 18, 41, 0.96);
-     height:80px
-  }
-
-  #RubyOnRails_Apps div:hover{
-    background-color:rgba(169, 18, 41, 0.75);
-     height:80px
-  }
-
-  .App_Projects{
-    width:100%;
-    height:100px;
-    overflow:hidden; /* So the sliding bit doesn't stick out. */
-    margin:0 auto;
-    color: black;
-    -webkit-transition:all 1.0s ease-in-out;
-    -moz-transition:all 1.0s ease-in-out;
-    -o-transition:all 1.0s ease-in-out;
-    transition:all 1.0s ease-in-out;
-  }
-
-  .boxH:hover{
-    width: 420px;
-    height: 300px;
-   -moz-box-shadow:    0 0 50px black;
-   -webkit-box-shadow: 0 0 50px black;
-   box-shadow:         0 0 50px black;
-  }
-
-  .box:hover{
-    width: 280px;
-    height: 280px;
-   -moz-box-shadow:    0 0 50px black;
-   -webkit-box-shadow: 0 0 50px black;
-   box-shadow:         0 0 50px black;
-  }
-
-  #menu{
-    background-color: rgba(0, 0, 0, 0.9);
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: auto;
-    z-index: 9999;
-  }
-
-  #f1_container {
-    position: relative;
-    margin: 10px auto;
-    width: 300px;
-    height: 300px;
-    z-index: 1;
-  }
-
-  #f1_card {
-    width: 100%;
+html,body{
     height: 100%;
+    width: 100%;
+    margin: 0;
+    font: 400 15px/1.8 "Lato", sans-serif;
   }
 
-  #f1_container:hover #f1_card {
-    transform: rotateY(180deg);
-    box-shadow: -5px 5px 5px #aaa;
+  hr {
+    height: 1px;
+    color: #1abc9c;
+    background-color: #1abc9c;
+    border: none;
   }
 
-  .pure-button-success {
-    background: #21CDB1; /* this is a green */
-    color: white;
-    border-radius: 4px;
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-    font-size: 100%;
-    padding: .5em 1.5em;
-    border: 0 rgba(0,0,0,0);
-    text-decoration: none;
-    -webkit-transition: .1s linear -webkit-box-shadow;
-    -moz-transition: .1s linear -moz-box-shadow;
-    -ms-transition: .1s linear box-shadow;
-    -o-transition: .1s linear box-shadow;
-    transition: .1s linear box-shadow;
+  small{
+    color:black;
+    font-size: 20px;
+  }
+
+  #wrapper{
+    max-height: 100%; 
+  }
+
+  /* Navigation */
+  #slideNav {
+  	position: fixed;
+  	right: 0;
+  	top: 50%;
+  	margin-top: -220px;
+  	z-index: 11;
+  }
+
+  #slideNav ul {
+  	list-style: none;
+  	color: #000000;
+  	font-size: 13px;
+  	text-align: center;
+  }
+
+  #slideNav li {
+    -webkit-transition:all .5s ease-in-out;
+    -moz-transition:all .5s ease-in-out;
+    -o-transition:all .5s ease-in-out;
+  	width: 80px;
+  	height: 80px;
+  	line-height: 50px;
+  	background-color: rgba(240,240,240,0.75);
+    text-align: center;
+    padding-top:15px;
+  	margin: 10px;
+    border: 3px;
+    border-color: black;
+    border-width:thin;
+    border-radius: 50%;
     cursor: pointer;
   }
 
-  .download-btn{
-    background: #349a8a; /* this is a green */
-    color: white;
-    border-radius: 4px;
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-    font-size: 100%;
-    padding: 1em 1.5em;
-    border: 0 rgba(0,0,0,0);
-    text-decoration: none;
-    -webkit-transition: .1s linear -webkit-box-shadow;
-    -moz-transition: .1s linear -moz-box-shadow;
-    -ms-transition: .1s linear box-shadow;
-    -o-transition: .1s linear box-shadow;
-    transition: .1s linear box-shadow;
-    cursor: pointer;
+  #slideNav li:hover{
+    -webkit-transition:all .5s ease-in-out;
+    -moz-transition:all .5s ease-in-out;
+    -o-transition:all .5s ease-in-out;
+    transition:all .5s ease-in-out;
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(255,255,255,0.75);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(255,255,255,0.75);
+    box-shadow: 0px 0px 10px 0px rgba(255,255,255,0.75);
+    background-color: rgb(34,34,34);
+    color:white;
   }
 
-  .face {
+
+  #slideNav a {
+  	text-decoration: none;
+    color: inherit;
+  }
+
+
+  #about{
+    opacity: 0.3
+  }
+
+  .caption{
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    text-align: center;
+    color: #000;
+  }
+
+  .caption2{
     position: absolute;
     width: 100%;
-    height: 100%;
+    text-align: center;
+    color: #000;
+    padding-top: 50px;
   }
 
-  .face.back {
-    transform: rotateY(180deg);
-    display: block;
-    box-sizing: border-box;
-    padding: 10px;
-    color: white;
-    text-align: center;
-    background-color: #aaa;
+  .caption span.border, .caption2 span.border{
+    background-color: #111;
+    color: #fff;
+    padding: 18px;
+    font-size: 25px;
+    letter-spacing: 10px;
   }
+
+  .header{
+    color: rgb(38,38,38);
+  }
+
+  .mycard {
+    background: #fff;
+    border-radius: 2px;
+    display: inline-block;
+    margin: 1rem;
+    position: relative;
+    width:50%;
+    opacity: 0.9;
+  }
+
+  .card2 {
+    background: #777;
+    border-radius: 2px;
+    margin: 1rem;
+    position: relative;
+    opacity: 0.9;
+  }
+
+  .shadow {
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+  }
+
+  .slides {
+      text-align: center;
+      padding-top:150px;
+  }
+
+
+  .hsContainer{
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+
+#scroll a {
+	padding-top: 60px;
+	position: absolute;
+	bottom: 50px;
+	left: 50%;
+	z-index: 2;
+	display: inline-block;
+	-webkit-transform: translate(0, -50%);
+	transform: translate(0, -50%);
+	color: #fff;
+	font : normal 400 20px/1 'Josefin Sans', sans-serif;
+	letter-spacing: .1em;
+	text-decoration: none;
+	transition: opacity .3s;
+}
+
+#scroll a:hover{
+	opacity: .5;
+}
+
+
+#scroll a span {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	width: 46px;
+	height: 46px;
+	margin-left: -23px;
+	border: 1px solid #fff;
+	border-radius: 100%;
+	box-sizing: border-box;
+}
+
+#scroll a span::after {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	content: '';
+	width: 16px;
+	height: 16px;
+	margin: -12px 0 0 -8px;
+	border-left: 1px solid #fff;
+	border-bottom: 1px solid #fff;
+	-webkit-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+	box-sizing: border-box;
+}
+
+#contact img:hover{
+  -webkit-transition:all .5s ease-in-out;
+  -moz-transition:all .5s ease-in-out;
+  -o-transition:all .5s ease-in-out;
+  transition:all .5s ease-in-out;
+  width:110px;
+  height: 110px;
+}
+
+/*
+#resumeCard{  
+  width:50%; 
+  margin:0 auto;
+  position: relative;
+}
+*/
+
+@media screen and (max-width: 860px) {
+  #resumeCard{  
+    width:100%; 
+  }
+}
+
+
+.mycontainer{
+  width:100%;
+  margin: 0 auto;
+}
+
+.parallax-container {
+    height: 100%;
+}
+

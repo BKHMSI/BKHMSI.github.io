@@ -1,469 +1,214 @@
 <!Doctype HTML>
-<html>
+<html ng-app="Portfolio">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"/>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-  <script src="/Users/BAlKhamissi/Documents/Badr Projects/Web Development/jQuery.js"></script>
-  <script type="text/javascript" src="index.js"></script>
-  <script src="Flexslider/jquery.flexslider.js"></script>
-  <link rel="stylesheet" href="Flexslider/flexslider.css" type="text/css">
-  <link href="index.css" rel="stylesheet" type="text/css"/>
-  <title>Badr AlKhamissi</title>
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+
+  <!-- AngularJS -->
+  <script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://code.angularjs.org/1.5.3/angular-route.js"></script>
+
+  <!-- Font Awesome -->
+  <script src="https://use.fontawesome.com/3d0fc41592.js"></script>
+
+
+  <!-- Materialize -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.materialdesignicons.com/1.7.22/css/materialdesignicons.min.css">
+  
+  <!-- FlexSlider -->
+  <link rel="stylesheet" href="Dependencies/Flexslider/flexslider.css" type="text/css">
+  <script src="Dependencies/Flexslider/jquery.flexslider.js"></script>
+
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="index.css">
+
+  
+  <!-- Scripts -->
+  <script src="Scripts/app.js"></script>
+  <script src="Scripts/main-controller.js"></script>
+
+  <title>Personal Website</title>
 </head>
-<body>
-  <div id="page">
-    <div id="menu">
-      <nav>
-        <ul>
-          <li id="w"><a href="#welcome">Me</a></li>
-          <li id="r"><a href="#resume">Resumé</a></li>
-          <li id="s"><a href="#skills">Skills</a></li>
-          <li id="p"><a href="#projects">Projects</a></li>
-          <li id="b"><a href="">Blog</a></li>
-          <li id="c"><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
+
+
+<body ng-controller="MainController">
+    <div id="slideNav">
+      <ul>
+        <a href="#ed"><li>Education</li></a>
+        <a href="#ex"><li>Experience</li></a>
+        <a href="#pr"><li>Projects</li></a>
+        <a href="#ac"><li>Activities</li></a>
+        <a href="#ct"><li>Contact</li></a>
+      </ul>
     </div>
-    <div id="welcome">
+
+    <div class="parallax-container">
+      <div class="parallax"><img src="Images/Background/white_desert.jpg"></div>
+      <div class="caption">
+          <span class="border">Badr AlKhamissi<br></span>
+      </div>
+      <div id="scroll">
+        <a href="#ed"><span></span></a>
+      </div>
+    </div>
+  
+    <div class="section white">
+      <div class="row container">
+        <h2 class="header">About Me</h2>
+        <p class="grey-text text-darken-3 lighten-3 flow-text">I am currently a Computer Engineering undergrad at AUC. Passionate about Machine Learning, Creative Coding and Developing things that <strong>really</strong> make a difference. I like to think that I am different, so scroll down to take a look at my resumé below, and some of my projects that I did</p>
+      </div>
+    </div>
+
+    <div class="parallax-container">
+      <div class="parallax"><img src="Images/Background/auc.jpeg"></div>
+      <div class="caption2" id="ed">
+        <span class="border">Education<br></span>
+      </div>
+      
+      <div class="flexslider" ng-hide="mobile">
+        <ul class="row slides">
+         <li class="col s12 m12 l12 center-align" ng-repeat="ed in education track by $index">
+           <div class="card mycard shadow section {{ed.color}} center-align">
+             <div class="row container">
+               <h3 class="header">{{ed.name}}</h3><small style="font-size:20px;color:#777">{{ed.sub}}</small><br>
+               <small style="">{{ed.location}} - {{ed.from}} <span ng-hide="ed.to == ''">to</span> {{ed.to}}</small>
+               <hr>
+               <p class="{{ed.textColor}} text-darken-3 lighten-3">{{ed.desc}}</p>
+             </div>
+           </div>
+         </li>
+       </ul>
+      </div>
+    </div>
+  
+    
+  <div class="section white"><div class="row container"></div></div>
+  
+  
+  <div class="parallax-container">
+    <div class="parallax" id="ed">
+      <img src="Images/Background/door.jpg">
+    </div>
+
+    <div class="caption2" id="ex">
+      <span class="border">Experience<br></span>
+    </div>
+
+    <div class="mycontainer">
       <div class="flexslider">
-        <ul class="slides">
-          <li style="font-size: 2em;">
-            <h1>Badr AlKhamissi</h1>
-            <p>Interactive Resumé | Projects | Blog | Me</p>
-          </li>
-          <li>
-            <table width="30%" cellSpacing="5px" cellPadding="1px;" align="center" border="0">
-              <tr>
-                <td width="100%" style="text-align:center; padding:50px;" colspan="2">
-                  <h2 style="font-weight:lighter; text-align:center;">TicTacToe</h2>
-                  <a href="http://bkhmsi.github.io/Projects/BoardGames/index">
-                  <img class="box" height="50px" width="50px" src="Images/TicTacToe.png"/>
-                </a>
-                </td>
-              </tr>
-            </table>
-          </li>
-          <li>
-            <table width="30%" cellSpacing="5px" cellPadding="1px;" align="center" border="0">
-            <tr>
-            <td width="100%" style="text-align:center; padding:50px;">
-              <h2 style="font-weight:lighter; text-align:center; height:32px">Graph Builder</h2>
-              <a href="http://bkhmsi.github.io/Projects/Graphs/index">
-              <img class="box" height="250px" src="Images/Graph_Builder.png"/>
-            </a>
-            </td>
-            </tr>
-          </table>
-          </li>
-          <li>
-            <table width="20%" cellSpacing="5px" cellPadding="1px;" align="center" border="0">
-              <tr>
-                <td style="text-align:center; padding:25px;">
-                  <h2 style="font-weight:lighter; text-align:center">Quicky - Chrome Extension</h2>
-                  <a href="https://chrome.google.com/webstore/detail/quicky/kjcffaoelnehhcdgfnmdeomnmafmiomj">
-                  <img height="auto" src="Images/Quicky_Logo-128.png">
-                  </a>
-                </td>
-              </tr>
-            </table>
-          </li>
+        <ul class="row slides">
+         <li class="col s12 m12 l12 center-align" ng-repeat="ex in experience track by $index">
+           <div class="card mycard shadow section {{ex.color}}">
+             <div class="row container">
+               <h3 class="header">{{ex.org}} </h3>
+               <small style="font-size:20px;color:#777"> {{ex.title}}</small><br>
+               <small>{{ex.location}} - {{ex.from}} <span ng-hide="ex.to == ''">to</span> {{ex.to}}</small>
+               <hr>
+               <p class="{{ex.textColor}} text-darken-3 lighten-3">
+                {{ex.desc}}
+               </p>
+             </div>
+           </div>
+         </li>
         </ul>
-      </div>
+     </div>
     </div>
-    <div id="resume">
-      <table width="50%" cellSpacing="10px" cellPadding="5px;" align="center" border="0">
-        <tr>
-          <td style="text-align:center; color:#434242; font-size:50px; padding:10px;">Interactive Resumé</td>
-        </tr>
-        <tr>
-          <td>
-            <p style="color:black; text-align:center;" id="slide2_controls">
-              <span style="border-radius: 10px; background-color: #21CDB1; color:white; padding:10px; text-align:center" class="selected">Education</span>
-              <span style="border-radius: 10px; padding: 10px; text-align:center" id="experience" class="">Experience</span>
-              <span style="border-radius: 10px; padding: 10px; text-align:center" id="activities" class="">Activities & Volunteering</span>
-            </p>
-          </td>
-        </tr>
-      </table>
-      <div id="slide2_container">
-        <div id="slide2_images" style="display:inline-block;">
-          <div class="resumeTable">
-            <table cellSpacing="10px" cellPadding="5px" border="0">
-              <div class="resumeSection">
-                <tr>
-                  <td class="resumeTitle">
-                    American Univeristy in Cairo
-                    <span><p>Bachelor of Engineering</p></span>
-                    <span><p>September 2014 - Present</p></span>
-                    <span><p>Cairo, Egypt</p></span>
-                  </td>
-                  <td class="resumeDesc"><li>Expecting to graduate in May 2019</li><li>Current GPA:  4.0</li>
-                    <li>Majoring in Computer Engineering</li><li>Additional coursework in: Computer Science and Humanities</li>
-                  </td>
-                </tr>
-              </div>
-              <div class="resumeSection">
-                <tr>
-                  <td class="resumeTitle">
-                    Manor House School
-                    <span><p>High School I.G.C.S.E, June 2014</p></span>
-                    <span><p>Cairo, Egypt</p></span>
-                  </td>
-                  <td class="resumeDesc">
-                    <li>General Certificate of Education</li>
-                    <li>AL Computing A*</li>
-                    <li>AL Mathematics: A</li>
-                    <li>AL Arabic: A</li>
-                    <li>AS Physics:  A</li>
-                    <li>AS Chemistry:  A</li>
-                  </td>
-                </tr>
-              </div>
-            </table>
-          </div>
-          <div class="resumeTable">
-            <table cellSpacing="10px" cellPadding="5px" border="0">
-              <div class="resumeSection">
-                <tr>
-                  <td class="resumeTitle" >
-                    SDE Intern, Microsoft Advance Techonology Lab in Cairo (ATLC)
-                    <span><p>Jan 2016</p></span>
-                    <span><p>Cairo, Egypt</p></span>
-                  </td>
-                  <td class="resumeDesc"> Code Refactoring and Optimization in Microsoft Language Understanding Intelligent Service (LUIS) <!-- Replacing an Azure Service they were using with something I implemented for the Search feature -->
-                    <span><p><a href="https://www.luis.ai">Check LUIS</a></p></span>
-                  </td>
-                </tr>
-              </div>
-              <div class="resumeSection">
-                <tr>
-                  <td class="resumeTitle" style="">
-                    Undergrad Teaching Assistant American University in Cairo
-                    <span><p>September 2015 - Present</p></span>
-                    <span><p>Cairo, Egypt</p></span>
-                  </td>
-                  <td class="resumeDesc">Assist instructor of Programming Fundamentals class in setting the syllabus, designing exams, grading assignments and projects . Hold regular office hours to help students.
-                  </td>
-                </tr>
-              </div>
-              <div class="resumeSection">
-                <tr>
-                  <td class="resumeTitle" >
-                     SDE Summer Intern, Microsoft Advance Techonology Lab in Cairo (ATLC)
-                    <span><p>June 2015 - August 2015</p></span>
-                    <span><p>Cairo, Egypt</p></span>
-                  </td>
-                  <td class="resumeDesc">Designed and Implemented a feature; Application importing and exporting in Microsoft Language Understanding Intelligent Service (LUIS).
-                    <span><p><a href="https://www.luis.ai">Check LUIS</a></p></span>
-                  </td>
-                </tr>
-              </div>
-            </table>
-          </div>
-          <div class="resumeTable">
-            <table  cellSpacing="10px" cellPadding="5px" border="0">
-              <div class="resumeSection">
-                <tr>
-                  <td class="resumeTitle" style="">
-                    Organizer, Computer Science and Engineering Association
-                    <span><p>Fall 2015</p></span>
-                    <span><p>Cairo, Egypt</p></span>
-                  </td>
-                  <td class="resumeDesc">Member in the academic committee, assist in organizing workshops, sessions and talks related to different fields in Computer Science.</td>
-                </tr>
-              </div>
-              <div class="resumeSection">
-                <tr>
-                  <td class="resumeTitle" style="">
-                    Organizer, Astronomy Club in AUC
-                    <span><p >Fall 2014</p></span>
-                    <span><p>Cairo, Egypt</p></span>
-                  </td>
-                  <td class="resumeDesc">As part of the academic committee of the astronomy club, assisted in the organization of the 2nd Astronomy Conference in AUC.</td>
-                </tr>
-              </div>
-              <div class="resumeSection">
-                <tr>
-                  <td class="resumeTitle" style="">
-                    Volunteer, Doum Cultural Foundation
-                    <span><p>2012-Present</p></span>
-                    <span><p>Cairo, Egypt</p></span>
-                  </td>
-                  <td class="resumeDesc">Developed a Database System for the Organization using MS Access VB and SQL. Sending HTML emails for Doum’s News-list. Managing their website and their digital presence.</td>
-                </tr>
-              </div>
-              <div class="resumeSection">
-                <tr>
-                  <td class="resumeTitle" style="">
-                    Water Polo Player, Gezira Sporting Club
-                    <span><p>2009-2013</p></span>
-                    <span><p>Cairo, Egypt</p></span>
-                  </td>
-                  <td class="resumeDesc">Participated in the Egyptian National Tournament</td>
-                </tr>
-              </div>
-              <div class="resumeSection">
-                <tr>
-                  <td class="resumeTitle" style="">
-                    Delegate, CISV
-                    <span><p>Summer 2010</p></span>
-                    <span><p>Paris, France</p></span>
-                  </td>
-                  <td class="resumeDesc">A member of the Egyptian delegation who participated in organizing a summer camp in Paris, basing activities on 4 educational pillars; diversity, conflict resolution, sustainable development and human rights through experiential learning.</td>
-                </tr>
-              </div>
-            </table>
-          </div>
-        </div>
-      </div>
-      <table cellSpacing="10px" cellPadding="5px;" align="center" border="0">
-        <tr>
-          <td><a href="https://drive.google.com/file/d/0B88PhzAI_x6WbHBLa3NZS1FJQ0U/view?usp=sharing"><button class="pure-button-success">Download CV</button></a></td>
-        </tr>
-      </table>
-    </div>
-    <div id="skills">
-      <table width="50%" cellSpacing="10px" cellPadding="5px;" align="center" border="0">
-        <tr class="bordered">
-          <td style="text-align:center; font-size:50px; padding:10px;">Skills</td>
-        </tr>
-        <tr>
-          <td>
-            <p style="color:black; text-align:center;" id="slide1_controls">
-              <span style="border-radius: 10px; background-color: gray; color:white; padding:10px; text-align:center" class="selected">Programming Languages</span>
-              <span style="border-radius: 10px; padding: 10px; text-align:center" id="tools" class="">Tools & Technologies</span>
-            </p>
-          </td>
-        </tr>
-      </table>
-      <div id="slide1_container">
-        <div id="slide1_images" style="height:220px; display:inline-block;">
-          <div class="skillsTable">
-            <table cellSpacing="10px" cellPadding="5px" border="0">
-              <tr>
-                <div id="star"><td style="font-size:20px">C++</td><td style="border-right: 0.5px solid"><img src="Images/4_star.png"/></td></div>
-                <td style="font-size:20px">Swift</td><td><img src="Images/4_star.png"/></td>
-              </tr>
-              <tr>
-                <td style="font-size:20px">HTML/CSS</td><td style="border-right: 0.5px solid"><img src="Images/5_star.png"/></td>
-                <td style="font-size:20px">Javascript/jQuery</td><td><img src="Images/4_star.png"/></td>
-              </tr>
-              <tr>
-                <td style="font-size:20px">C#</td><td style="border-right: 0.5px solid"><img  src="Images/3_star.png"/></td>
-                <td style="font-size:20px">Java</td><td><img src="Images/2_star.png"/></td>
-              </tr>
-              <tr>
-                <td style="font-size:20px">Visual Basic</td><td style="border-right: 0.5px solid"><img border="0" src="Images/2_star.png"/></td>
-                <td style="font-size:20px">Python</td><td><img border="0" src="Images/1_star.png"/></td>
-              </tr>
-            </table>
-          </div>
-          <div class="skillsTable">
-            <table cellSpacing="10px" cellPadding="5px" border="0">
-              <tr>
-                <td style="font-size:20px">Xcode</td><td  style="border-right: 0.5px solid"><img border="0" src="Images/5_star.png"/></td>
-                <td style="font-size:20px">Visual Studio</td><td  ><img border="0" src="Images/4_star.png"/></td>
-              </tr>
-              <tr>
-                <td style="font-size:20px">iOS Development</td><td   style="border-right: 0.5px solid"><img border="0" src="Images/4_star.png"/></td>
-                <td style="font-size:20px">Windows Phone Development</td><td><img border="0" src="Images/1_star.png"/></td>
-              </tr>
-              <tr>
-                <td style="font-size:20px">Processing</td><td style="border-right: 0.5px solid"><img    border="0" src="Images/5_star.png"/></td>
-                <td style="font-size:20px">SFML</td><td><img   border="0" src="Images/5_star.png"/></td>
-              </tr>
-              <tr>
-                <td style="font-size:20px">LiveCode</td><td style="border-right: 0.5px solid"><img border="0" src="Images/4_star.png"/></td>
-                <td style="font-size:20px">Arduino</td><td><img   border="0" src="Images/2_star.png"/></td>
-              </tr>
-              <tr>
-                <td style="font-size:20px">Unity</td><td style="border-right: 0.5px solid"><img   border="0" src="Images/1_star.png"/></td>
-                <td style="font-size:20px">Ruby on Rails</td><td><img border="0" src="Images/3_star.png"/></td>
-              </tr>
-              <tr>
-                <td style="font-size:20px">Machine Learning</td><td style="border-right: 0.5px solid"><img   border="0" src="Images/1_star.png"/></td>
-                <td style="font-size:20px">Final Cut ProX</td><td><img  border="0" src="Images/4_star.png"/></td>
-              </tr>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="projects">
-      <table width="50%" cellSpacing="5px" cellPadding="1px;" align="center" border="0">
-        <tr>
-          <td colspan="2" style="text-align:center; font-size:50px; padding:10px;">Personal Projects</td>
-        </tr>
-        <tr>
-          <td><h3 style="font-weight:lighter; text-align:center">Click on each category to expand and explore projects</h3></td>
-        </tr>
-        <tr>
-          <td><p style="font-weight:lighter; text-align:center">Website is still in development, so previous projects will be added in the future</p></td>
-        </tr>
-      </table>
-      <div id="iOS_Apps" class="App_Projects">
-        <div>
-          <h1 style="color:white; padding:20px; padding-left:100px">iOS Applications</h1>
-        </div>
-        <table width="50%" cellSpacing="5px" cellPadding="1px;" align="center" border="0">
-          <tr>
-            <td style="text-align:center; padding:25px;">
-              <h2 style="font-weight:lighter; text-align:center; padding-top:18px">صح ولا غلط</h2>
-              <img width="240" height="auto" class="boxV" id="TriviaApp" src="Images/Trivia_iPhone.png">
-              <h3>Description:</h3>
-              <p>Trivia iOS App for Doum Cultural Foundation <br><br> Still in Development (90% Complete)</p>
-            </td>
-            <td style="text-align:center; padding:25px;">
-              <h2 style="font-weight:lighter; text-align:center">AUC Carpooling</h2>
-              <img width="240" height="auto" class="boxV" id="TriviaApp" src="Images/Carpooling.png">
-              <h3>Description:</h3>
-              <p>Carpooling App -- an atempt to join people together to carpool <br><br> Still in Development</p>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div id="Processing_Apps" class="App_Projects">
-        <div>
-          <h1 style="color:white; padding:20px; padding-left:100px">Processing</h1>
-        </div>
-        <table width="100%" cellSpacing="5px" cellPadding="1px;" align="center" border="0">
-          <tr>
-            <td width="50%" style="text-align:center; padding:25px;">
-              <h2 height="32px" style="font-weight:lighter; text-align:center">Photo Generator</h2>
-              <a href="http://bkhmsi.github.io/Projects/Snake/index">
-              <img class="boxH" src="Images/PhotoGenerator.png"/>
-            </a>
-          </td><td>
-            <h3>Description: </h3>
-            <p>Generates a photo from a selection of different photos
-              <br><br>
-              <button class="download-btn">Download Mac</button>
-              <button class="download-btn">Download PC</button>
-            </p>
-          </td>
-        </tr>
-          <tr>
-            <td width="50%" style="text-align:center; padding:25px;">
-              <h2 height="32px" style="font-weight:lighter; text-align:center">Snake - حنش</h2>
-              <a href="http://bkhmsi.github.io/Projects/Snake/index">
-              <img class="box" src="Images/Snake_2.png"/>
-            </a>
-            <h3>Description:</h3>
-            <p>Snake Re-imagined <a style="color:blue" href="http://bkhmsi.github.io/Projects/Snake/index">Try it yourself</a></p>
-            </td>
-            <td width="50%" style="text-align:center; padding:25px;">
-              <h2 style="font-weight:lighter; text-align:center; height:32px">Graph Builder</h2>
-              <a href="http://bkhmsi.github.io/Projects/Graphs/index">
-              <img class="box" height="250px" src="Images/Graph_Builder.png"/>
-            </a>
-            <h3>Description:</h3>
-            <p>Build your own graph, <br> and run algorithms such as DFS or BFS on it, <a style="color:blue" href="http://bkhmsi.github.io/Projects/Graphs/index">Try it yourself</a></p>
-            </td>
-            </tr>
-            <tr>
-              <td width="50%" style="text-align:center; padding:25px;" colspan="2">
-                <h2 style="font-weight:lighter; text-align:center; height:32px">TicTacToe</h2>
-                <a href="http://bkhmsi.github.io/Projects/BoardGames/index">
-                <img class="box" height="250px" src="Images/TicTacToe.png"/>
-              </a>
-              <h3>Description:</h3>
-              <p>Minimax algorithm with alphabeta pruning <br> in a TicTacToe game with a variable board size <a style="color:blue" href="http://bkhmsi.github.io/Projects/BoardGames/index">Try it yourself</a></p>
-              </td>
-            </tr>
-            <tr>
-              <td width="50%" style="text-align:center; padding:25px;">
-                <h2 height="32px" style="font-weight:lighter; text-align:center">Falling</h2>
-                <a href="http://bkhmsi.github.io/Projects/Falling/index">
-                <img class="box" src="Images/Falling.png"/>
-              </a>
-              <h3>Description:</h3>
-              <p>Quick Game <a style="color:blue" href="http://bkhmsi.github.io/Projects/Falling/index">Try it yourself</a></p>
-              </td>
-              <td width="50%" style="text-align:center; padding:25px;">
-                <h2 style="font-weight:lighter; text-align:center; height:32px">Driving</h2>
-                <a href="http://bkhmsi.github.io/Projects/Driving/index">
-                <img class="box" height="250px" src="Images/Driving.png"/>
-              </a>
-              <h3>Description:</h3>
-              <p>Quick Game <a style="color:blue" href="http://bkhmsi.github.io/Projects/Driving/index">Try it yourself</a></p>
-              </td>
-              </tr>
-          </table>
-        </div>
-        <div id="Extension_Apps" class="App_Projects">
-          <div>
-            <h1 style="color:white; padding:20px; padding-left:100px">Extensions</h1>
-          </div>
-          <table width="100%" cellSpacing="5px" cellPadding="1px;" align="center" border="0">
-            <tr>
-              <td style="text-align:center; padding:25px;">
-                <h2 style="font-weight:lighter; text-align:center">Quicky - Chrome Extension</h2>
-                <a href="https://chrome.google.com/webstore/detail/quicky/kjcffaoelnehhcdgfnmdeomnmafmiomj">
-                <img height="auto" src="Images/Quicky_Logo-128.png">
-                </a>
-                <h3>Description:</h3>
-                <p>Quicky is an extension that allows you to share links and quick posts on the fly
-                <br><br>
-                <a style="color:blue" href="https://chrome.google.com/webstore/detail/quicky/kjcffaoelnehhcdgfnmdeomnmafmiomj">
-                  Check it on the Chrome Store</a>
-                </p>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div id="SFML_Apps" class="App_Projects">
-          <div>
-            <h1 style="color:white; padding:20px; padding-left:100px">SFML</h1>
-          </div>
-          <table width="50%" cellSpacing="5px" cellPadding="1px;" align="center" border="0">
-          </table>
-        </div>
-        <div id="RubyOnRails_Apps" class="App_Projects">
-          <div>
-            <h1 style="color:white; padding:20px; padding-left:100px">Ruby on Rails</h1>
-          </div>
-          <table width="50%" cellSpacing="5px" cellPadding="1px;" align="center" border="0">
-          </table>
-        </div>
-    </div>
-    <footer id="contact">
-      <table width="50%" cellSpacing="10px" cellPadding="10px" align="center" border="0">
-        <tr>
-          <td colspan="5" style="text-align:center; color:white; font-size:50px; padding:10px;">Connect</td>
-        </tr>
-        <tr>
-          <td width="25%">
-            <a href="https://eg.linkedin.com/in/bkhmsi">
-              <img height="45px" width="45px" alt="Linedin" border="0" src="Images/linkedin.png">
-            </a>
-          </td>
-          <td width="25%">
-            <a href="https://github.com/BKHMSI">
-              <img height="45px" width="45px" alt="GitHub" border="0" src="Images/Github.png">
-            </a>
-          </td>
-          <td width="25%">
-            <a href="https://twitter.com/BKhamissi">
-              <img height="45px" width="45px" alt="Twitter" border="0" src="https://lh3.googleusercontent.com/-LyHGaj_nAXQ/Ulq2i-cpVUI/AAAAAAAAAX4/XpMziaZSRJE/s209-p-no/Twitter+round.png">
-            </a>
-          </td>
-          <td width="25%">
-            <a href="http://ahmed-aly.com/Profile.jsp?Username=Bkhmsi">
-              <img height="45px" width="45px" alt="Ahmed Aly Website - Competitive Programming" border="0" src="Images/ahmed-aly.gif">
-            </a>
-          </td>
-          <td width="25%">
-            <a style="text-decoration: none" href="mailto:badr@khamissi.com">
-              <img height="45px" width="45px" src="Images/email-icon.png" alt="email" border="0">
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td style="text-align:center; color:white;" colspan="5">&copy; Badr AlKhamissi</td>
-        </tr>
-      </table>
-    </footer>
   </div>
+  
+  
+   <div class="section white"><div class="row container"></div></div>
+  
+  
+  <div class="parallax-container" style="height:auto">
+    <div class="parallax" id="pr" style="background-repeat: repeat repeat;">
+      <img  src="Images/Background/7YKUD.jpg">
+    </div>
+
+    <div class="caption2" id="ex">
+      <span class="border">Featured Projects<br></span><br>
+      <small style="color:white">Click on each project to reveal more information.<br> I will be adding all of my projects in another page soon</small>
+    </div>
+
+    
+    <div class="row" style="padding-top:180px;">
+      <div class="col s12 m12 l6" ng-repeat="pr in projects track by $index" style="padding:50px">
+        <div class="card" style="width:350px; margin:0 auto;">
+        <div class="card-image waves-effect waves-block waves-light">
+          <img class="activator" ng-src="{{pr.image}}" style="width:350px;height:220px;"/>
+        </div>
+
+        <div class="card-content">
+          <span class="card-title activator grey-text text-darken-4">{{pr.name}}<i style="float:right" class="mdi mdi-dots-vertical"></i></span>
+          <p><a href="{{pr.link}}">Check it out</a></p>
+        </div>
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4">{{pr.name}}<i style="float:right" class="mdi mdi-close"></i></span>
+          <hr>
+          <p><b>Description</b>:<br> {{pr.desc}}</p>
+          <p><b>Tags</b>:<br> {{pr.tags}}</p>
+        </div>
+      </div>
+      </div>
+    </div>  
+    
+  </div>
+  
+   <div class="section white"><div class="row container"></div></div>
+
+    <div class="parallax-container">
+      
+      <div class="parallax" id="ac">
+        <img src="Images/Background/doum.jpg">
+      </div>
+
+      <div class="caption2" id="ex">
+        <span class="border">Activities and Volunteering<br></span>
+      </div>
+    
+
+      <div class="flexslider" ng-hide="mobile">
+        <ul class="row slides">
+         <li class="col s12 m12 l12 center-align" ng-repeat="ac in activities track by $index">
+           <div class="card mycard shadow section {{ac.color}} center-align">
+             <div class="row container">
+               <h3 class="header">{{ac.org}}</h3>
+               <small style="font-size:20px;color:#777"> {{ac.resp}}</small><br>
+               <small>{{ac.location}} - {{ac.from}} <span ng-hide="ac.to == ''">to</span> {{ac.to}}</small>
+               <hr>
+               <p class="{{ex.textColor}} text-darken-3 lighten-3">
+                {{ac.desc}}
+               </p>
+             </div>
+           </div>
+         </li>
+       </ul>
+      </div>
+    </div>
+  
+  <div class="parallax-container">
+       
+      <div class="parallax" id="ct">
+        <img src="Images/Background/connect.jpg">
+      </div>
+    
+      <div style="text-align:center;color:white;padding-top:50px">
+          <span style="font-size:50px">Connect</span>
+          <hr width="50%"><br><br>
+      </div>
+
+      <div class='row' id="contact">
+          <div class="col s6 m6 l4 center-align" style="height:180px; padding:10px" ng-repeat="ct in contact track by $index">
+            <a href="{{ct.link}}">
+              <img ng-src="{{ct.image}}" width="100" height="100"/>
+              <br><small style="color:white">{{ct.tip}}</small>
+            </a>
+          </div>
+       </div>
+   </div>
+
 </body>
 </html>
