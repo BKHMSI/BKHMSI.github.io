@@ -4,14 +4,26 @@ app.controller('MainController', ['$scope', '$window', function($scope,$window) 
   $scope.nav = ["Education","Experience","Skills","Projects","Contact"];
   $scope.mobile = false;
   
+  
+  var age = calcAge("1995-08-28");
+  $scope.about = "I am a "+age+" year old ? from Egypt. Currently studying Computer Engineering in The American University in Cairo (AUC), Passionate about Machine Learning, Creative Coding and Developing cool things in general. I like to think that I am different, so scroll down to take a look at my resumé, and some of my projects that I did. ";
+  
+  function calcAge(dateString) {
+    var birthday = new Date(dateString);
+    var ageDifMs = Date.now() - birthday.getTime();
+    var ageDate = new Date(ageDifMs); // miliseconds from epoch
+    return Math.abs(ageDate.getFullYear() - 1970);
+  }
+  
   $scope.education = [
     {
      name:"American University in Cairo",
-     sub:"(Bachelor of Science)",
+     sub:"Bachelor of Science, Computer Engineering, GPA 4.0",
      location:"Cairo Egypt",
      from:"September 2014",
      to:"Present",
-     desc:"Expecting to graduate in May 2019. Current GPA 4.0. Majoring in Computer Engineering with additional coursework in Computer Science and the humanities. ",
+     desc:"Expecting to graduate in May 2019. Current Cumulative GPA 4.0. Majoring in Computer Engineering with additional coursework in Computer Science and the humanities. ",
+     ach:"Dean’s list Fall 2014 till now. Academic achievement Scholarship. Common Reading Program Essay Contest - Second Place. High Achiever in CS1101 Course in AUC. Abdallah Jum'ah study abroad scholarship",
      color:"white",
      textColor:"black-text"
     },
@@ -23,6 +35,7 @@ app.controller('MainController', ['$scope', '$window', function($scope,$window) 
      to:"",
      desc:"Studying abroad during Fall 2016 in SBU. Taking Computer Vision and A.I. among other things",
      color:"white",
+     ach:"Best Junior Award in Stony Brook University ACM Regional Qualification Contest",
      textColor:"black-text"
     },
     {
@@ -33,6 +46,7 @@ app.controller('MainController', ['$scope', '$window', function($scope,$window) 
       to:"",
       desc:"General Certificate of Education - Advanced Levels in Computing, Mathematics and Arabic, and Advanced Subsidiary Levels in Physics and Chemistry.",
       color:"white",
+      ach:"High Achiever in Cambridge International Examination (CIE) for A-Level Computing",
       textColor:"black-text"
     }
   ];
@@ -287,16 +301,74 @@ app.controller('MainController', ['$scope', '$window', function($scope,$window) 
   $(window).resize(function(){
     $scope.$apply(function(){
        //do something to update current scope based on the new innerWidth and let angular update the view.
-       $scope.mobile = (window.innerWidth < 768);
+       
     });
   });
   
 }]);
 
 
+$(document).on('scroll', function() {
+    // do your things like logging the Y-axis
+    console.log(window.scrollY);
+    var hover = {
+      "-webkit-transition":"all .5s ease-in-out",
+      "-moz-transition":"all .5s ease-in-out",
+      "-o-transition":"all .5s ease-in-out",
+      "transition":"all .5s ease-in-out",
+      "-webkit-box-shadow": "0px 0px 10px 0px rgba(255,255,255,0.75)",
+      "-moz-box-shadow": "0px 0px 10px 0px rgba(255,255,255,0.75)",
+      "box-shadow": "0px 0px 10px 0px rgba(255,255,255,0.75)",
+      "background-color": "rgb(34,34,34)",
+      "color":"white"
+    }
+    
+    var edY = $('#ed').offset().top;
+    var exY = $('#ex').offset().top;
+    var prY = $('#pr').offset().top;
+    var acY = $('#ac').offset().top;
+    var ctY = $('#ct').offset().top;
+    var y = window.scrollY;
+    var offset = 250;
+  
+    $('#edli').removeClass('liCircleHover');
+    $('#exli').removeClass('liCircleHover');
+    $('#prli').removeClass('liCircleHover');
+    $('#acli').removeClass('liCircleHover');
+    $('#ctli').removeClass('liCircleHover');
+
+    $('#edli').addClass('liCircle');
+    $('#exli').addClass('liCircle');
+    $('#prli').addClass('liCircle');
+    $('#acli').addClass('liCircle');
+    $('#ctli').addClass('liCircle');
+  
+    if(y>ctY-offset){
+      $('#ctli').removeClass('liCircle');
+      $('#ctli').addClass('liCircleHover');
+    }else if(y>acY-offset){
+      $('#acli').removeClass('liCircle');
+      $('#acli').addClass('liCircleHover');
+    }else if(y>prY-offset){
+      $('#prli').removeClass('liCircle');
+      $('#prli').addClass('liCircleHover');
+    }else if(y>exY-offset){
+      $('#exli').removeClass('liCircle');
+      $('#exli').addClass('liCircleHover');
+    }else if(y>edY-offset){
+      $('#edli').removeClass('liCircle');
+      $('#edli').addClass('liCircleHover');
+    }else{
+      $('#edli').removeClass('liCircleHover');
+      $('#edli').addClass('liCircle');
+    }
+
+ 
+});
+
 $(document).ready(function(){
   $('.parallax').parallax();
-  $('.flexslider').flexslider({animation: "slide",});
+  $('.flexslider').flexslider({animation: "slide", slideshow: false});
 });
 
 

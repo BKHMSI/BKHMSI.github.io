@@ -38,17 +38,27 @@
 <body ng-controller="MainController">
     <div id="slideNav">
       <ul>
-        <a href="#ed"><li>Education</li></a>
-        <a href="#ex"><li>Experience</li></a>
-        <a href="#pr"><li>Projects</li></a>
-        <a href="#ac"><li>Activities</li></a>
-        <a href="#ct"><li>Contact</li></a>
+        <a href="#ed"><li id="edli" class="liCircle">Education</li></a>
+        <a href="#ex"><li id="exli" class="liCircle">Experience</li></a>
+        <a href="#pr"><li id="prli" class="liCircle">Projects</li></a>
+        <a href="#ac"><li id="acli" class="liCircle">Activities</li></a>
+        <a href="#ct"><li id="ctli" class="liCircle">Contact</li></a>
       </ul>
     </div>
 
     <div class="parallax-container">
+    <div class="section white" style="opacity:0.8;">
+      <div class="row container">
+        <img id="myimg" src="Images/me.jpg" width="100" height="100"/>
+        <h3 class="header">About Me</h3>
+        <p class="grey-text text-darken-3 lighten-3 flow-text">{{about}}
+          <small style="padding-left:5px"><a href="https://drive.google.com/file/d/0B88PhzAI_x6WaVpZa3R2TlVYSWs/view?usp=sharing"> Download CV (PDF)</a></small>
+        </p>
+        
+      </div>
+    </div>
       <div class="parallax"><img src="Images/Background/white_desert.jpg"></div>
-      <div class="caption">
+      <div class="caption" style="padding-top:60px">
           <span class="border">Badr AlKhamissi<br></span>
       </div>
       <div id="scroll">
@@ -56,12 +66,8 @@
       </div>
     </div>
   
-    <div class="section white">
-      <div class="row container">
-        <h2 class="header">About Me</h2>
-        <p class="grey-text text-darken-3 lighten-3 flow-text">I am currently a Computer Engineering undergrad at AUC. Passionate about Machine Learning, Creative Coding and Developing things that <strong>really</strong> make a difference. I like to think that I am different, so scroll down to take a look at my resumé below, and some of my projects that I did</p>
-      </div>
-    </div>
+    <div class="section white"><div class="row container"></div></div>
+
 
     <div class="parallax-container">
       <div class="parallax"><img src="Images/Background/auc.jpeg"></div>
@@ -71,13 +77,17 @@
       
       <div class="flexslider" ng-hide="mobile">
         <ul class="row slides">
-         <li class="col s12 m12 l12 center-align" ng-repeat="ed in education track by $index">
+         <li class="col s12 m12 l12" ng-repeat="ed in education track by $index">
            <div class="card mycard shadow section {{ed.color}} center-align">
              <div class="row container">
                <h3 class="header">{{ed.name}}</h3><small style="font-size:20px;color:#777">{{ed.sub}}</small><br>
                <small style="">{{ed.location}} - {{ed.from}} <span ng-hide="ed.to == ''">to</span> {{ed.to}}</small>
                <hr>
-               <p class="{{ed.textColor}} text-darken-3 lighten-3">{{ed.desc}}</p>
+               <div style=""> 
+                <p class="{{ed.textColor}} text-darken-3 lighten-3">{{ed.desc}}</p>
+                <b>Awards</b>
+                <p class="{{ed.textColor}} text-darken-3 lighten-3">{{ed.ach}}</p>
+               </div>
              </div>
            </div>
          </li>
