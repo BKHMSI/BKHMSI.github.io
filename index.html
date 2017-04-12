@@ -1,224 +1,144 @@
-<!Doctype HTML>
+<!DOCTYPE HTML>
 <html ng-app="Portfolio">
+
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <!-- jQuery -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-
-  <!-- AngularJS -->
-  <script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
-  <script type="text/javascript" charset="utf8" src="https://code.angularjs.org/1.5.3/angular-route.js"></script>
-
-  <!-- Font Awesome -->
-  <script src="https://use.fontawesome.com/3d0fc41592.js"></script>
-
-
-  <!-- Materialize -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.materialdesignicons.com/1.7.22/css/materialdesignicons.min.css">
-  
-  <!-- FlexSlider -->
-  <link rel="stylesheet" href="Dependencies/FlexSlider/flexslider.css" type="text/css">
-  <script src="Dependencies/FlexSlider/jquery.flexslider.js"></script>
-
-
-  <!-- Stylesheet -->
-  <link rel="stylesheet" href="index.css">
-
-  
-  <!-- Scripts -->
-  <script src="Scripts/app.js"></script>
-  <script src="Scripts/main-controller.js"></script>
-
-  <title>Personal Website</title>
+    <title>Badr AlKhamissi</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+    <link href="css/main.css" rel="stylesheet" />
+    <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 </head>
 
-
-<body ng-controller="MainController">
-    <div id="slideNav">
-      <ul>
-        <a href="#ed"><li id="edli" class="liCircle">Education</li></a>
-        <a href="#ex"><li id="exli" class="liCircle">Experience</li></a>
-        <a href="#pr"><li id="prli" class="liCircle">Projects</li></a>
-        <a href="#ac"><li id="acli" class="liCircle">Activities</li></a>
-        <a href="#ct"><li id="ctli" class="liCircle">Contact</li></a>
-      </ul>
-    </div>
-
-    <div class="parallax-container">
-    <div class="section white" style="opacity:0.8;">
-      <div class="row container">
-        <img id="myimg" src="Images/me.jpg" width="100" height="100"/>
-        <h3 class="header">About Me</h3>
-        <p class="grey-text text-darken-3 lighten-3 flow-text">{{about}}
-          <small style="padding-left:5px"><a href="https://drive.google.com/file/d/0B88PhzAI_x6WaVpZa3R2TlVYSWs/view?usp=sharing"> Download CV (PDF)</a></small>
-        </p>
-        
-      </div>
-    </div>
-      <div class="parallax"><img src="Images/Background/white_desert.jpg"></div>
-      <div class="caption" style="padding-top:60px">
-          <span class="border">Badr AlKhamissi<br></span>
-      </div>
-      <div id="scroll">
-        <a href="#ed"><span></span></a>
-      </div>
-    </div>
-  
-    <div class="section white"><div class="row container"></div></div>
-
-
-    <div class="parallax-container">
-      <div class="parallax"><img src="Images/Background/auc.jpeg"></div>
-      <div class="caption2" id="ed">
-        <span class="border">Education<br></span>
-      </div>
-      
-      <div class="flexslider" ng-hide="mobile">
-        <ul class="row slides">
-         <li class="col s12 m12 l12" ng-repeat="ed in education track by $index">
-           <div class="card mycard shadow section {{ed.color}} center-align">
-             <div class="row container">
-               <h3 class="header">{{ed.name}}</h3><small style="font-size:20px;color:#777">{{ed.sub}}</small><br>
-               <small style="">{{ed.location}} - {{ed.from}} <span ng-hide="ed.to == ''">to</span> {{ed.to}}</small>
-               <hr>
-               <div style=""> 
-                <p class="{{ed.textColor}} text-darken-3 lighten-3">{{ed.desc}}</p>
-                <b>Awards</b>
-                <p class="{{ed.textColor}} text-darken-3 lighten-3">{{ed.ach}}</p>
-               </div>
-             </div>
-           </div>
-         </li>
-       </ul>
-      </div>
-    </div>
-  
-    
-  <div class="section white"><div class="row container"></div></div>
-  
-  
-  <div class="parallax-container">
-    <div class="parallax" id="ed">
-      <img src="Images/Background/door.jpg">
-    </div>
-
-    <div class="caption2" id="ex">
-      <span class="border">Experience<br></span>
-    </div>
-
-    <div class="mycontainer">
-      <div class="flexslider">
-        <ul class="row slides">
-         <li class="col s12 m12 l12 center-align" ng-repeat="ex in experience track by $index">
-           <div class="card mycard shadow section {{ex.color}}">
-             <div class="row container">
-               <h3 class="header">{{ex.org}} </h3>
-               <small style="font-size:20px;color:#777"> {{ex.title}}</small><br>
-               <small>{{ex.location}} - {{ex.from}} <span ng-hide="ex.to == ''">to</span> {{ex.to}}</small>
-               <hr>
-               <p class="{{ex.textColor}} text-darken-3 lighten-3">
-                {{ex.desc}}
-               </p>
-             </div>
-           </div>
-         </li>
-        </ul>
-     </div>
-    </div>
-  </div>
-  
-  
-   <div class="section white"><div class="row container"></div></div>
-  
-  
-  <div class="parallax-container" style="height:auto">
-    <div class="parallax" id="pr" style="background-repeat: repeat repeat;">
-      <img  src="Images/Background/7YKUD.jpg">
-    </div>
-
-    <div class="caption2" id="ex">
-      <span class="border">Featured Projects<br></span><br>
-      <small style="color:white">Click on each project to reveal more information.<br> I will be adding all of my projects in another page soon</small>
-    </div>
-
-    
-    <div class="row" style="padding-top:180px;">
-      <div class="col s12 m12 l6" ng-repeat="pr in projects track by $index" style="padding:50px">
-        <div class="card" style="width:350px; margin:0 auto;">
-        <div class="card-image waves-effect waves-block waves-light">
-          <img class="activator" ng-src="{{pr.image}}" style="width:350px;height:220px;"/>
+<body id="top" ng-controller="MainController">
+    <!-- Header -->
+    <header id="header">
+        <div class="inner">
+            <a class="image avatar" href="images/me.jpg"><img alt="" src="images/me.jpg" /></a>
+            <h1><strong>Badr AlKhamissi</strong></h1>
         </div>
-
-        <div class="card-content">
-          <span class="card-title activator grey-text text-darken-4">{{pr.name}}<i style="float:right" class="mdi mdi-dots-vertical"></i></span>
-          <p><a href="{{pr.link}}">Check it out</a></p>
-        </div>
-        <div class="card-reveal">
-          <span class="card-title grey-text text-darken-4">{{pr.name}}<i style="float:right" class="mdi mdi-close"></i></span>
-          <hr>
-          <p><b>Description</b>:<br> {{pr.desc}}</p>
-          <p><b>Tags</b>:<br> {{pr.tags}}</p>
-        </div>
-      </div>
-      </div>
-    </div>  
-    
-  </div>
-  
-   <div class="section white"><div class="row container"></div></div>
-
-    <div class="parallax-container">
-      
-      <div class="parallax" id="ac">
-        <img src="Images/Background/doum.jpg">
-      </div>
-
-      <div class="caption2" id="ex">
-        <span class="border">Activities and Volunteering<br></span>
-      </div>
-    
-
-      <div class="flexslider" ng-hide="mobile">
-        <ul class="row slides">
-         <li class="col s12 m12 l12 center-align" ng-repeat="ac in activities track by $index">
-           <div class="card mycard shadow section {{ac.color}} center-align">
-             <div class="row container">
-               <h3 class="header">{{ac.org}}</h3>
-               <small style="font-size:20px;color:#777"> {{ac.resp}}</small><br>
-               <small>{{ac.location}} - {{ac.from}} <span ng-hide="ac.to == ''">to</span> {{ac.to}}</small>
-               <hr>
-               <p class="{{ex.textColor}} text-darken-3 lighten-3">
-                {{ac.desc}}
-               </p>
-             </div>
-           </div>
-         </li>
-       </ul>
-      </div>
+    </header>
+    <!-- Main -->
+    <div id="main">
+        <!-- One -->
+        <section id="one">
+            <header class="major">
+                <h2>About Me</h2>
+            </header>
+            <p>I am a Computer Science junior in the <a href="http://www.aucegypt.edu">American University in Cairo</a> 
+            with a cumulative GPA of 4.0. I like to consider myself as a developer, an artist and a researcher. Passionate about Machine Learning, Computer Vision and creating cool things in general. Scroll down to take a look at my resumé and some of the projects I did, if you have any questions please don't hesitate to contact me :)</p> 
+            <p style="display: inline-block"> <em> I believe that technology is the key to social equality. </em> </p>
+            <ul class="actions" id="cv">
+                <li><a class="button icon fa-download" href="">Download CV</a></li>
+            </ul>
+        </section>
+         <section id="two">
+            <header class="major">
+                <h2>Experience</h2>
+            </header>
+            <section>
+                <div ng-repeat="ex in experience track by $index">
+                <header>
+                    <img style="float:right;" width="100px" height="100px" ng-src="{{ex.image}}"/>
+                    <h4>{{ex.title}}</h4>
+                    <p>{{ex.date}}</p>
+                </header>
+                <p style="margin-right:50px">{{ex.desc}}</p>
+                <hr ng-hide="$index == experience.length-1"/>
+                </div>
+            </section>
+         </section>
+        <!-- Two -->
+        <section id="three">
+            <header class="major">
+                <h2>Projects</h2>
+                <!--<ul class="actions" id="cv">
+                    <li><a class="button icon fa-filter" href="">Filter</a></li>
+                </ul>-->
+            </header>
+            <div class="row">
+                <article class="6u 12u$(xsmall) work-item" id="project.priority" ng-repeat="project in projects | orderBy:project.priority | limitTo:projects_sz">
+                    <a class="image fit thumb" href="{{project.link}}"><img style="border: solid 1px rgb(0,0,0);"alt="{{project.name}}" ng-src="{{project.image}}" /></a>
+                    <h3>{{project.name}}</h3>
+                    <p>{{project.desc}}</p>
+                </article>
+            </div>
+            <div id="scroll" ng-click="expandProjects()">
+                <a href=""><span class="s"></span></a>
+            </div>
+        </section>
+        <!-- Four -->
+        <section id="four">
+            <header class="major">
+                <h2>Blog</h2>
+                <small>I always wanted to start a blog but never had the time or courage to do so. So I challenged myself to write at least one blog post per month, writing about anything <i>interesting</i> that cross my mind</small>
+            </header>
+            <section>
+                <header>
+                    <i><h4><a href=""></a></h4></i>
+                    <p></p>
+                </header>
+                <p></p>
+                <hr/>
+            </section>
+            <section id="four">
+                <header class="major">
+                    <h2>Other Links</h2>
+                </header>
+                <section>
+                    <header>
+                        <h4><a href="https://www.kaggle.com/bkhmsi">Kaggle Profile</a></h4>
+                    </header>
+                    <p><i>I am intending to increase my focus on datascience, and take part in more kaggle competitions</i></p>
+                    <hr/>
+                    <header>
+                        <h4><a href="https://a2oj.com/profile?Username=Bkhmsi">A2OJ Profile</a></h4>
+                    </header>
+                    <p><i>This is my coder profile on A2 Online Judge, it contains most of the problems I solved in other competitive programming website such as Codeforces, SPOJ and UVA</i></p>
+                    <hr/>
+                </section>
+                <!-- Footer Joe Luis Mariano -->
+                <footer id="footer">
+                    <div id="content">
+                        <canvas id="SphereWave" data-processing-sources="js/SphereWave.pde" 
+                                width="100" height="100">
+                            <p>Your browser does not support the canvas tag.</p>
+                            <!-- Note: you can put any alternative content here. -->
+                        </canvas>
+                        <noscript>
+                            <p>JavaScript is required to view the contents of this page.</p>
+                        </noscript>
+                    </div>
+                    <div class="inner">
+                        <ul class="icons">
+                            <li><a class="icon fa-twitter" href="https://twitter.com/BKhamissi"><span class="label">Twitter</span></a></li>
+                            <li><a class="icon fa-github" href="https://github.com/BKHMSI"><span class="label">Github</span></a></li>
+                            <li><a class="icon fa-linkedin" href="https://eg.linkedin.com/in/bkhmsi"><span class="label">LinkedIn</span></a></li>
+                            <li><a class="icon fa-envelope-o" href="mailto: badr [at] khamissi.com"><span class="label">E-mail</span></a></li>
+                        </ul>
+                        <ul class="copyright">
+                            <li>© 2017 Badr AlKhamissi</li>
+                        </ul>
+                    </div>
+                </footer>
+                <!-- Scripts -->
+                <script type="text/javascript" charset="utf8" src="js/jquery.min.js"></script>
+                <script type="text/javascript" charset="utf8" src="js/jquery.poptrox.min.js"></script>
+                <script type="text/javascript" charset="utf8" src="js/skel.min.js"></script>
+                <script type="text/javascript" charset="utf8" src="js/util.js"></script>
+                <!--Processing-->
+                <script type="text/javascript" charset="utf8" src="js/processing.js"></script>
+                <!-- AngularJS -->
+                <script type="text/javascript" charset="utf8" src="js/angular.min.js"></script>
+                <!--<script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>-->
+                <!-- Font Awesome -->
+                <script type="text/javascript" charset="utf8" src="https://use.fontawesome.com/3d0fc41592.js"></script>
+                <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+                <script type="text/javascript" charset="utf8" src="js/main.js"></script>
+                <script type="text/javascript" charset="utf8" src="js/controller.js"></script>
+            </section>
+        </section>
     </div>
-  
-  <div class="parallax-container">
-       
-      <div class="parallax" id="ct">
-        <img src="Images/Background/connect.jpg">
-      </div>
-    
-      <div style="text-align:center;color:white;padding-top:50px">
-          <span style="font-size:50px">Connect</span>
-          <hr width="50%"><br><br>
-      </div>
-
-      <div class='row' id="contact">
-          <div class="col s6 m6 l4 center-align" style="height:180px; padding:10px" ng-repeat="ct in contact track by $index">
-            <a href="{{ct.link}}">
-              <img ng-src="{{ct.image}}" width="100" height="100"/>
-              <br><small style="color:white">{{ct.tip}}</small>
-            </a>
-          </div>
-       </div>
-   </div>
-
 </body>
+
 </html>
