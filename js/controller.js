@@ -50,14 +50,14 @@ app.controller('MainController', ['$scope', '$window', function($scope,$window) 
       tags:"JS,Angular,Firebase,HTML,CSS,PHP,Platform"
     },
     {
-      image:"images/projects/assembly.png",
+      image:"images/projects/assembler.png",
       name:"Assembler & Simulator",
       link:"https://bkhmsi.github.io/ARMThumb_Sim/#/",
       desc:"Online assembler and simulator for the ARM-Thumb instruction set architecture. Support many features including debugging and GFX display. You can save your assembly projects on the website",
       tags:"JS,Angular,Firebase,HTML,CSS,ARM,Assembly"
     },
     {
-      image:"images/projects/Graph_Builder.png",
+      image:"images/projects/graphs.png",
       name:"Graph Builder",
       link:"https://bkhmsi.github.io/Graph_Builder/",
       desc:"Build customizable graphs and run algorithms (DFS,BFS) on them",
@@ -71,14 +71,14 @@ app.controller('MainController', ['$scope', '$window', function($scope,$window) 
       tags:"Alexa,Amazon,NodeJS,Lambda,Hackathon"
     },
     {
-      image:"images/projects/PhotoGenerator.png",
+      image:"images/projects/collage.png",
       name:"PhotoGenerator",
       link:"",
       desc:"Generating a selected image using small number of selected images",
       tags:"Processing, Image Processing, Java"
     },
     {
-      image:"images/projects/quicky.png",
+      image:"images/projects/quicky_2.png",
       name:"Quicky: Chrome Extension",
       link:"https://chrome.google.com/webstore/detail/quicky/kjcffaoelnehhcdgfnmdeomnmafmiomj",
       desc:"Quicky is a chrome extension that allows you to share links and quick posts on the fly",
@@ -92,7 +92,7 @@ app.controller('MainController', ['$scope', '$window', function($scope,$window) 
       tags:"Web,JS,Game,ProcessingJS,HTML,CSS,A.I."
     },
     {
-      image:"images/projects/Snake_2.png",
+      image:"images/projects/snake.png",
       name:"Snake-حنش",
       link:"https://bkhmsi.github.io/Snake/",
       desc:"Re-imagined snake game using ProcessingJS. One of my first projects that I am really proud of, done before joining university",
