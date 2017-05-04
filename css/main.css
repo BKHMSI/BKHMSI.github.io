@@ -75,6 +75,14 @@
     #cv {float:none;}
 }
 
+/* Image Experience */
+.imageEx {float:right; margin-left: 50px}
+
+@media only screen and (max-width: 768px) {
+   .imageEx {float:none; margin: 0 auto; text-align: center; display: block; margin-bottom: 20px}
+   #ex {text-align: center}
+}
+
 /* Scroll */
 
 #scroll{

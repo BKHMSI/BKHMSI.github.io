@@ -26,8 +26,8 @@
                 <h2>About Me</h2>
             </header>
             <p>I am a Computer Science junior in the <a href="http://www.aucegypt.edu">American University in Cairo</a> 
-            with a cumulative GPA of 4.0. I like to consider myself as a developer, an artist and a researcher. Passionate about Machine Learning, Computer Vision and creating cool things in general. Scroll down to take a look at my resumé and some of the projects I did, if you have any questions please don't hesitate to contact me :)</p> 
-            <p style="display: inline-block"> <em> I believe that technology is the key to social equality. </em> </p>
+            with a cumulative GPA of 4.0. I am a developer/ artist/ researcher hybrid. Passionate about Machine Learning, Computer Vision and creating cool things in general. Scroll down to take a look at my resumé and some of the projects I have done, if you have any questions please don't hesitate to contact me :)</p> 
+            <p style="display: inline-block"> <em> I believe that technology is the key to social equality.</em></p>
             <ul class="actions" id="cv">
                 <li><a class="button icon fa-download" href="resources/CV.pdf">Download CV</a></li>
             </ul>
@@ -36,14 +36,14 @@
             <header class="major">
                 <h2>Experience</h2>
             </header>
-            <section>
+            <section id="ex">
                 <div ng-repeat="ex in experience track by $index">
                 <header>
-                    <img style="float:right;" width="100px" height="100px" ng-src="{{ex.image}}"/>
+                    <img class="imageEx" width="100px" height="100px" ng-src="{{ex.image}}"/>
                     <h4>{{ex.title}}</h4>
                     <p>{{ex.date}}</p>
                 </header>
-                <p style="margin-right:50px">{{ex.desc}}</p>
+                <p>{{ex.desc}}</p>
                 <hr ng-hide="$index == experience.length-1"/>
                 </div>
             </section>
@@ -63,15 +63,18 @@
                     <p>{{project.desc}}</p>
                 </article>
             </div>
-            <div id="scroll" ng-click="expandProjects()">
+            <ul class="actions">
+                <li><a class="button icon fa-share" href="">More Projects</a></li>
+            </ul>
+            <!--<div id="scroll" ng-click="expandProjects()">
                 <a href=""><span class="s"></span></a>
-            </div>
+            </div>-->
         </section>
         <!-- Four -->
         <section id="four">
             <header class="major">
                 <h2>Blog</h2>
-                <small>I always wanted to start a blog but never had the time or courage to do so. So I challenged myself to write at least one blog post per month, writing about anything <i>interesting</i> that cross my mind</small>
+                <small>I always wanted to start a blog but never had the time or courage to do so. So I challenged myself to write at least one blog post per month about anything <i>interesting</i> that cross my mind</small>
             </header>
             <section>
                 <header>
@@ -83,18 +86,23 @@
             </section>
             <section id="four">
                 <header class="major">
-                    <h2>Other Links</h2>
+                    <h2>Me on the Internet<span style="float:right">🌐</span></h2>
                 </header>
                 <section>
                     <header>
+                        <h4><a href="https://www.quora.com/profile/Badr-AlKhamissi">Quora Profile</a></h4>
+                    </header>
+                    <p><i>Quora is one of my favorite websites, I occasionally answer and ask questions, but mostly I just read ... alot</i></p>
+                    <hr/>
+                    <header>
                         <h4><a href="https://www.kaggle.com/bkhmsi">Kaggle Profile</a></h4>
                     </header>
-                    <p><i>I am intending to increase my focus on datascience, and take part in more kaggle competitions</i></p>
+                    <p><i>I am intending to shift my focus to ML and data-science, and take part in more kaggle competitions</i></p>
                     <hr/>
                     <header>
                         <h4><a href="https://a2oj.com/profile?Username=Bkhmsi">A2OJ Profile</a></h4>
                     </header>
-                    <p><i>This is my coder profile on A2 Online Judge, it contains most of the problems I solved in other competitive programming website such as Codeforces, SPOJ and UVA</i></p>
+                    <p><i>This is my coder profile on A2 Online Judge, it contains most of the problems I solved in other competitive programming websites including: <a href="http://codeforces.com/profile/Bkhmsi">Codeforces</a>, <a href"">SPOJ</a> and <a href="https://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_authorstats&userid=757755">UVA</a></i></p>
                     <hr/>
                 </section>
                 <!-- Footer Joe Luis Mariano -->
