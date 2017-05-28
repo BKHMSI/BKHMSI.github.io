@@ -8,6 +8,9 @@
     <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
     <link href="css/main.css" rel="stylesheet" />
     <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+    <!-- AngularJS -->
+    <script type="text/javascript" charset="utf8" src="js/angular.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://code.angularjs.org/1.5.3/angular-route.js"></script>
 </head>
 
 <body id="top" ng-controller="MainController">
@@ -18,135 +21,43 @@
             <h1><strong>Badr AlKhamissi</strong></h1>
         </div>
     </header>
-    <!-- Main -->
-    <div id="main">
-        <!-- One -->
-        <section id="one">
-            <header class="major">
-                <h2>About Me</h2>
-            </header>
-            <p>I am a Computer Science junior in the <a href="http://www.aucegypt.edu">American University in Cairo</a> 
-            with a cumulative GPA of 4.0. I am a developer/ artist/ researcher hybrid. Passionate about Machine Learning, Computer Vision and creating cool things in general. Scroll down to take a look at my resumé and some of the projects I have done, if you have any questions please don't hesitate to contact me :)</p> 
-            <p style="display: inline-block"> <em> I believe that technology is the key to social equality.</em></p>
-            <ul class="actions" id="cv">
-                <li><a class="button icon fa-download" href="resources/CV.pdf">Download CV</a></li>
+    <div ng-view style="height:100%"></div>
+    <!-- Footer Joe Luis Mariano -->
+    <footer id="footer">
+        <div id="content">
+            <canvas id="SphereWave" data-processing-sources="js/SphereWave.pde" width="100" height="100">
+                <p>Your browser does not support the canvas tag.</p>
+                <!-- Note: you can put any alternative content here. -->
+            </canvas>
+            <noscript>
+                <p>JavaScript is required to view the contents of this page.</p>
+            </noscript>
+        </div>
+        <div class="inner">
+            <ul class="icons">
+                <li><a class="icon fa-twitter" href="https://twitter.com/BKhamissi"><span class="label">Twitter</span></a></li>
+                <li><a class="icon fa-github" href="https://github.com/BKHMSI"><span class="label">Github</span></a></li>
+                <li><a class="icon fa-linkedin" href="https://eg.linkedin.com/in/bkhmsi"><span class="label">LinkedIn</span></a></li>
+                <li><a class="icon fa-envelope-o" href="mailto: badr [at] khamissi.com"><span class="label">E-mail</span></a></li>
             </ul>
-        </section>
-         <section id="two">
-            <header class="major">
-                <h2>Experience</h2>
-            </header>
-            <section id="ex">
-                <div ng-repeat="ex in experience track by $index">
-                <header>
-                    <img class="imageEx" width="100px" height="100px" ng-src="{{ex.image}}"/>
-                    <h4>{{ex.title}}</h4>
-                    <p>{{ex.date}}</p>
-                </header>
-                <p>{{ex.desc}}</p>
-                <hr ng-hide="$index == experience.length-1"/>
-                </div>
-            </section>
-         </section>
-        <!-- Two -->
-        <section id="three">
-            <header class="major">
-                <h2>Projects</h2>
-                <!--<ul class="actions" id="cv">
-                    <li><a class="button icon fa-filter" href="">Filter</a></li>
-                </ul>-->
-            </header>
-            <div class="row">
-                <article class="6u 12u$(xsmall) work-item" id="project.priority" ng-repeat="project in projects | orderBy:project.priority | limitTo:projects_sz">
-                    <a class="image fit thumb" href="{{project.link}}"><img style="border: solid 1px rgb(0,0,0);"alt="{{project.name}}" ng-src="{{project.image}}" /></a>
-                    <h3>{{project.name}}</h3>
-                    <p>{{project.desc}}</p>
-                </article>
-            </div>
-            <ul class="actions">
-                <li><a class="button icon fa-share" href="">More Projects</a></li>
+            <ul class="copyright">
+                <li>© 2017 Badr AlKhamissi</li>
             </ul>
-            <!--<div id="scroll" ng-click="expandProjects()">
-                <a href=""><span class="s"></span></a>
-            </div>-->
-        </section>
-        <!-- Four -->
-        <section id="four">
-            <header class="major">
-                <h2>Blog</h2>
-                <small>I always wanted to start a blog but never had the time or courage to do so. So I challenged myself to write at least one blog post per month about anything <i>interesting</i> that cross my mind</small>
-            </header>
-            <section>
-                <header>
-                    <i><h4><a href=""></a></h4></i>
-                    <p></p>
-                </header>
-                <p></p>
-                <hr/>
-            </section>
-            <section id="four">
-                <header class="major">
-                    <h2>Me on the Internet<span style="float:right">🌐</span></h2>
-                </header>
-                <section>
-                    <header>
-                        <h4><a href="https://www.quora.com/profile/Badr-AlKhamissi">Quora Profile</a></h4>
-                    </header>
-                    <p><i>Quora is one of my favorite websites, I occasionally answer and ask questions, but mostly I just read ... alot</i></p>
-                    <hr/>
-                    <header>
-                        <h4><a href="https://www.kaggle.com/bkhmsi">Kaggle Profile</a></h4>
-                    </header>
-                    <p><i>I am intending to shift my focus to ML and data-science, and take part in more kaggle competitions</i></p>
-                    <hr/>
-                    <header>
-                        <h4><a href="https://a2oj.com/profile?Username=Bkhmsi">A2OJ Profile</a></h4>
-                    </header>
-                    <p><i>This is my coder profile on A2 Online Judge, it contains most of the problems I solved in other competitive programming websites including: <a href="http://codeforces.com/profile/Bkhmsi">Codeforces</a>, <a href"">SPOJ</a> and <a href="https://uva.onlinejudge.org/index.php?option=onlinejudge&page=show_authorstats&userid=757755">UVA</a></i></p>
-                    <hr/>
-                </section>
-                <!-- Footer Joe Luis Mariano -->
-                <footer id="footer">
-                    <div id="content">
-                        <canvas id="SphereWave" data-processing-sources="js/SphereWave.pde" 
-                                width="100" height="100">
-                            <p>Your browser does not support the canvas tag.</p>
-                            <!-- Note: you can put any alternative content here. -->
-                        </canvas>
-                        <noscript>
-                            <p>JavaScript is required to view the contents of this page.</p>
-                        </noscript>
-                    </div>
-                    <div class="inner">
-                        <ul class="icons">
-                            <li><a class="icon fa-twitter" href="https://twitter.com/BKhamissi"><span class="label">Twitter</span></a></li>
-                            <li><a class="icon fa-github" href="https://github.com/BKHMSI"><span class="label">Github</span></a></li>
-                            <li><a class="icon fa-linkedin" href="https://eg.linkedin.com/in/bkhmsi"><span class="label">LinkedIn</span></a></li>
-                            <li><a class="icon fa-envelope-o" href="mailto: badr [at] khamissi.com"><span class="label">E-mail</span></a></li>
-                        </ul>
-                        <ul class="copyright">
-                            <li>© 2017 Badr AlKhamissi</li>
-                        </ul>
-                    </div>
-                </footer>
-                <!-- Scripts -->
-                <script type="text/javascript" charset="utf8" src="js/jquery.min.js"></script>
-                <script type="text/javascript" charset="utf8" src="js/jquery.poptrox.min.js"></script>
-                <script type="text/javascript" charset="utf8" src="js/skel.min.js"></script>
-                <script type="text/javascript" charset="utf8" src="js/util.js"></script>
-                <!--Processing-->
-                <script type="text/javascript" charset="utf8" src="js/processing.js"></script>
-                <!-- AngularJS -->
-                <script type="text/javascript" charset="utf8" src="js/angular.min.js"></script>
-                <!--<script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>-->
-                <!-- Font Awesome -->
-                <script type="text/javascript" charset="utf8" src="https://use.fontawesome.com/3d0fc41592.js"></script>
-                <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-                <script type="text/javascript" charset="utf8" src="js/main.js"></script>
-                <script type="text/javascript" charset="utf8" src="js/controller.js"></script>
-            </section>
-        </section>
-    </div>
+        </div>
+    </footer>
+    <!-- Scripts -->
+    <script type="text/javascript" charset="utf8" src="js/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="js/jquery.poptrox.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="js/skel.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="js/util.js"></script>
+    <!--Processing-->
+    <script type="text/javascript" charset="utf8" src="js/processing.js"></script>
+    <!--<script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>-->
+    <!-- Font Awesome -->
+    <script type="text/javascript" charset="utf8" src="https://use.fontawesome.com/3d0fc41592.js"></script>
+    <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+    <script type="text/javascript" charset="utf8" src="js/main.js"></script>
+    <script type="text/javascript" charset="utf8" src="js/controller.js"></script>
 </body>
 
 </html>
