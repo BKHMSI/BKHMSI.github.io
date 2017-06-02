@@ -49,7 +49,7 @@ app.controller('MainController', ['$scope', '$window', function($scope,$window) 
     {
       image:"images/projects/sketchback.png",
       name:"Sketch Back",
-      link:"https://github.com/BKHMSI/Eigenfaces",
+      link:"https://github.com/BKHMSI/Sketchback#sketchback-convolutional-sketch-inversion-using-keras",
       desc:"Sketch inversion of faces and building sketches using deep convolutional neural networks",
       tags:"Vision,ML,Python,Research"
     },
