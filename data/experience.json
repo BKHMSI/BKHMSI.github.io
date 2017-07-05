@@ -1,0 +1,20 @@
+[
+    {
+        "image": "images/experience/stonybrook.jpg",
+        "title": "Semester abroad in Stony Brook University, New York, United States",
+        "date": "Fall 2016",
+        "desc": "Studying abroad for a semester during Fall 2016 in SBU"
+    },
+    {
+        "image": "images/experience/microsoft.jpg",
+        "title": "SDE Intern at Microsoft Advanced Technology Lab in Cairo",
+        "date": "June to Aug 2015 and January 2016",
+        "desc": "I worked with the Language Understanding Intelligent Service (LUIS) team during both of my internships"
+    },
+    {
+        "image": "images/experience/auc.png",
+        "title": "Undergraduate teaching assistant in The American University in Cairo",
+        "date": "Fall 2015 and Spring 2016",
+        "desc": "Assist instructor of Programming Fundamentals class in setting the syllabus, designing exams, grading assignments and projects. Hold regular office hours to help students"
+    }
+]
