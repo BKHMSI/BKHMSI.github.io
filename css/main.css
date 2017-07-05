@@ -70,9 +70,14 @@
 /* Download Button */
 
 #cv{float:right;}
+#goBack{float:right;margin:2em}
+.title{font-size:4em;display:inline-block;}
+
 
 @media only screen and (max-width: 768px) {
     #cv {float:none;}
+	#goBack{float:none;float:none;margin:0em}
+	.title{text-align: center;display:block;}
 }
 
 /* Image Experience */

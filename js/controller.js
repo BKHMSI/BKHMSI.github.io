@@ -82,11 +82,11 @@ app.controller('MainController', ['$scope', '$window', function($scope,$window) 
       tags:"Alexa,Amazon,NodeJS,Lambda,Hackathon"
     },
     {
-      image:"images/projects/assembler.png",
-      name:"Assembler & Simulator",
-      link:"https://bkhmsi.github.io/ARMThumb_Sim/#/",
-      desc:"Online assembler and simulator for the ARM-Thumb instruction set architecture. Support many features including debugging and GFX display",
-      tags:"JS,Angular,Firebase,HTML,CSS,ARM,Assembly"
+      image:"images/projects/sa7_wala_ghalat.png",
+      name:"Doum Trivia Bot",
+      link:"https://github.com/BKHMSI/Doum_Trivia_Bot",
+      desc:"True or False trivia game Messenger Bot for Doum Cultural Foundation",
+      tags:"JS,NodeJS,Messenger,Bot,Heroku"
     },
     {
       image:"images/projects/graphs.png",
@@ -94,6 +94,13 @@ app.controller('MainController', ['$scope', '$window', function($scope,$window) 
       link:"https://bkhmsi.github.io/Graph_Builder/",
       desc:"Web application for graph lovers: build customizable graphs or use pre-sets and run algorithms (DFS,BFS) on them",
       tags:"Processing,Visualization,JS,HTML,CSS"
+    },
+    {
+      image:"images/projects/assembler.png",
+      name:"Assembler & Simulator",
+      link:"https://bkhmsi.github.io/ARMThumb_Sim/#/",
+      desc:"Online assembler and simulator for the ARM-Thumb instruction set architecture. Support many features including debugging and GFX display",
+      tags:"JS,Angular,Firebase,HTML,CSS,ARM,Assembly"
     },
     {
       image:"images/projects/quicky.png",

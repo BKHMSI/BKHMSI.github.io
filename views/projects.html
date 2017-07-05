@@ -1,13 +1,12 @@
 <!-- Main -->
 <div id="main">
-    <!--<h4><a href="#/">Go Back</a></h4>-->
-    <h1 style="font-size:4em;">Projects</h1>
-    <section id="1" style="margin:0">
-        <header class="major">
-            <!--<ul class="actions" id="cv">
-                <li><a class="button icon fa-filter" href="">Filter</a></li>
-            </ul>-->
-        </header>
+    <section>
+        <h1 class="title">Projects</h1>
+        <ul class="actions" id="goBack">
+            <li><a class="button icon fa-arrow-left" href="">Go Back</a></li>
+        </ul>
+    </section>
+    <section style="margin:0">
         <div class="row">
             <article class="6u 12u$(xsmall) work-item" id="project.priority" ng-repeat="project in projects | orderBy:project.priority">
                 <a class="image fit thumb" href="{{project.link}}"><img style="border: solid 1px rgb(0,0,0);"alt="{{project.name}}" ng-src="{{project.image}}"/></a>
