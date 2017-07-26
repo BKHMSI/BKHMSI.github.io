@@ -1,0 +1,18 @@
+<div id="main"> 
+    <section>
+        <header class="major">
+            <h2>Activities and Volunteering</h2>
+        </header>
+        <section id="ex">
+            <div ng-repeat="ac in activities track by $index">
+                <header>
+                    <img class="imageEx" width="100px" height="100px" ng-src="{{ac.image}}" />
+                    <h4>{{ac.title}}</h4>
+                    <p>{{ac.date}}</p>
+                </header>
+                <p>{{ac.desc}}</p>
+                <hr ng-hide="$index == activities.length-1" />
+            </div>
+        </section>
+    </section>
+</div>

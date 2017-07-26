@@ -6,7 +6,7 @@
             <h2>About Me</h2>
         </header>
         <p>I am a Computer Science senior in the <a href="http://www.aucegypt.edu">American University in Cairo</a> with a cumulative
-            GPA of 4.0. I am a developer/ artist/ researcher hybrid. Passionate about Machine Learning, Computer Vision and
+            GPA of 4.0. I am a developer/ artist/ researcher hybrid in the making. Passionate about Machine Learning, Computer Vision and
             creating cool things in general. Scroll down to take a look at my resumé and some of the projects I have done,
             if you have any questions please don't hesitate to contact me :)</p>
         <p style="display: inline-block"> <em> I believe that technology is the key to social equality.</em></p>
@@ -51,6 +51,26 @@
     <!-- Four -->
     <section id="four">
         <header class="major">
+            <h2>Activities and Volunteering</h2>
+        </header>
+        <section id="ac">
+            <div ng-repeat="ac in activities | limitTo:activities_sz">
+                <header>
+                    <img class="imageEx" width="100px" height="100px" ng-src="{{ac.image}}" />
+                    <h4>{{ac.title}}</h4>
+                    <p>{{ac.date}}</p>
+                </header>
+                <p>{{ac.desc}}</p>
+                <hr ng-hide="$index == activities_sz-1" />
+            </div>
+        </section>
+        <ul class="actions">
+            <li><a class="button icon fa-share" href="#activities">More</a></li>
+        </ul>
+    </section>
+    <!-- Five -->
+    <section id="five">
+        <header class="major">
             <h2>Blog</h2>
             <small>I always wanted to start a blog but never had the time or courage to do so. So I challenged myself to write at least one blog post per month about anything <i>interesting</i> that cross my mind</small>
         </header>
@@ -60,7 +80,6 @@
                 <p></p>
             </header>
             <p></p>
-            <hr/>
         </section>
     </section>
     <section id="five">

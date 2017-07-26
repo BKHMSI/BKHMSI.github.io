@@ -1,0 +1,50 @@
+[
+    {
+        "image": "images/activities/csea.png",
+        "title": "Organiser - Associate Head of Academics Committee, CSEA, Cairo, Egypt",
+        "date": "Fall 2015 - Spring 2016, Spring 2017",
+        "desc": "Organiser then Associate Head of Academics Committee in the Computer Science and Engineering Association in AUC. Responsible for organizing academic events: hackathons, workshops, sessions and talks related to different fields in Computer Science and Engineering."
+    },
+    {
+        "image": "images/activities/creative_coding.jpg",
+        "title": "Co-Founder of Creative Coding Cairo, Cairo, Egypt",
+        "date": "July 2016 - Present",
+        "desc": "Co-Founded Creative Coding Cairo under FabLab Egypt. Organize monthly meet ups for the community."
+    },
+    {
+        "image": "images/activities/acm.png",
+        "title": "Competitor, ACM, Alexandria, Egypt",
+        "date": "November 2015",
+        "desc": "Competitor in the 2015 Egyptian Collegiate Programming Contest (ECPC)"
+    },
+    {
+        "image": "images/activities/astronomy.jpg",
+        "title": "Organizer, Astronomy Club in AUC, Cairo, Egypt",
+        "date": "Fall 2014",
+        "desc": "Member of the Academic Committee in the Astronomy Club, assisted in the organization of the 2nd Astronomy Conference in AUC."
+    },
+    {
+        "image": "images/activities/waterpolo.jpg",
+        "title": "Waterpolo Player, Gezira Sporting Club, Cairo, Egypt",
+        "date": "2009 - 2014",
+        "desc": "Member of the '95 waterpolo team in Gezira Sporing Club. Participated in the Egyptian National Tournament."
+    },
+    {
+        "image": "images/activities/doum.png",
+        "title": "Volunteer, Doum Culture Doundation, Cairo, Egypt",
+        "date": "September 2012 -  May 2016",
+        "desc": "Developed a Database System for the Organization using MS Access VB and SQL. Sending HTML emails for Doum’s News-list. Managing their website and their digital presence. Volunteer in organizing some of their workshops and cultural events."
+    },
+    {
+        "image": "images/activities/cisv.jpg",
+        "title": "Delegate, CISV, Paris, France",
+        "date": "Summer 2010",
+        "desc": "Member of the Egyptian delegation who participated in organizing a summer camp in Paris, basing activities on 4 educational pillars; diversity, conflict resolution, sustainable development and human rights through experiential learning."
+    },
+    {
+        "image": "images/activities/cifffc.jpg",
+        "title": "Jury of Long and Short Films in Cairo International Film Festival for Children, Cairo, Egypt",
+        "date": " 2007, 2008, 2010",
+        "desc": "Member of the children jury delegation of long and short feature films, our role was to select a winner for each prize in the film festival."
+    }
+]

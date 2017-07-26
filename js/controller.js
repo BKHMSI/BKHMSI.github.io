@@ -18,6 +18,11 @@ app.config(function($routeProvider) {
               controller  : 'MainController'
         })
 
+        .when('/activities', {
+              templateUrl : 'views/activities.html',
+              controller  : 'MainController'
+        })
+
         .when('/blog', {
               templateUrl : 'views/blog.html',
               controller  : 'MainController'
@@ -28,7 +33,10 @@ app.controller('MainController', ['$scope', '$http', '$routeParams', function($s
 
   $scope.projects = null;
   $scope.experience = null;
+  $scope.activities = null;
   $scope.projects_sz = 4;
+  $scope.activities_sz = 3;
+
 
   $scope.$on('$routeChangeSuccess', function() {
     
@@ -40,6 +48,10 @@ app.controller('MainController', ['$scope', '$http', '$routeParams', function($s
 
   $http.get('data/experience.json').success(function(data) {
       $scope.experience = data;
+  });
+
+  $http.get('data/activities.json').success(function(data) {
+      $scope.activities = data;
   });
 
 }]);
