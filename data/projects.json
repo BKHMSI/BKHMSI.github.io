@@ -21,11 +21,11 @@
         "tags":"Vision,ML,Linear Algebra,Python"
     },
     {
-        "image":"images/projects/mips_sim.png",
-        "name":"MIPS R400 Pipelined Simulator",
-        "link":"https://bkhmsi.github.io/mips-r4000-sim/#/editor",
-        "desc":"Online assembler and simulator for the ARM-Thumb ISA. Support many features including debugging and GFX display. You can save your assembly projects on the website",
-        "tags":"JS,CPU,Architecture,HTML,CSS,MIPS,Assembly"
+        "image":"images/projects/netpy.png",
+        "name":"NetPy",
+        "link":"https://github.com/BKHMSI/NetPy",
+        "desc":"Neural Network library using NumPy",
+        "tags":"ML,Linear Algebra,Python"
     },
     {
         "image":"images/projects/scripty.png",
@@ -33,6 +33,13 @@
         "link":"https://github.com/BKHMSI/Scripty",
         "desc":"Scripty is an Amazon Alexa skill that teaches children how to code using voice commands.",
         "tags":"Alexa,Amazon,NodeJS,Lambda,Hackathon"
+    },
+    {
+        "image":"images/projects/mips_sim.png",
+        "name":"MIPS R400 Pipelined Simulator",
+        "link":"https://bkhmsi.github.io/mips-r4000-sim/#/editor",
+        "desc":"Online assembler and simulator for the ARM-Thumb ISA. Support many features including debugging and GFX display. You can save your assembly projects on the website",
+        "tags":"JS,CPU,Architecture,HTML,CSS,MIPS,Assembly"
     },
     {
         "image":"images/projects/sa7_wala_ghalat.png",
@@ -49,18 +56,18 @@
         "tags":"Processing,Visualization,JS,HTML,CSS"
     },
     {
-        "image":"images/projects/assembler.png",
-        "name":"Assembler & Simulator",
-        "link":"https://bkhmsi.github.io/ARMThumb_Sim/#/",
-        "desc":"Online assembler and simulator for the ARM-Thumb instruction set architecture. Support many features including debugging and GFX display",
-        "tags":"JS,Angular,Firebase,HTML,CSS,ARM,Assembly"
-    },
-    {
         "image":"images/projects/quicky.png",
         "name":"Quicky: Chrome Extension",
         "link":"https://chrome.google.com/webstore/detail/quicky/kjcffaoelnehhcdgfnmdeomnmafmiomj",
         "desc":"Quicky is a chrome extension that allows you to share links and quick posts on the fly",
         "tags":"Chrome,Web Extension,Extension,JS,HTML,CSS"
+    },
+    {
+        "image":"images/projects/assembler.png",
+        "name":"Assembler & Simulator",
+        "link":"https://bkhmsi.github.io/ARMThumb_Sim/#/",
+        "desc":"Online assembler and simulator for the ARM-Thumb instruction set architecture. Support many features including debugging and GFX display",
+        "tags":"JS,Angular,Firebase,HTML,CSS,ARM,Assembly"
     },
     {
         "image":"images/projects/collage.png",
