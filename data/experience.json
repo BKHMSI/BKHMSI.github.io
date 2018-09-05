@@ -1,5 +1,17 @@
 [
     {
+        "image": "images/experience/vkansee.jpg",
+        "title": "Machine Intelligence Research Assistant at Vkansee",
+        "date": "January 2018 - Present",
+        "desc": "I am working as a machine learning engineer in biometrics for Vkansee"
+    },
+    {
+        "image": "images/experience/microsoft.jpg",
+        "title": "Software Development Engineer at Microsoft Advanced Technology Lab in Cairo",
+        "date": "June 2018 - Present",
+        "desc": "I worked on two seperate projects part of Microsfot Bot Framework."
+    },
+    {
         "image": "images/experience/tsinghua.png",
         "title": "Deep Learning Summer School in Tsinghua University, Beijing, China",
         "date": "July 2017",
