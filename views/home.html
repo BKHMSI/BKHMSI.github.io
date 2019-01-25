@@ -24,7 +24,7 @@
                     <h4>{{ex.title}}</h4>
                     <p>{{ex.date}}</p>
                 </header>
-                <p>{{ex.desc}}</p>
+                <ul style="list-style-type: circle;"><li  ng-repeat="point in ex.points">{{point}}</li></ul>
                 <hr ng-hide="$index == experience.length-1" />
             </div>
         </section>
@@ -47,6 +47,39 @@
             <li><a class="button icon fa-share" href="#projects">More Projects</a></li>
         </ul>
     </section>
+
+    <section id="three">
+        <header class="major">
+            <h2>Playground</h2>
+        </header>
+        <div class="row">
+            <article class="6u 12u$(xsmall) work-item" ng-repeat="project in playground | limitTo:playground_sz">
+                <a class="image fit thumb" href="{{project.link}}">
+                    <img style="border: solid 1px rgb(0,0,0);" alt="{{project.name}}" ng-src="{{project.image}}"/>
+                </a>
+                <h3>{{project.name}}</h3>
+                <p>{{project.desc}}</p>
+            </article>
+        </div>
+        <ul class="actions">
+            <li><a class="button icon fa-share" href="#playground">More Playground Projects</a></li>
+        </ul>
+    </section>
+    <!-- Five -->
+    <section id="five">
+        <header class="major">
+            <h2>Recent Blog Posts</h2>
+        </header>
+        <section>
+            <header>
+                <i><h4><a href="https://bkhmsi.github.io/blog/hello-world/">Hello World</a></h4></i>
+            </header>
+            <p>Welcome to my first blog post, I have been meaning to do this from quite sometime, but haven’t had the courage to do so until now. Instead of introducing myself - which is always a hard thing to do - I will let my future blog posts do that for me, but for starters I can tell you this...</p>
+        </section>
+        <ul class="actions">
+            <li><a class="button icon fa-share" href="https://bkhmsi.github.io/blog">More Blog Posts</a></li>
+        </ul>
+    </section>
     <!-- Four -->
     <section id="four">
         <header class="major">
@@ -66,20 +99,6 @@
         <ul class="actions">
             <li><a class="button icon fa-share" href="#activities">More</a></li>
         </ul>
-    </section>
-    <!-- Five -->
-    <section id="five">
-        <header class="major">
-            <h2>Blog</h2>
-            <small>I always wanted to start a blog but never had the time or courage to do so. So I challenged myself to write at least one blog post per month about anything <i>interesting</i> that cross my mind</small>
-        </header>
-        <section>
-            <header>
-                <i><h4><a href=""></a></h4></i>
-                <p></p>
-            </header>
-            <p></p>
-        </section>
     </section>
     <section id="five">
         <header class="major">

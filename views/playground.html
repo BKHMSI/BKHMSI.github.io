@@ -1,0 +1,18 @@
+<!-- Main -->
+<div id="main">
+    <section>
+        <h1 class="title">Playground</h1><small>(Mini Projects)</small>
+        <ul class="actions" id="goBack">
+            <li><a class="button icon fa-arrow-left" href="#/">Go Back</a></li>
+        </ul>
+    </section>
+    <section style="margin:0">
+        <div class="row">
+            <article class="6u 12u$(xsmall) work-item" id="project.priority" ng-repeat="project in playground">
+                <a class="image fit thumb" href="{{project.link}}"><img style="border: solid 1px rgb(0,0,0);"alt="{{project.name}}" ng-src="{{project.image}}"/></a>
+                <h3>{{project.name}}</h3>
+                <p>{{project.desc}}</p>
+            </article>
+        </div>
+    </section>
+</div>

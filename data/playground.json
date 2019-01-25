@@ -1,0 +1,30 @@
+[
+    {
+        "image":"images/playground/mnist-latent.png",
+        "name":"MNIST Latent Interpolation",
+        "link":"https://github.com/BKHMSI/MNIST-Latent-Interpolation",
+        "desc":"Create a countdown or countup GIF with MNIST images using smooth transitions from the latent space",
+        "tags":"Vision,ML,Python,Generative"
+    },
+    {
+        "image":"images/playground/mnist-loss.png",
+        "name":"MNIST Loss",
+        "link":"https://github.com/BKHMSI/LossMNIST",
+        "desc":"Exploring the discriminating power of different loss functions for classification on MNIST",
+        "tags":"Vision,ML,Python,Research,t-SNE"
+    },
+    {
+        "image":"images/playground/tictactoe.png",
+        "name":"TicTacToe",
+        "link":"https://github.com/BKHMSI/TicTacToe",
+        "desc":"Implementing a minimax A.I. for TicTacToe with variable board size",
+        "tags":"Web,JS,Game,ProcessingJS,HTML,CSS,A.I."
+    },
+    {
+        "image":"images/playground/kmeans.png",
+        "name":"K-Means Visualization",
+        "link":"https://bkhmsi.github.io/KMeans-Visualization/",
+        "desc":"Visualizing the k-means clustering algorithm using Processing",
+        "tags":"Vision,ML,Python"
+    }
+]

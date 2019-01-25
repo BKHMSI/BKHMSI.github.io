@@ -3,36 +3,82 @@
         "image": "images/experience/vkansee.jpg",
         "title": "Machine Intelligence Research Assistant at Vkansee",
         "date": "January 2018 - Present",
-        "desc": "I am working as a machine learning engineer in biometrics for Vkansee"
+        "desc": "I am working as a machine learning engineer in biometrics for Vkansee",
+        "points": [
+            "Conducting research to improve state-of-the-art algorithms in bio-metrics through ML",
+            "Optimize implementations for speed and space to suit embedded devices with restricted resources",
+            "Assist in data collection, labeling, and preprocessing",
+            "Work with and support engineers from leading mobile phone and device manufacturers to integrate Vkansee solutions into industry standard platforms"
+        ]
     },
     {
         "image": "images/experience/microsoft.jpg",
-        "title": "Software Development Engineer at Microsoft Advanced Technology Lab in Cairo",
-        "date": "June 2018 - Present",
-        "desc": "I worked on two seperate projects part of Microsfot Bot Framework."
+        "title": "Software Engineer at Microsoft Advanced Technology Lab in Cairo",
+        "date": "June 2018 - September 2018",
+        "desc": "I worked on two seperate projects part of Microsfot Bot Framework.",
+        "points": [
+            "Researching the applicability of multilingual bot-interaction through Machine Translation",
+            "Mentoring Summer Intern",
+            "Developed Node CLI tool for MS Language Generation, part of Bot-Framework tools",
+            "Collaborating with Microsoft Beijing for designing and developing core components part of MS Language Generation",
+            "Incorporate Machine Translation into MS Bot-Framework"
+        ]
+    },
+    {
+        "image": "images/experience/auc.png",
+        "title": "Bachelor of Science from The American University in Cairo",
+        "date": "Fall 2014 - Spring 2018",
+        "desc": "",
+        "points": [
+            "BSc. in Computer Science - Summa Cum Laude. GPA 4.0",
+            "President’s Cup and Mohamed El Beleidy Academic Award for Class Valedictorian",
+            "Mohammed Bin Abdulkarim A. Allehedan Award for highest performing STEM student",
+            "Academic Achievement Scholarship",
+            "Thesis : Video Search using Natural Language"
+        ]
     },
     {
         "image": "images/experience/tsinghua.png",
         "title": "Deep Learning Summer School in Tsinghua University, Beijing, China",
         "date": "July 2017",
-        "desc": "Two weeks of thorough training of deep learning, covering many applications in Computer Vision, NLP, Knowledge Graph, Social Media Analysis, Multimodal Analysis and Robotics."
+        "desc": "Thorough training in deep learning, covering many applications in Computer. Vision, NLP, Knowledge Graph, Social Media Analysis, Multimodal Analysis and Robotics.",
+        "points": [
+            "Thorough training in deep learning, covering many applications in Computer. Vision, NLP, Knowledge Graph, Social Media Analysis, Multimodal Analysis and Robotics.",
+            "Outstanding Performance Award in Deep Learning Summer School at Tsinghua University"
+        ]
     },
     {
         "image": "images/experience/stonybrook.jpg",
         "title": "Semester abroad in Stony Brook University, New York, United States",
         "date": "Fall 2016",
-        "desc": "Studying abroad for a semester in New York was a life-changing enriching experience."
-    },
-    {
-        "image": "images/experience/microsoft.jpg",
-        "title": "SDE Intern at Microsoft Advanced Technology Lab in Cairo",
-        "date": "June to Aug 2015 and January 2016",
-        "desc": "I worked with the Language Understanding Intelligent Service (LUIS) team as a software developer during both of my internships."
+        "desc": "Studying abroad for a semester in New York was a life-changing enriching experience.",
+        "points": [
+            "Coursework : Specializing in Computer Vision and Artificial Intelligence.",
+            "Best Junior Award in Stony Brook ACM Regional Qualification Contest",
+            "Abdallah Jum’ah Study Abroad Scholarship"
+        ]
     },
     {
         "image": "images/experience/auc.png",
         "title": "Undergraduate teaching assistant in The American University in Cairo",
-        "date": "Fall 2015 and Spring 2016",
-        "desc": "I was responsible for assisting the instructor of Programming Fundamentals class in setting the syllabus, grading assignments and projects. Hold regular office hours to help students"
+        "date": "Fall 2015, Spring 2016 and Fall 2017",
+        "desc": "I was responsible for assisting the instructor of Programming Fundamentals class in setting the syllabus, grading assignments and projects. Hold regular office hours to help students",
+        "points": [
+            "Teaching assistant for Practical Machine Deep Learning and Programming Fundamentals",
+            "Hold regular office hours to help students",
+            "Give sessions/workshops to assist students with their coursework"
+        ]
+    },
+    {
+        "image": "images/experience/microsoft.jpg",
+        "title": "SDE Intern at Microsoft Advanced Technology Lab in Cairo",
+        "date": "June 2015 - Aug 2015 and January 2016",
+        "desc": "I worked with the Language Understanding Intelligent Service (LUIS) team as a software developer during both of my internships.",
+        "points": [
+            "Supporting full-text search for MS Language Understanding Intelligent Service (LUIS) utterances",
+            "Migrating existing LUIS database from Azure to MS SQL Server and adjusting LUIS features that uses this database accordingly",
+            "Design and implement the application import/export feature on LUIS",
+            "Developing different applications (iOS, Windows Phone and an Office Extension) that utilizes LUIS"
+        ]
     }
 ]

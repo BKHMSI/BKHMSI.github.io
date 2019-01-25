@@ -45,7 +45,7 @@
         "image":"images/projects/mips_sim.png",
         "name":"MIPS R400 Pipelined Simulator",
         "link":"https://bkhmsi.github.io/mips-r4000-sim/#/editor",
-        "desc":"Online assembler and simulator for the ARM-Thumb ISA. Support many features including debugging and GFX display. You can save your assembly projects on the website",
+        "desc":"Online assembler and simulator for the MIPS ISA.",
         "tags":"JS,CPU,Architecture,HTML,CSS,MIPS,Assembly"
     },
     {
@@ -59,7 +59,7 @@
         "image":"images/projects/assembler.png",
         "name":"Assembler & Simulator",
         "link":"https://bkhmsi.github.io/ARMThumb_Sim/#/",
-        "desc":"Online assembler and simulator for the ARM-Thumb instruction set architecture. Support many features including debugging and GFX display",
+        "desc":"Online assembler and simulator for the ARM-Thumb ISA. Support many features including debugging and GFX display",
         "tags":"JS,Angular,Firebase,HTML,CSS,ARM,Assembly"
     },
     {
@@ -82,13 +82,6 @@
         "link":"",
         "desc":"Generating a selected image using a selected number of images, made using Processing",
         "tags":"Processing, Image Processing, Java"
-    },
-    {
-        "image":"images/projects/tictactoe.png",
-        "name":"TicTacToe",
-        "link":"",
-        "desc":"Implementing a minimax A.I. for TicTacToe with variable board size",
-        "tags":"Web,JS,Game,ProcessingJS,HTML,CSS,A.I."
     },
     {
         "image":"images/projects/snake.png",
