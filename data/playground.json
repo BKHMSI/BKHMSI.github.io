@@ -1,5 +1,12 @@
 [
     {
+        "image":"images/playground/word-walk.png",
+        "name":"Word Walk",
+        "link":"https://bkhmsi.github.io/Word-Walk/",
+        "desc":"Explore the space connecting any two English words* by doing a simple linear interpolation between their word embeddings",
+        "tags":"Embeddings,NLP,Word-Embeddings,Visualization,ML,Web,JS,Angular"
+    },
+    {
         "image":"images/playground/mnist-latent.png",
         "name":"MNIST Latent Interpolation",
         "link":"https://github.com/BKHMSI/MNIST-Latent-Interpolation",
@@ -17,7 +24,7 @@
         "image":"images/playground/tictactoe.png",
         "name":"TicTacToe",
         "link":"https://github.com/BKHMSI/TicTacToe",
-        "desc":"Implementing a minimax A.I. for TicTacToe with variable board size",
+        "desc":"Implementing a minimax A.I. with alpha beta pruning using C++ for Tic-Tac-Toe with variable board size.",
         "tags":"Web,JS,Game,ProcessingJS,HTML,CSS,A.I."
     },
     {
