@@ -1,8 +1,17 @@
 [
     {
+        "image": "images/experience/microsoft.jpg",
+        "title": "Data Scientist at Microsoft Advanced Technology Lab in Cairo",
+        "date": "April 2019 - Present",
+        "desc": "Part of LUIS Data Science team.",
+        "points": [
+            "Currently working on cross-lingual word embeddings."
+        ]
+    },
+    {
         "image": "images/experience/vkansee.jpg",
         "title": "Machine Intelligence Research Assistant at Vkansee",
-        "date": "January 2018 - Present",
+        "date": "January 2018 - March 2019",
         "desc": "I am working as a machine learning engineer in biometrics for Vkansee",
         "points": [
             "Conducting research to improve state-of-the-art algorithms in bio-metrics through ML",
