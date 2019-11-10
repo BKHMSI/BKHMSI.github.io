@@ -1,11 +1,21 @@
 [
     {
-        "image": "images/experience/microsoft.jpg",
-        "title": "Data Scientist at Microsoft Advanced Technology Lab in Cairo",
-        "date": "April 2019 - Present",
-        "desc": "Part of LUIS Data Science team.",
+        "image": "images/experience/goldsmiths.png",
+        "title": "MSc in Computational Cognitive Neuroscience at Goldsmiths, University of London",
+        "date": "September 2019 - Present",
+        "desc": "",
         "points": [
-            "Currently working on cross-lingual word embeddings."
+        ]
+    },
+    {
+        "image": "images/experience/microsoft.jpg",
+        "title": "Applied Scientist at Microsoft Advanced Technology Lab in Cairo",
+        "date": "April 2019 - September 2019",
+        "desc": "Part of LUIS Applied Science team.",
+        "points": [
+            "Research in Cross-Lingual Model Transfer",
+            "Best Mentor Award (second place)",
+            "First Place in Microsoft ATLC Hackathon"
         ]
     },
     {
