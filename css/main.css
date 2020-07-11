@@ -67,6 +67,65 @@
 	border: 1;
 }
 
+#menuCaret {
+	font-size:50px;
+	cursor:pointer;
+	z-index:1;
+	top:20px;
+	left:20px;
+	position:fixed;
+}
+
+#menuCaret:hover {
+	color: white;
+}
+
+/* Side Navigation */
+.sidenav {
+	height: 100%;
+	width: 0;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	background-color: #111;
+	overflow-x: hidden;
+	transition: 0.5s;
+	padding-top: 60px;
+	opacity: .8;
+  }
+  
+  .sidenav a {
+	padding: 8px 8px 8px 32px;
+	text-decoration: none;
+	font-size: 30px;
+	color: #818181;
+	display: block;
+	transition: 0.3s;
+	border-bottom: none;
+  }
+  
+  .sidenav a:hover {
+	color: #f1f1f1;
+  }
+  
+  .sidenav .closebtn {
+	position: absolute;
+	top: 0;
+	right: 25px;
+	font-size: 36px;
+	margin-left: 50px;
+  }
+  
+  /* .main {
+	transition: margin-left .5s;
+	padding: 16px;
+  } */
+  
+  @media screen and (max-height: 450px) {
+	.sidenav {padding-top: 15px;}
+	.sidenav a {font-size: 18px;}
+  }
 /* Download Button */
 
 #cv{float:right;}
@@ -2650,21 +2709,21 @@
 				color: inherit;
 			}
 
-/* Main */
+/*Main */
 
-	#main {
+	.main {
 		margin-left: 25%;
 		padding: 8em 4em 4em 4em;
 		width: calc(100% - 25%);
 	}
 
-		#main > section {
+		.main > section {
 			border-top: solid 2px #efefef;
 			margin: 4em 0 0 0;
 			padding: 4em 0 0 0;
 		}
 
-			#main > section:first-child {
+			.main > section:first-child {
 				border-top: 0;
 				margin-top: 0;
 				padding-top: 0;
@@ -2977,9 +3036,9 @@
 				padding-left: 0;
 			}
 
-		/* Main */
+		/*.Main */
 
-			#main {
+			.main {
 				margin-left: 30%;
 				max-width: none;
 				padding: 6em 3em 3em 3em;
@@ -3060,9 +3119,9 @@
 						padding-left: 0.75em;
 					}
 
-		/* Main */
+		/*.Main */
 
-			#main {
+			.main {
 				margin: 0;
 				padding: 6em 4em;
 				width: 100%;
@@ -3124,13 +3183,13 @@
 				padding: 2.25em 1.5em;
 			}
 
-		/* Main */
+		/*.Main */
 
-			#main {
+			.main {
 				padding: 2.25em 1.5em 0.25em 1.5em;
 			}
 
-				#main > section {
+				.main > section {
 					margin: 2.25em 0 0 0;
 					padding: 2.25em 0 0 0;
 				}

@@ -1,5 +1,12 @@
 [
     {
+        "image":"images/playground/twostep-task.png",
+        "name":"Episodic Meta-RL on the Two-Step Task",
+        "link":"https://github.com/BKHMSI/Meta-RL-TwoStep-Task",
+        "desc":"Reproduced the results of three papers on a sequential decision making task that disassociates model-based from model-free behavior",
+        "tags":"Meta-RL,RL,ML,Neuroscience,Python,Research,Thesis"
+    },
+    {
         "image":"images/playground/word-walk.png",
         "name":"Word Walk",
         "link":"https://bkhmsi.github.io/Word-Walk/",
