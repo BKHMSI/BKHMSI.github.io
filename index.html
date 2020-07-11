@@ -14,7 +14,12 @@
 
     <script type="text/javascript">
         function openNav() {
-            document.getElementById("mySidenav").style.width = "30%";
+            if(window.innerWidth < 980)
+                document.getElementById("mySidenav").style.width = "100%";
+            else if(window.innerWidth < 1280)
+                document.getElementById("mySidenav").style.width = "30%";
+            else
+                document.getElementById("mySidenav").style.width = "25%";
         }
 
         function closeNav() {
