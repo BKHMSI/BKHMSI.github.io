@@ -93,6 +93,7 @@
 	transition: 0.5s;
 	padding-top: 60px;
 	opacity: .8;
+	text-align: center;
   }
   
   .sidenav a {
@@ -115,6 +116,10 @@
 	right: 25px;
 	font-size: 36px;
 	margin-left: 50px;
+  }
+
+  .sidenavline{
+	  margin: 0.5em;
   }
   
   /* .main {

@@ -2,10 +2,10 @@
     {
         "image": "images/experience/goldsmiths.png",
         "title": "MSc in Computational Cognitive Neuroscience at Goldsmiths, University of London",
-        "date": "September 2019 - Present",
+        "date": "September 2019 - September 2020",
         "desc": "",
         "points": [
-            "Thesis: Episodic Deep Meta-Reinforcement Learning"
+            "Thesis: Episodic Meta-RL on the Two-Step and Harlow Tasks"
         ]
     },
     {
@@ -15,7 +15,7 @@
         "desc": "Part of LUIS Applied Science team.",
         "points": [
             "Research in Cross-Lingual Model Transfer",
-            "Best Mentor Award (second place)",
+            "Best Mentor Award",
             "First Place in Microsoft ATLC Hackathon"
         ]
     },
