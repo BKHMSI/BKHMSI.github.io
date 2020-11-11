@@ -13,6 +13,11 @@ app.config(function($routeProvider) {
               controller  : 'MainController'
          })
 
+         .when('/experience', {
+            templateUrl : 'views/experience.html',
+            controller  : 'MainController'
+        })
+
         .when('/projects', {
               templateUrl : 'views/projects.html',
               controller  : 'MainController'
@@ -42,6 +47,7 @@ app.controller('MainController', ['$scope', '$http', '$routeParams', function($s
     $scope.projects_sz = 4;
     $scope.playground_sz = 4;
     $scope.activities_sz = 3;
+    $scope.experience_sz = 3;
 
 
     $scope.$on('$routeChangeSuccess', function() {

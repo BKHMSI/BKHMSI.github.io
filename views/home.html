@@ -19,7 +19,8 @@
         </header>
         <section id="ex">
             <ul>
-                <li>Our paper "Deep Diacritization: Efficient Hierarchical Recurrence for Improved Arabic Diacritization" has been accepted to <a href="https://sites.google.com/view/wanlp-2020/home">The Fifth Arabic Natural Language Processing Workshop</a>. That is my first publication!</li>
+                <li>I was in the Program Committee (as a Junior Reviewer) of the <a href="https://meta-learn.github.io/2020/">MetaLearn2020</a> workshop at NeurIPS.</li>
+                <li>Our paper <a href="https://arxiv.org/abs/2011.00538">"Deep Diacritization: Efficient Hierarchical Recurrence for Improved Arabic Diacritization"</a> has been accepted to <a href="https://sites.google.com/view/wanlp-2020/home">The Fifth Arabic Natural Language Processing Workshop</a>. That is my first publication!</li>
             </ul>
         </section>
     </section>
@@ -28,15 +29,18 @@
             <h2>Experience</h2>
         </header>
         <section id="ex">
-            <div ng-repeat="ex in experience track by $index">
+            <div ng-repeat="ex in experience | limitTo: experience_sz track by $index">
                 <header>
                     <img class="imageEx" width="100px" height="100px" ng-src="{{ex.image}}" />
                     <h4>{{ex.title}}</h4>
                     <p>{{ex.date}}</p>
                 </header>
                 <ul style="list-style-type: circle;"><li  ng-repeat="point in ex.points">{{point}}</li></ul>
-                <hr ng-hide="$index == experience.length-1" />
+                <hr ng-hide="$index == experience_sz-1" />
             </div>
+            <ul class="actions">
+                <li><a class="button icon fa-share" href="#experience">More Experience</a></li>
+            </ul>
         </section>
     </section>
     <!-- Two -->

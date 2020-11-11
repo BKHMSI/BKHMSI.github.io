@@ -1,5 +1,19 @@
 [
     {
+        "image":"images/projects/meta_rl.png",
+        "name":"Episodic Meta-RL on the Two-Step and Harlow Tasks",
+        "link":"https://github.com/BKHMSI/Meta-RL-TwoStep-Task",
+        "desc":"Reproduces the results of animal behavior and artificial agents on both the Two-Step and Harlow tasks using an episodic meta-RL computational model that combines three fully-fledged RL systems inspired from the machine learning and neuroscience literature.",
+        "tags":"EMRL, Meta-RL, RL, Neuroscience"
+    },
+    {
+        "image":"images/projects/dd.png",
+        "name":"Deep Diacritization",
+        "link":"https://deep-diacritization.herokuapp.com",
+        "desc":"Published in the Proceedings of the The Fifth Arabic Natural Language Processing Workshop - co-located with COLING'2020. The work proposes a novel architecture for automatically restoring Arabic diacritics that outperforms previous SOTA methods.",
+        "tags":"NLP, Python, PyTorch, Arabic NLP, DD, Diacritization"
+    },
+    {
         "image":"images/projects/videosearch.png",
         "name":"Video Search using Natural Language",
         "link":"https://github.com/BKHMSI/forget-me-not",

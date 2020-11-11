@@ -1,0 +1,20 @@
+<!-- Main -->
+<div class="main">
+    <section>
+        <h1 class="title">Experience</h1>
+        <ul class="actions" id="goBack">
+            <li><a class="button icon fa-arrow-left" href="#/">Go Back</a></li>
+        </ul>
+    </section>
+    <section style="margin:0">
+        <div ng-repeat="ex in experience track by $index">
+            <header>
+                <img class="imageEx" width="100px" height="100px" ng-src="{{ex.image}}" />
+                <h4>{{ex.title}}</h4>
+                <p>{{ex.date}}</p>
+            </header>
+            <ul style="list-style-type: circle;"><li  ng-repeat="point in ex.points">{{point}}</li></ul>
+            <hr ng-hide="$index == experience.length-1" />
+        </div>
+    </section>
+</div>

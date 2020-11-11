@@ -1,5 +1,12 @@
 [
     {
+        "image":"images/playground/calligraphy.png",
+        "name":"Arabic Calligraphy Dataset",
+        "link":"https://www.kaggle.com/bkhmsi/arabic-calligraphy",
+        "desc":"Compiled a dataset of images of Arabic calligraphy",
+        "tags":"Dataset, Arabic, Vision"
+    },
+    {
         "image":"images/playground/twostep-task.png",
         "name":"Episodic Meta-RL on the Two-Step Task",
         "link":"https://github.com/BKHMSI/Meta-RL-TwoStep-Task",
