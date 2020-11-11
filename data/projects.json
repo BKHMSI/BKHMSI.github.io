@@ -10,7 +10,7 @@
         "image":"images/projects/dd.png",
         "name":"Deep Diacritization",
         "link":"https://deep-diacritization.herokuapp.com",
-        "desc":"Published in the Proceedings of the The Fifth Arabic Natural Language Processing Workshop - co-located with COLING'2020. The work proposes a novel architecture for automatically restoring Arabic diacritics that outperforms previous SOTA methods.",
+        "desc":"Published in the Proceedings of the The Fifth Arabic Natural Language Processing Workshop - co-located with COLING'2020. The work proposes a novel architecture for automatically restoring Arabic diacritics that outperforms previous SOTA methods and is orders of magnitude faster in training and inference time.",
         "tags":"NLP, Python, PyTorch, Arabic NLP, DD, Diacritization"
     },
     {
