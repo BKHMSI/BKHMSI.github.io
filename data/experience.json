@@ -1,5 +1,14 @@
 [
     {
+        "image": "images/experience/sony.jpg",
+        "title": "Researcher, Sony AI",
+        "date": "March 2021 - Present",
+        "desc": "",
+        "points": [
+            "I started my internship at Sony AI remotely."
+        ]
+    },
+    {
         "image": "images/experience/goldsmiths.png",
         "title": "MSc in Computational Cognitive Neuroscience at Goldsmiths, University of London",
         "date": "September 2019 - September 2020",
