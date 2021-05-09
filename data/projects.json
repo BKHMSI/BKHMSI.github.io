@@ -1,5 +1,19 @@
 [
     {
+        "image":"images/projects/emrl_neuron_emergence.png",
+        "name":"The Emergence of Abstract and Episodic Neurons in EMRL",
+        "link":"https://openreview.net/pdf?id=LZCLt6Yx_px",
+        "desc":"Introduces an episodic variant of the Harlow visual fixation task and use it as a test-bed to reveal two classes of neurons that emerge in the agent's working memory when trained using episodic meta-RL. Accepted at the Learning to Learn Workshop.",
+        "tags":"EMRL, Meta-RL, Neuroscience, PyTorch"
+    },
+    {
+        "image":"images/projects/nadi.png",
+        "name":"Adapting MARBERT for Improved Arabic Dialect Identification",
+        "link":"https://www.aclweb.org/anthology/2021.wanlp-1.29/",
+        "desc":"In this paper, we tackle the second Nuanced Arabic Dialect Identification (NADI) shared task and succeed in achieving state-of-the-art results on all of its four subtasks. The aim is to distinguish short utterances of both Dialectical and Modern Standard Arabic at both the country-level and province-level.",
+        "tags":"Arabic NLP, NLP, PyTorch, Transformers"
+    },
+    {
         "image":"images/projects/meta_rl.png",
         "name":"Episodic Meta-RL on the Two-Step and Harlow Tasks",
         "link":"https://github.com/BKHMSI/Meta-RL-TwoStep-Task",
