@@ -109,7 +109,7 @@
         "year": "2025",
         "venue": "ACL 2026",
         "conference": ["ACL"],
-        "type": ["selected", "conference"],
+        "type": ["conference"],
         "abstract": "We present Apertus, a fully open suite of large language models (LLMs) designed to address two systemic shortcomings in today's open model ecosystem: data compliance and multilingual representation. Unlike many prior models that release weights without reproducible data pipelines or regard for content-owner rights, Apertus models are pretrained exclusively on openly available data, retroactively respecting robots.txt exclusions and filtering for copyrighted, non-permissive, toxic, and personally identifiable content. To mitigate risks of memorization, we adopt the Goldfish objective, strongly suppressing verbatim recall of data while retaining downstream task performance. The Apertus models also expand multilingual coverage, training on 15T tokens from over 1800 languages, with ~40$% of pretraining data allocated to non-English content. Released at 8B and 70B scales, Apertus approaches state-of-the-art results among fully open models on multilingual benchmarks, rivalling or surpassing open-weight counterparts. Beyond model weights, we release all scientific artifacts from our development cycle with a permissive license, including data preparation scripts, checkpoints, evaluation suites, and training code, enabling transparent audit and extension."
     },
     {
@@ -161,7 +161,7 @@
         "year": "2025",
         "venue": "Accepted at <a href='https://iclr.cc'>ICLR 2026</a>",
         "conference": ["ICLR"],
-        "type": ["selected", "conference"],
+        "type": ["conference"],
         "abstract": "Dyslexia, a neurodevelopmental disorder characterized by persistent reading difficulties, is often linked to reduced activity of the visual word form area in the ventral occipito-temporal cortex. Traditional approaches to studying dyslexia, such as behavioral and neuroimaging methods, have provided valuable insights but remain limited in their ability to test causal hypotheses about the underlying mechanisms of reading impairments. In this study, we use large-scale vision-language models (VLMs) to simulate dyslexia by functionally identifying and perturbing artificial analogues of word processing. Using stimuli from cognitive neuroscience, we identify visual-word-form-selective units within VLMs and demonstrate that targeted ablation of these units, unlike ablation of random units, leads to selective impairments in reading tasks while general visual and language comprehension abilities remain intact. In particular, the resulting model matches dyslexic humans' phonological deficits without a significant change in orthographic processing. Taken together, our modeling results replicate key characteristics of dyslexia and establish a computational framework for investigating reading disorders."
     },
     {
@@ -237,7 +237,7 @@
         "year": "2025",
         "venue": "Preprint",
         "conference": ["Preprint"],
-        "type": ["selected", "preprint"],
+        "type": ["preprint"],
         "abstract": "Being prompted to engage in reasoning has emerged as a core technique for using large language models (LLMs), deploying additional inference-time compute to improve task performance. However, as LLMs increase in both size and adoption, inference costs are correspondingly becoming increasingly burdensome. How, then, might we optimize reasoning's cost-performance tradeoff? This work introduces a novel approach based on computational models of metareasoning used in cognitive science, training LLMs to selectively use intermediate reasoning steps only when necessary. We first develop a reward function that incorporates the Value of Computation by penalizing unnecessary reasoning, then use this reward function with Expert Iteration to train the LLM. Compared to few-shot chain-of-thought prompting and STaR, our method significantly reduces inference costs (20-37)% fewer tokens generated across three models) while maintaining task performance across diverse datasets."
     },
     {
@@ -316,7 +316,7 @@
         "year": "2024",
         "venue": "Accepted at <a href='https://iclr.cc'>ICLR 2025</a>",
         "conference": ["ICLR"],
-        "type": ["selected", "conference"],
+        "type": ["conference"],
         "abstract": "Neurons in the brain are spatially organized such that neighbors on tissue often exhibit similar response profiles. In the human language system, experimental studies have observed clusters for syntactic and semantic categories, but the mechanisms underlying this functional organization remain unclear. Here, building on work from the vision literature, we develop TopoLM, a transformer language model with an explicit two-dimensional spatial representation of model units. By combining a next-token prediction objective with a spatial smoothness loss, representations in this model assemble into clusters that correspond to semantically interpretable groupings of text and closely match the functional organization in the brain's language system. TopoLM successfully predicts the emergence of the spatio-functional organization of a cortical language system as well as the organization of functional clusters selective for fine-grained linguistic features empirically observed in human cortex. Our results suggest that the functional organization of the human language system is driven by a unified spatial objective, and provide a functionally and spatially aligned model of language processing in the brain."
     },
     {
@@ -767,7 +767,7 @@
         "year": "2022",
         "conference": ["EMNLP"],
         "venue": "Accepted at <strong><a href='https://2022.emnlp.org' target='_blank'>EMNLP 2022</a></strong>",
-        "type": ["selected", "conference"],
+        "type": ["conference"],
         "abstract": "Hate speech detection is complex; it relies on commonsense reasoning, knowledge of stereotypes, and an understanding of social nuance that differs from one culture to the next. It is also difficult to collect a large-scale hate speech annotated dataset. In this work, we frame this problem as a few-shot learning task, and show significant gains with decomposing the task into its 'constituent' parts. In addition, we see that infusing knowledge from reasoning datasets (e.g. Atomic2020) improves the performance even further. Moreover, we observe that the trained models generalize to out-of-distribution datasets, showing the superiority of task decomposition and knowledge infusion compared to previously used methods. Concretely, our method outperforms the baseline by 17.83% absolute gain in the 16-shot case."
     },
     {
@@ -816,7 +816,7 @@
         "year": "2022",
         "conference": ["Preprint"],
         "venue": "Preprint",
-        "type": ["selected", "preprint"],
+        "type": ["preprint"],
         "abstract": "Recently, there has been a surge of interest in the NLP community on the use of pretrained Language Models (LMs) as Knowledge Bases (KBs). Researchers have shown that LMs trained on a sufficiently large (web) corpus will encode a significant amount of knowledge implicitly in its parameters. The resulting LM can be probed for different kinds of knowledge and thus acting as a KB. This has a major advantage over traditional KBs in that this method requires no human supervision. In this paper, we present a set of aspects that we deem a LM should have to fully act as a KB, and review the recent literature with respect to those aspects."
     },
     {
@@ -890,7 +890,7 @@
         "github": "https://github.com/BKHMSI/emrl-neuron-emergence",
         "conference": ["MemARI | NeurIPS", "L2L | ICLR"],
         "venue": "Accepted at the <strong><a href='https://memari-workshop.github.io' target='_blank'>MemARI Workshop</a></strong> co-located with NeurIPS 2022 and at the <strong><a href='https://sites.google.com/view/learning-2-learn/' target='_blank'>Learning to Learn Workshop</a></strong> co-located with ICLR 2021",
-        "type": ["selected", "workshop"],
+        "type": ["workshop"],
         "abstract": "In this work, we analyze the reinstatement mechanism introduced by Ritter et al. (2018) to reveal two classes of neurons that emerge in the agent's working memory (an epLSTM cell) when trained using episodic meta-RL on an episodic variant of the Harlow visual fixation task. Specifically, Abstract neurons encode knowledge shared across tasks, while Episodic neurons carry information relevant for a specific episode's task."
     },
     {
@@ -962,7 +962,7 @@
         "twitter": "",
         "conference": ["WANLP | COLING"],
         "venue": "Proceedings of the <a href='https://sites.google.com/view/wanlp-2020/home' target='_blank'>Fifth Arabic Natural Language Processing Workshop</a> co-located with <a href='https://coling2020.org/' target='_blank'>COLING 2020</a>",
-        "type": ["selected", "workshop"],
+        "type": ["workshop"],
         "abstract": "We propose a novel architecture for labelling character sequences that achieves state-of-the-art results on the Tashkeela Arabic diacritization benchmark. The core is a two-level recurrence hierarchy that operates on the word and character levels separately---enabling faster training and inference than comparable traditional models. A cross-level attention module further connects the two, and opens the door for network interpretability. The task module is a softmax classifier that enumerates valid combinations of diacritics. This architecture can be extended with a recurrent decoder that optionally accepts priors from partially diacritized text, which improves results. We employ extra tricks such as sentence dropout and majority voting to further boost the final result. Our best model achieves a WER of 5.34%, outperforming the previous state-of-the-art with a 30.56% relative error reduction."
     }
 ]
