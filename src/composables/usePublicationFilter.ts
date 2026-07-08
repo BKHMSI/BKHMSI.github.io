@@ -3,7 +3,7 @@ import type { Publication } from '@/types'
 import pubData from '@/data/publications.json'
 
 const allPublications = pubData as Publication[]
-const typeFilter = ref<string>('selected')
+const typeFilter = ref<string>('all')
 const authorshipFilter = ref<string>('all')
 const searchQuery = ref('')
 

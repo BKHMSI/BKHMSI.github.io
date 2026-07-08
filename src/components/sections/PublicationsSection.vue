@@ -31,11 +31,11 @@ function parseBadges(badges: string): string[] {
 }
 
 const typeFilterOptions = [
+  { label: 'All', value: 'all' },
   { label: 'Selected', value: 'selected' },
   { label: 'Preprints', value: 'preprints' },
   { label: 'Conferences', value: 'conferences' },
   { label: 'Workshops', value: 'workshops' },
-  { label: 'All', value: 'all' },
 ]
 
 const authorshipFilterOptions = [
