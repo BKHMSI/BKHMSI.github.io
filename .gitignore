@@ -1,1 +1,22 @@
+# Dependencies
+node_modules/
+
+# Build artifacts (the deployed site lives in docs/, not dist/)
+dist/
+*.tsbuildinfo
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local env files
+*.local
+.env
+.env.*
+
+# Editor / OS
 .DS_Store
+.vscode/
+.idea/

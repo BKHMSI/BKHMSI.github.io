@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply font-sans text-ink-900 bg-ink-50 transition-colors duration-300;
+    margin: 0;
+  }
+
+  .dark body {
+    @apply bg-dark-bg text-dark-text;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif tracking-tight;
+  }
+
+  a {
+    @apply transition-colors duration-200;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-ink-300 rounded-full;
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    @apply bg-dark-border;
+  }
+
+  ::selection {
+    @apply bg-brand-500/20;
+  }
+  .dark ::selection {
+    @apply bg-brand-400/30;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/80 backdrop-blur-xl border border-ink-200/60;
+  }
+  .dark .glass {
+    @apply bg-dark-surface/80 backdrop-blur-xl border-dark-border;
+  }
+
+  .card-surface {
+    @apply bg-white border border-ink-200/50 rounded-2xl shadow-soft;
+  }
+  .dark .card-surface {
+    @apply bg-dark-card border-dark-border shadow-none;
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-500 to-brand-700;
+  }
+  .dark .gradient-text {
+    @apply from-brand-300 to-accent-400;
+  }
+
+  .bg-mesh::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 15% 15%, rgba(11, 127, 143, 0.06), transparent 50%),
+      radial-gradient(circle at 85% 85%, rgba(239, 125, 87, 0.04), transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(11, 127, 143, 0.02), transparent 70%);
+  }
+  .dark .bg-mesh::before {
+    background:
+      radial-gradient(circle at 15% 15%, rgba(11, 127, 143, 0.1), transparent 50%),
+      radial-gradient(circle at 85% 85%, rgba(239, 125, 87, 0.06), transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(11, 127, 143, 0.04), transparent 70%);
+    animation: meshShift 25s ease-in-out infinite alternate;
+  }
+
+  @keyframes meshShift {
+    0%   { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(15deg); }
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+  }
+}

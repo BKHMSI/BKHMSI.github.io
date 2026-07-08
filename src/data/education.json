@@ -1,0 +1,63 @@
+[
+    {
+        "date": "September 2023 - Present",
+        "title": "PhD at EPFL",
+        "location": "Lausanne, Switzerland",
+        "image": "../assets/experience/epfl.png",
+        "points": [
+            "Co-advised by Antoine Bosselut and Martin Schrimpf"
+        ]
+    },
+    {
+        "date": "September 2019 - September 2020",
+        "title": "MSc in Computational Cognitive Neuroscience at Goldsmiths, University of London",
+        "location": "London, UK",
+        "image": "../assets/experience/goldsmiths.png",
+        "points": [
+            "Pass with Distinction",
+            "Dissertation: Episodic Meta-RL on the Two-Step and Harlow Tasks (Grade 90%)"
+        ]
+    },
+    {
+        "date": "July 2017",
+        "title": "Deep Learning Summer School at Tsinghua University",
+        "location": "Beijing, China",
+        "image": "../assets/experience/tsinghua.png",
+        "points": [
+            "Thorough training in deep learning, covering many applications in Computer. Vision, NLP, Knowledge Graph, Social Media Analysis, Multimodal Analysis and Robotics.",
+            "Outstanding Performance Award in Deep Learning Summer School at Tsinghua University"
+        ]
+    },
+    {
+        "date": "August 2016 - December 2016",
+        "title": "Semester Abroad at Stony Brook University",
+        "location": "New York, US",
+        "image": "../assets/experience/stonybrook.jpg",
+        "points": [
+            "Best Junior Award in Stony Brook ACM Regional Qualification Contest",
+            "Abdallah Jum’ah Study Abroad Scholarship"
+        ]
+    },
+    {
+        "date": "Fall 2014 - Spring 2018",
+        "title": "Bachelor of Science from The American University in Cairo",
+        "location": "Cairo, Egypt",
+        "image": "../assets/experience/auc.png",
+        "points": [
+            "BSc. in Computer Science - Summa Cum Laude. GPA 4.0",
+            "President’s Cup and Mohamed El Beleidy Academic Award for Class Valedictorian",
+            "Mohammed Bin Abdulkarim A. Allehedan Award for highest performing STEM student",
+            "Academic Achievement Scholarship",
+            "Thesis : Video Search using Natural Language"
+        ]
+    },
+    {
+        "date": "September 2011 - June 2014",
+        "title": "International General Certificate of Secondary Education at Manor House School",
+        "location": "Cairo, Egypt",
+        "image": "../assets/experience/manor_house.jpg",
+        "points": [
+            "Outstanding Cambridge Learner Award in AL Computing."
+        ]
+    }
+]

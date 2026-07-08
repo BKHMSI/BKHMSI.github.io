@@ -1,0 +1,207 @@
+{
+    "journals": [
+        {
+            "name": "Nature Communications",
+            "link": "https://www.nature.com/ncomms/",
+            "tracks": [],
+            "role": "Reviewer"
+        },
+        {
+            "name": "Neurobiology of Language",
+            "link": "https://direct.mit.edu/nol",
+            "tracks": [],
+            "role": "Reviewer"
+        },
+        {
+            "name": "Nature Machine Intelligence",
+            "link": "https://www.nature.com/natmachintell/",
+            "tracks": [],
+            "role": "Reviewer"
+        },
+        {
+            "name": "Transactions of the Association for Computational Linguistics (TACL)",
+            "link": "https://www.transacl.org",
+            "tracks": [],
+            "role": "Reviewer"
+        },
+        {
+            "name": "OpenMind",
+            "link": "https://direct.mit.edu/opmi",
+            "tracks": [],
+            "role": "Reviewer"
+        }
+    ],
+    "conferences": [
+        {
+            "name": "EMNLP 2026 (ARR)",
+            "link": "https://2026.emnlp.org",
+            "tracks": [],
+            "role": "Area Chair"
+        },
+        {
+            "name": "CogSci 2026",
+            "link": "https://cognitivesciencesociety.org/cogsci-2026/",
+            "tracks": [],
+            "role": "Reviewer"
+
+        },
+        {
+            "name": "EACL 2026 (ARR)",
+            "link": "https://2026.eacl.org",
+            "tracks": [],
+            "role": "Reviewer"
+        },
+        {
+            "name": "NeurIPS 2025",
+            "link": "https://neurips.cc",
+            "tracks": [],
+            "role": "Reviewer"
+        },
+        {
+            "name": "EMNLP 2025 (ARR)",
+            "link": "https://2025.emnlp.org",
+            "tracks": [],
+            "role": "Reviewer"
+        },
+        {
+            "name": "ACL 2025 (ARR)",
+            "link": "https://2025.aclweb.org",
+            "tracks": [],
+            "role": "Reviewer"
+        },
+        {
+            "name": "NAACL 2025 (ARR, Area Chair)",
+            "link": "https://2025.naacl.org",
+            "tracks": [],
+            "role": "Reviewer,Area Chair"
+        },
+        {
+            "name": "EMNLP 2024 (ARR)",
+            "link": "https://2024.emnlp.org",
+            "tracks": [],
+            "role": "Reviewer"
+        },
+        {
+            "name": "NeurIPS 2024",
+            "link": "https://neurips.cc",
+            "tracks": [],
+            "role": "Reviewer"
+        },
+        {
+            "name": "ArabicNLP 2024",
+            "link": "https://arabicnlp2024.sigarab.org",
+            "tracks": [],
+            "role": "Reviewer"
+        },
+        {
+            "name": "Cognitive Computational Neuroscience (CCN) 2024",
+            "link": "https://2024.ccneuro.org",
+            "tracks": [],
+            "role": "Reviewer"
+        },
+        {
+            "name": "ACL 2024 (ARR)",
+            "link": "https://2024.aclweb.org",
+            "tracks": [],
+            "role": "Reviewer"
+        },
+        {
+            "name": "NAACL 2024 (ARR)",
+            "link": "https://2024.naacl.org",
+            "tracks": [],
+            "role": "Reviewer"
+        },
+        {
+            "name": "EMNLP 2023",
+            "link": "https://2023.emnlp.org",
+            "tracks": [
+                "Commonsense Reasoning",
+                "Question Answering",
+                "Theme Track: Large Language Models and the Future of NLP",
+                "NLP Applications",
+                "Language Modeling and Analysis of Language Models"
+            ],
+            "role": "Reviewer"
+        },
+        {
+            "name": "EMNLP 2022",
+            "link": "https://2022.emnlp.org",
+            "tracks": [
+                "Language Modeling and Analysis of Language Models"
+            ],
+            "role": "Reviewer"
+        },
+        {
+            "name": "ACL 2023",
+            "link": "https://2023.aclweb.org",
+            "tracks": [
+                "Multilingualism and Cross-Lingual NLP"
+            ],
+            "role": "Reviewer"
+        },
+        {
+            "name": "AutoML 2022",
+            "link": "https://automl.cc/",
+            "tracks": [
+                "Main"
+            ],
+            "role": "Reviewer"
+        }
+    ],
+    "workshops": [
+        {
+            "name": "International Workshop on Nakba Narratives as Language Resources",
+            "link": "https://sina.birzeit.edu/nakba-nlp/",
+            "conference": "COLING 2025",
+            "role": "Reviewer"
+        },
+        {
+            "name": "Towards Knowledgeable Foundation Models",
+            "link": "https://knowledgeable-lm.github.io",
+            "conference": "AAAI 2025",
+            "role": "Reviewer"
+        },
+        {
+            "name": "I (Still) Can't Believe It's Not Better!",
+            "link": "https://i-cant-believe-its-not-better.github.io/neurips2022/",
+            "conference": "NeurIPS 2022",
+            "role": "Reviewer"
+        },
+        {
+            "name": "I (Still) Can't Believe It's Not Better!",
+            "link": "https://i-cant-believe-its-not-better.github.io/neurips2021/",
+            "conference": "NeurIPS 2021",
+            "role": "Reviewer"
+        },
+        {
+            "name": "Efficient Natural Language and Speech Processing (ENLSP)",
+            "link": "https://neurips2022-enlsp.github.io",
+            "conference": "NeurIPS 2022",
+            "role": "Reviewer"
+        },
+        {
+            "name": "AutoML Late-Breaking Workshop",
+            "link": "https://automl.cc/call-for-late-breaking-workshop-papers/",
+            "conference": "AutoML 2022",
+            "role": "Reviewer"
+        },
+        {
+            "name": "Meta-Learning Workshop",
+            "link": "https://meta-learn.github.io/2021/",
+            "conference": "NeurIPS 2021",
+            "role": "Reviewer"
+        },
+        {
+            "name": "Meta-Learning Workshop",
+            "link": "https://meta-learn.github.io/2020/",
+            "conference": "NeurIPS 2020",
+            "role": "Reviewer"
+        },
+        {
+            "name": "Learning to Learn Workshop",
+            "link": "https://sites.google.com/view/learning-2-learn/",
+            "conference": "ICLR 2021",
+            "role": "Reviewer"
+        }
+    ]
+}

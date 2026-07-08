@@ -1,0 +1,172 @@
+[
+    {
+        "category": "Mentors",
+        "people": [
+            {
+                "inst": "EPFL",
+                "name": "Martin Schrimpf",
+                "link": "https://mschrimpf.com"
+            },
+            {
+                "inst": "EPFL",
+                "name": "Antoine Bosselut",
+                "link": "https://atcbosselut.github.io"
+            },
+            {
+                "inst": "Meta AI",
+                "name": "Mona Diab",
+                "link": "https://en.wikipedia.org/wiki/Mona_Diab"
+            },
+            {
+                "inst": "Meta AI",
+                "name": "Asli Celikyilmaz",
+                "link": "http://asli.us"
+            },
+            {
+                "inst": "Sony AI",
+                "name": "Michael Spranger",
+                "link": "https://ai.sony/people/Michael-Spranger/"
+            },
+            {
+                "inst": "DeepMind",
+                "name": "Samuel Ritter",
+                "link": ""
+            },
+            {
+                "inst": "DeepMind",
+                "name": "Zeb Kurth-Nelson",
+                "link": ""
+            },
+            {
+                "inst": "Sony AI",
+                "name": "Akshay Srinivasan",
+                "link": ""
+            },
+            {
+                "inst": "Microsoft Egypt",
+                "name": "Mohamed Afify",
+                "link": ""
+            },
+            {
+                "inst": "Microsoft Egypt",
+                "name": "Ahmed Tawfik",
+                "link": ""
+            },
+            {
+                "inst": "The American University in Cairo / Vkansee",
+                "name": "Mohamed Mostafa",
+                "link": ""
+            }
+        ]
+    },
+    {
+        "category": "Mentees",
+        "people": [
+            {
+                "inst": "EPFL Semester Project",
+                "name": "Amer Lakrami",
+                "link": ""
+            },
+            {
+                "inst": "EPFL Semester Project",
+                "name": "Tamar Alphaidze",
+                "link": ""
+            },
+            {
+                "inst": "Summer@EPFL Intern",
+                "name": "Ahmed Abdelaal",
+                "link": ""
+            },
+            {
+                "inst": "ERIP Summer Intern at EPFL",
+                "name": "Lara Marinov",
+                "link": ""
+            },
+            {
+                "inst": "EPFL Semester Project",
+                "name": "Aicha Masmoudi",
+                "link": ""
+            },
+            {
+                "inst": "Master's Thesis at EPFL",
+                "name": "Yassine Jamaa",
+                "link": ""
+            },
+            {
+                "inst": "Summer@EPFL",
+                "name": "Neil Rathi",
+                "link": "https://web.stanford.edu/~rathi/"
+            },
+            {
+                "inst": "Summer@EPFL",
+                "name": "Ayati Sharma",
+                "link": ""
+            },
+            {
+                "inst": "Carnegie Mellon University in Qatar",
+                "name": "Hajer Dahmani",
+                "link": ""
+            },
+            {
+                "inst": "Egypt-Japan University of Science and Technology",
+                "name": "Ahmed Hussein",
+                "link": ""
+            },
+            {
+                "inst": "Egypt-Japan University of Science and Technology",
+                "name": "Alaa Elsetohy",
+                "link": ""
+            },
+            {
+                "inst": "Egypt-Japan University of Science and Technology",
+                "name": "Sama Hadhoud",
+                "link": ""
+            },
+            {
+                "inst": "Egypt-Japan University of Science and Technology",
+                "name": "Tameem Bakr",
+                "link": ""
+            },
+            {
+                "inst": "Egypt-Japan University of Science and Technology",
+                "name": "Yasser Rohaim",
+                "link": ""
+            },
+            {
+                "inst": "EPFL Semester Project",
+                "name": "Aleksei Kudrinskii",
+                "link": ""
+            },
+            {
+                "inst": "Summer@EPFL",
+                "name": "Khai Loong Aw",
+                "link": "https://awwkl.github.io"
+            },
+            {
+                "inst": "ArbML",
+                "name": "Mohammad AlBarham",
+                "link": "https://mohammad-albarham.github.io/"
+            }, 
+            {
+                "inst": "Technical University of Munich",
+                "name": "Karim Abdelmegid",
+                "link": ""
+            },
+            {
+                "inst": "Independent",
+                "name": "Hussein Osama",
+                "link": ""
+            },
+            {
+                "inst": "Microsoft Egypt",
+                "name": "Abdelrahman Kaseb",
+                "link": ""
+            },
+            {
+                "inst": "Microsoft Egypt",
+                "name": "Ahmed Ebrahim",
+                "link": ""
+            }
+        ]
+    }
+]

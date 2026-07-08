@@ -1,0 +1,152 @@
+[
+    {
+        "category": "EPFL",
+        "awards": [
+            {
+                "year": "2026",
+                "name": "KAUST Rising Stars in AI",
+                "link": "https://www.kaust.edu.sa/events/rsais26/"
+            },
+            {
+                "year": "2025",
+                "name": "Swiss AI Initiative PhD Fellowship",
+                "link": "https://www.swiss-ai.org"
+            },
+            {
+                "year": "2025",
+                "name": "EPFL Doc.Mobility Grant",
+                "link": "https://www.epfl.ch/education/phd/doctoral-studies-structure/customized-curricula/epfl-doc-mobility/"
+            },
+            {
+                "year": "2025",
+                "name": "Second Prize in LauzHack Mini-Hackathon on Multimodal Apps and Training LLMs",
+                "link": "https://devpost.com/software/video-translator-a8lhbs"
+            }
+        ]
+    },
+    {
+        "category": "Conferences",
+        "awards": [
+            {
+                "year": "2023",
+                "name": "First place on the two categories of the Arabic Reverse Dictionary shared task at ArabicNLP 2023",
+                "link": "https://aclanthology.org/2023.arabicnlp-1.43/"
+            },
+            {
+                "year": "2022",
+                "name": "Best Paper Award for the Fine-Grained Hate Speech Detection Shared Task in Arabic",
+                "link": "https://twitter.com/MetaAI/status/1541871438163877888"
+            },
+            {
+                "year": "2021",
+                "name": "First place on all 4 categories of the second NADI shared task",
+                "link": "https://sites.google.com/view/second-nadi-shared-task/leaderboard"
+            }
+        ]
+    },
+    {
+        "category": "The American University in Cairo",
+        "awards": [
+            {
+                "year": "2018",
+                "name": "President's Cup",
+                "link": "https://www.aucegypt.edu/ar/node/3846"
+            },
+            {
+                "year": "2018",
+                "name": "Mohamed El Beleidy Academic Award",
+                "link": "https://www.aucegypt.edu/ar/node/3846"
+            },
+            {
+                "year": "2018",
+                "name": "Mohammed Bin Abdulkarim A. Allehedan Award",
+                "link": "https://www.aucegypt.edu/ar/node/3846"
+            },
+            {
+                "year": "2018",
+                "name": "Computer Science Exemplary Student",
+                "link": ""
+            },
+            {
+                "year": "2018",
+                "name": "Highest-GPA Award for Expected to Graduate",
+                "link": ""
+            },
+            {
+                "year": "2018",
+                "name": "Shortlisted in Dell EMC's Graduation Project Competition",
+                "link": ""
+            },
+            {
+                "year": "2018",
+                "name": "Third Place Amazon Innovation Hackathon",
+                "link": ""
+            },
+            {
+                "year": "2017",
+                "name": "Highest-GPA Award for Juniors",
+                "link": ""
+            },
+            {
+                "year": "2017",
+                "name": "Second Prize in Amazon Alexa Hackathon",
+                "link": ""
+            },
+            {
+                "year": "2016",
+                "name": "Abdallah Jum'ah Study Abroad Scholarship",
+                "link": ""
+            },
+            {
+                "year": "2015",
+                "name": "High Achiever in CS1101 Course",
+                "link": ""
+            },
+            {
+                "year": "2014-2018",
+                "name": "Academic Achievement Scholarship",
+                "link": ""
+            },
+            {
+                "year": "2014-2018",
+                "name": "Dean's List",
+                "link": ""
+            }
+        ]
+    },
+    {
+        "category": "Microsoft Advanced Technology Lab in Cairo",
+        "awards": [
+            {
+                "year": "2019",
+                "name": "Best Mentor Award",
+                "link": ""
+            },
+            {
+                "year": "2019",
+                "name": "First Place in Hackathon",
+                "link": ""
+            }
+        ]
+    },
+    {
+        "category": "Other Academic Achievements",
+        "awards": [
+            {
+                "year": "2017",
+                "name": "Outstanding Performance Award in Deep Learning Summer School at Tsinghua University",
+                "link": "http://goglobal.tsinghua.edu.cn/en/program/deeplearning2017"
+            },
+            {
+                "year": "2016",
+                "name": "Best Junior Award in Stony Brook ACM Regional Qualification Contest",
+                "link": ""
+            },
+            {
+                "year": "2015",
+                "name": "Outstanding Cambridge Learner Award in Advanced Level Computing",
+                "link": "https://m.facebook.com/BritishCouncilEgypt/photos/a.917441141610776/917441801610710/?type=3&source=43&paipv=0&eav=AfYsBSnMDBulcrkcW7iCLeeQuAKW4wS91iEV0TIuNRtoNllX7C3Sjiz8ksymZAHN0Vc"
+            }
+        ]
+    }
+]

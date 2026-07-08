@@ -1,0 +1,90 @@
+[
+    {
+        "date": "November 2021 - November 2022",
+        "title": "AI Resident at Meta",
+        "location": "Seattle, United States",
+        "image": "../assets/experience/meta.jpg",
+        "points": [
+            "Worked with Mona Diab and Asli Celikyilmaz.",
+            "Finished 6 first-author papers during my residency."
+        ]
+    },
+    {
+        "date": "March 2021 - October 2021",
+        "title": "AI Research Intern at Sony AI",
+        "location": "Tokyo, Japan (Remote)",
+        "image": "../assets/experience/sony.jpg",
+        "points": [
+            "Collaborated with Sam Ritter and Zeb Kurth-Nelson of DeepMind",
+            "Conducting research on Meta-Reinforcement Learning"
+        ]
+    },
+    {
+        "date": "October 2020 - February 2021",
+        "title": "AI Research Intern at Sony CSL",
+        "location": "Tokyo, Japan (Remote)",
+        "image": "../assets/experience/sony_csl.jpg",
+        "points": [
+            "Worked with Michael Spranger"
+        ]
+    },
+    {
+        "date": "April 2019 - September 2019",
+        "title": "Applied Scientist at Microsoft Advanced Technology Lab in Cairo",
+        "location": "Cairo, Egypt",
+        "image": "../assets/experience/microsoft.jpg",
+        "points": [
+            "Research in Cross-Lingual Model Transfer",
+            "Best Mentor Award",
+            "First Place in Microsoft ATLC Hackathon"
+        ]
+    },
+    {
+        "date": "January 2018 - March 2019",
+        "title": "Machine Intelligence Research Assistant at Vkansee",
+        "location": "New York, United States (Remote)",
+        "image": "../assets/experience/vkansee.jpg",
+        "points": [
+            "Conducting research to improve state-of-the-art algorithms in bio-metrics through ML",
+            "Optimize implementations for speed and space to suit embedded devices with restricted resources",
+            "Assist in data collection, labeling, and preprocessing",
+            "Work with and support engineers from leading mobile phone and device manufacturers to integrate Vkansee solutions into industry standard platforms"
+        ]
+    },
+    {
+        "date": "June 2018 - September 2018",
+        "title": "Software Engineer at Microsoft Advanced Technology Lab in Cairo",
+        "location": "Cairo, Egypt",
+        "image": "../assets/experience/microsoft.jpg",
+        "points": [
+            "Researching the applicability of multilingual bot-interaction through Machine Translation",
+            "Mentoring Summer Intern",
+            "Developed Node CLI tool for MS Language Generation, part of Bot-Framework tools",
+            "Collaborating with Microsoft Beijing for designing and developing core components part of MS Language Generation",
+            "Incorporate Machine Translation into MS Bot-Framework"
+        ]
+    },
+    {
+        "date": "Fall 2015, Spring 2016 and Fall 2017",
+        "title": "Undergraduate Teaching Assistant at The American University in Cairo",
+        "location": "Cairo, Egypt",
+        "image": "../assets/experience/auc.png",
+        "points": [
+            "Teaching assistant for Practical Machine Deep Learning and Programming Fundamentals",
+            "Hold regular office hours to help students",
+            "Give sessions/workshops to assist students with their coursework"
+        ]
+    },
+    {
+        "date": "June 2015 - Aug 2015 and January 2016",
+        "title": "SDE Intern at Microsoft Advanced Technology Lab in Cairo",
+        "location": "Cairo, Egypt",
+        "image": "../assets/experience/microsoft.jpg",
+        "points": [
+            "Supporting full-text search for MS Language Understanding Intelligent Service (LUIS) utterances",
+            "Migrating existing LUIS database from Azure to MS SQL Server and adjusting LUIS features that uses this database accordingly",
+            "Design and implement the application import/export feature on LUIS",
+            "Developing different applications (iOS, Windows Phone and an Office Extension) that utilizes LUIS"
+        ]
+    }
+]

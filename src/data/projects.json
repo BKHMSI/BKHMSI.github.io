@@ -1,0 +1,34 @@
+[
+    {
+        "name": "Egyptians in CS Research",
+        "link": "https://egyptians-in-cs.github.io",
+        "code": "https://github.com/egyptians-in-cs/egyptians-in-cs.github.io",
+        "blog": "https://bkhmsi.medium.com/egyptian-researchers-in-computer-science-6879cdaf84db",
+        "collaborators": [],
+        "desc": "Previously, Egyptians in AI Research. Egyptians in CS Research is a website dedicated to showcasing the profiles of prominent Egyptian researchers in the field of Computer Science. If you believe that someone deserving is missing from our list, we welcome your suggestions. To be considered for inclusion, the only criteria is that the individual must have an h-index of 5 or higher, as recorded on their Google Scholar profile. You can submit your suggestion by filling out this form, or request updates for existing profiles. We hope that you find our website informative and inspiring, and we invite you to explore the profiles of our featured researchers."
+    },
+    {
+        "name": "Font-To-Sketch: Morphing Any Font to a Visual Representation",
+        "link": "https://github.com/BKHMSI/Font-To-Sketch",
+        "code": "https://github.com/BKHMSI/Font-To-Sketch",
+        "blog": "",
+        "collaborators": [],
+        "desc": "<p>This demo builds on the <a href='https://wordasimage.github.io/Word-As-Image-Page/'>Word-As-Image for Semantic Typography</a> work to support <strong>any</strong> font and morphing whole words and phrases to a visual representation of a given semantic concept. This project started as part of an ongoing effort with the <a href='https://arbml.github.io/website/'>ARBML</a> community to build open-source Arabic tools using machine learning. The demo currently supports the following scripts: <strong>Arabic</strong>, <strong>Simplified Chinese</strong>, <strong>Cyrillic</strong>, <strong>Greek</strong>, <strong>Latin</strong>, <strong>Tamil</strong>. Therefore you can write the text in any language using those scripts. To add support for more fonts please check the <a href='https://raw.githubusercontent.com/BKHMSI/Font-To-Sketch'>GitHub ReadMe</a>.</p>"
+    },
+    {
+        "name": "Korastak: Simple Note Sharing",
+        "link": "https://korastak.com/AUC",
+        "code": "",
+        "blog": "",
+        "collaborators": ["Ahmed El-Agha,", "Youssef Gamaleldin"],
+        "desc": "Korastak is a notes-sharing platform that was developed by AUC students in 2016 with the dream of democratizing the studying experience for all students. It currently contains 259 notes covering 100 courses from 24 different departments. The database was built by reaching out to individuals and associations at AUC who shared the same enthusiasm of sharing their class-notes with other students. However, we are still far from covering all courses in AUC. The aim is to reach 90% of the courses across all departments by the end of this year. The website is built with simplicity in mind and is maintained by AUC alumni who volunteer their time to make notes easily accessible for everyone."
+    },
+    {
+        "name": "ARM Thumb Simulator",
+        "link": "https://bkhmsi.github.io/ARMThumb_Sim/#/",
+        "code": "https://github.com/BKHMSI/ARMThumb_Sim",
+        "blog": "",
+        "collaborators": [],
+        "desc": "The ARM Thumb Simulator stands as a sophisticated web application meticulously designed to simulate the ARM Thumb architecture, catering to both proficient programmers and those venturing into low-level coding. It offers an array of comprehensive features, encompassing assembler directives for efficient memory organization, dynamic debugging tools for in-depth code comprehension, real-time tracking of register and memory values, and interactive software interrupts for user interaction. The platform further boasts a 320x240 GFX display with customizable frame rates and zoom options, syntax highlighting for clarity, robust import/export capabilities, user account functionalities for collaborative projects, versatile converter tools, sample programs, and compatibility with key pseudo instructions such as `MOV Rd, Rs and LDR Rd, =label | =offset`. This comprehensive set of features ensures an authentic and transformative experience within the bounds of the ARM Thumb architecture."
+    }
+]
