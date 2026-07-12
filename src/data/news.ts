@@ -7,7 +7,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     date: '9 July 2026',
-    html: 'The extended abstract of our paper <strong><a href="https://arxiv.org/abs/2606.09770">Discovering Functionally Selective Brain Regions with a Deep Topographic Multimodal Model</a></strong> has been accepted as a <strong>Spotlight (top-10%)</strong> at <strong><a href="https://2026.ccneuro.org">CCN 2026</a></strong>!'
+    html: 'The extended abstract of our paper <strong><a href="https://arxiv.org/abs/2606.09770">Discovering Functionally Selective Brain Regions with a Deep Topographic Multimodal Model</a></strong> has been accepted as a <strong>Spotlight (top 10%)</strong> at <strong><a href="https://2026.ccneuro.org">CCN 2026</a></strong>!'
   },
   {
     date: '8 July 2026',
