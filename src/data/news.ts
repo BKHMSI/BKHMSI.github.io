@@ -1,7 +1,11 @@
 import type { NewsItem } from '@/types'
 
 export const newsItems: NewsItem[] = [
-    {
+  {
+    date: '13 July 2026',
+    html: 'Started an internship at <strong><a href="https://deepmind.google">Google DeepMind</a></strong> in Zurich, Switzerland!'
+  },
+  {
     date: '9 July 2026',
     html: 'The extended abstract of our paper <strong><a href="https://arxiv.org/abs/2606.09770">Discovering Functionally Selective Brain Regions with a Deep Topographic Multimodal Model</a></strong> has been accepted as a <strong>Spotlight (top-10%)</strong> at <strong><a href="https://2026.ccneuro.org">CCN 2026</a></strong>!'
   },
@@ -11,7 +15,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     date: '8 June 2026',
-    html: 'Our paper <strong><a href="https://arxiv.org/abs/2606.09770">Discovering Functionally Selective Brain Regions with a Deep Topographic Multimodal Model</a></strong> is out!'
+    html: 'Our preprint <strong><a href="https://arxiv.org/abs/2606.09770">Discovering Functionally Selective Brain Regions with a Deep Topographic Multimodal Model</a></strong> is out!'
   },
   {
     date: '28 May 2026',
@@ -27,7 +31,7 @@ export const newsItems: NewsItem[] = [
   },
   {
     date: '3 April 2026',
-    html: 'Our paper <strong><a href="https://arxiv.org/abs/2604.03480">Large Language Models Align with the Human Brain during Creative Thinking</a></strong> is out!'
+    html: 'Our preprint <strong><a href="https://arxiv.org/abs/2604.03480">Large Language Models Align with the Human Brain during Creative Thinking</a></strong> is out!'
   },
   {
     date: '10 February 2026',
