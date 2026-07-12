@@ -1,6 +1,10 @@
 import type { NewsItem } from '@/types'
 
 export const newsItems: NewsItem[] = [
+    {
+    date: '8 July 2026',
+    html: 'Our paper <strong><a href="https://arxiv.org/abs/2604.03480">Large Language Models Align with the Human Brain during Creative Thinking</a></strong> has been accepted to <strong><a href="https://colmweb.org">COLM 2026</a></strong>!'
+  },
   {
     date: '8 June 2026',
     html: 'Our paper <strong><a href="https://arxiv.org/abs/2606.09770">Discovering Functionally Selective Brain Regions with a Deep Topographic Multimodal Model</a></strong> is out!'
