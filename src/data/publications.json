@@ -1,5 +1,29 @@
 [
     {
+        "title": "Lingua Franca or Probing Artifact? Rethinking Latent Language in Multilingual LLMs",
+        "link": "https://arxiv.org/abs/2609.00155",
+        "authors": [
+            "Deniz Bayazit", 
+            "<strong>Badr AlKhamissi</strong>,", 
+            "Antoine Bosselut"
+        ],
+        "authorship": "co-author",
+        "badges": "conference",
+        "website": "",
+        "poster": "",
+        "video": "",
+        "presentation": "",
+        "location": "Budapest, Hungary",
+        "award": "",
+        "twitter": "",
+        "github": "https://github.com/bayazitdeniz/latent-lid",
+        "year": "2026",
+        "venue": "Accepted at <a href='https://2026.emnlp.org'>EMNLP 2026</a> Findings",
+        "conference": ["EMNLP"],
+        "type": ["conference"],
+        "abstract": "Latent language identification is often used to argue that multilingual language models route computation through language-specific states, such as English pivots. However, existing probes infer latent language from different signals, such as the geometry of hidden states or what can be decoded from intermediate representations. Since such claims shape conclusions about how models share and route information across languages, we ask whether these probes measure the same phenomenon or expose distinct aspects of multilingual computation. We study this question across model families, training regimes, domains, tasks, checkpoints, and up to 27 languages. We find that identification probes systematically disagree: the GMM-based representation probe, which draws evidence from hidden state geometry, shows earlier cross-lingual mixing, whereas decoding-based probes, which rely on output-space decodability, retain sharper language-specific and more English-biased signals. These differences track model multilinguality and training progression, but are comparatively stable across domains. Our results suggest a more cautious interpretation of latent language identification, where current probes expose different aspects of multilingual processing, rather than directly revealing a single internal lingua franca."
+    },
+    {
         "title": "Discovering Functionally Selective Brain Regions with a Deep Topographic Multimodal Model",
         "link": "https://arxiv.org/abs/2606.09770",
         "authors": [

@@ -39,6 +39,12 @@ const visibleNews = newsItems
                 <strong>Interested in</strong> the intersection of machine learning, neuroscience, and cognitive science
               </li>
               <li class="bio-item">
+                <strong>Currently: Student Researcher</strong> at
+                <a href="https://deepmind.google" target="_blank" rel="noopener noreferrer" class="text-brand-600 dark:text-brand-400 hover:underline">Google DeepMind</a>
+                (Zurich), with
+                <a href="https://ibomohsin.com" target="_blank" rel="noopener noreferrer" class="text-brand-600 dark:text-brand-400 hover:underline">Ibrahim Alabdulmohsin</a>
+              </li>
+              <li class="bio-item">
                 <strong>Previously: AI Resident</strong> at
                 <a href="https://ai.facebook.com/join-us/residency-program/" target="_blank" rel="noopener noreferrer" class="text-brand-600 dark:text-brand-400 hover:underline">Meta AI</a>
                 (Seattle), with

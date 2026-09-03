@@ -1,5 +1,14 @@
 [
     {
+        "date": "July 2026 - Present",
+        "title": "Student Researcher at Google DeepMind",
+        "location": "Zurich, Switzerland",
+        "image": "../assets/experience/deepmind.png",
+        "points": [
+            "Working with Ibrahim Alabdulmohsin"
+        ]
+    },
+    {
         "date": "November 2021 - November 2022",
         "title": "AI Resident at Meta",
         "location": "Seattle, United States",
