@@ -24,7 +24,7 @@ const links = [
   },
   {
     name: 'Email',
-    url: 'mailto:badr@khamissi.com',
+    url: 'mailto:badr.alkhamissi@gmail.com',
     icon: 'email',
   },
 ]
