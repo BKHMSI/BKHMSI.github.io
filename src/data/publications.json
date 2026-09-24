@@ -1,5 +1,29 @@
 [
     {
+        "title": "MIRAGE: Adaptive Multimodal Gating for Whole-Brain fMRI Encoding",
+        "link": "https://arxiv.org/abs/2605.29850",
+        "authors": [
+            "Abdulkadir Gokce*,", 
+            "<strong>Badr AlKhamissi*</strong>,", 
+            "Martin Schrimpf"
+        ],   
+        "authorship": "first",
+        "badges": "poster",
+        "website": "https://mirage-brain.epfl.ch",
+        "poster": "",
+        "video": "",
+        "presentation": "",
+        "location": "Sydney, Australia",
+        "award": "",
+        "twitter": "https://x.com/bkhmsi/status/2061451293919428813",
+        "github": "https://github.com/epflneuroailab/mirage",
+        "year": "2026",
+        "venue": "Accepted at <a href=\"https://neurips.cc/\">NeurIPS</a> 2026",
+        "conference": ["NeurIPS"],
+        "type": ["selected", "conference"],
+        "abstract": "Recent progress in task-optimized neural networks has established encoding models as a powerful tool for predicting brain responses to naturalistic stimuli, yet most existing approaches rely on unimodal representations. The emergence of omni-modal foundation models and rich multimodal neural datasets enables encoding models that jointly integrate visual, auditory, and linguistic information across subjects. We introduce MIRAGE, a brain encoding framework for predicting whole-brain fMRI responses to naturalistic audiovisual stimuli. MIRAGE achieves state-of-the-art performance via a native multimodal backbone and adaptive feature gating across layers. These representations are then combined with a transformer-based brain encoder and a subject-specific linear head over the cortical parcels. Controlled comparisons show that natively multimodal features consistently outperform post-hoc aggregation of independent unimodal features, across architectural levels and backbones. Beyond predictive accuracy, the learned attention weights are directly inspectable to interpret the modality-specific gating profile over the backbone, and each modality traces a distinct anatomical pattern across cortex. Together, these results propose adaptive layer-wise aggregation of natively multimodal features as a generalizable, interpretable, and accurate approach for whole-brain encoding."
+    },
+    {
         "title": "Lingua Franca or Probing Artifact? Rethinking Latent Language in Multilingual LLMs",
         "link": "https://arxiv.org/abs/2609.00155",
         "authors": [
@@ -49,30 +73,6 @@
         "conference": ["Preprint", "CCN"],
         "type": ["selected", "preprint"],
         "abstract": "Nearby neurons in cortex share similar response profiles, producing systematic spatial organization across sensory and cognitive systems. Recent topographic models reproduce aspects of this structure but remain unimodal and spatially constrain each layer separately, yielding fragmented maps that capture neither the contiguity of cortical processing streams nor their integration across modalities. We introduce Topo-Omni, a topographic multimodal model in which visual, auditory, and language/cognitive processing share a single contiguous in-silico sheet. Built by fine-tuning a pretrained foundation model with a spatial smoothness objective, this architecture develops clusters across modalities that are consistent with human neuroimaging, from sensory to cognitive systems. Driving or suppressing a cluster selectively biases or impairs perception, paralleling human intervention studies. Finally, we use our model to screen for novel clusters in-silico and discover new natural landscape and animal networks which we validate in human data. A single spatial principle thus organizes representations across modalities and processing stages, yielding testable hypotheses about cortical organization."
-    },
-    {
-        "title": "MIRAGE: Adaptive Multimodal Gating for Whole-Brain fMRI Encoding",
-        "link": "https://arxiv.org/abs/2605.29850",
-        "authors": [
-            "Abdulkadir Gokce*,", 
-            "<strong>Badr AlKhamissi*</strong>,", 
-            "Martin Schrimpf"
-        ],   
-        "authorship": "first",
-        "badges": "preprint",
-        "website": "https://mirage-brain.epfl.ch",
-        "poster": "",
-        "video": "",
-        "presentation": "",
-        "location": "",
-        "award": "",
-        "twitter": "https://x.com/bkhmsi/status/2061451293919428813",
-        "github": "https://github.com/epflneuroailab/mirage",
-        "year": "2026",
-        "venue": "",
-        "conference": ["Preprint"],
-        "type": ["selected", "preprint"],
-        "abstract": "Recent progress in task-optimized neural networks has established encoding models as a powerful tool for predicting brain responses to naturalistic stimuli, yet most existing approaches rely on unimodal representations. The emergence of omni-modal foundation models and rich multimodal neural datasets enables encoding models that jointly integrate visual, auditory, and linguistic information across subjects. We introduce MIRAGE, a brain encoding framework for predicting whole-brain fMRI responses to naturalistic audiovisual stimuli. MIRAGE achieves state-of-the-art performance via a native multimodal backbone and adaptive feature gating across layers. These representations are then combined with a transformer-based brain encoder and a subject-specific linear head over the cortical parcels. Controlled comparisons show that natively multimodal features consistently outperform post-hoc aggregation of independent unimodal features, across architectural levels and backbones. Beyond predictive accuracy, the learned attention weights are directly inspectable to interpret the modality-specific gating profile over the backbone, and each modality traces a distinct anatomical pattern across cortex. Together, these results propose adaptive layer-wise aggregation of natively multimodal features as a generalizable, interpretable, and accurate approach for whole-brain encoding."
     },
     {
         "title": "Large Language Models Align with the Human Brain during Creative Thinking",
