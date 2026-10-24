@@ -36,10 +36,10 @@ const visibleNews = newsItems
                 <a href="https://mschrimpf.com" target="_blank" rel="noopener noreferrer" class="text-brand-600 dark:text-brand-400 hover:underline">Martin Schrimpf</a>
               </li>
               <li class="bio-item">
-                <strong>Interested in</strong> the intersection of machine learning, neuroscience, and cognitive science
+                <strong>Interested in</strong> the science of intelligence, both natural and artificial.
               </li>
               <li class="bio-item">
-                <strong>Currently: Student Researcher</strong> at
+                <strong>Previously: Student Researcher</strong> at
                 <a href="https://deepmind.google" target="_blank" rel="noopener noreferrer" class="text-brand-600 dark:text-brand-400 hover:underline">Google DeepMind</a>
                 (Zurich), with
                 <a href="https://ibomohsin.com" target="_blank" rel="noopener noreferrer" class="text-brand-600 dark:text-brand-400 hover:underline">Ibrahim Alabdulmohsin</a>
