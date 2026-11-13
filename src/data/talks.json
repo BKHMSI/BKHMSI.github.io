@@ -1,5 +1,14 @@
 [
     {
+        "date": "3rd of November 2026",
+        "title": "Human-Like Artificial Intelligence",
+        "role": "Speaker",
+        "inst": "Berlin Learning & Intelligent Systems Society",
+        "link": "https://bliss.berlin",
+        "slides": "",
+        "badges": ""
+    },
+    {
         "date": "26th of August 2026",
         "title": "Discovering Functionally Selective Brain Regions with a Deep Topographic Multimodal Model",
         "role": "Speaker",

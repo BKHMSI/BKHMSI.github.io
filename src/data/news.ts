@@ -2,6 +2,14 @@ import type { NewsItem } from '@/types'
 
 export const newsItems: NewsItem[] = [
   {
+    date: '12 Nov 2026',
+    html: 'Honored to have been named a 2026 <strong><a href="https://blog.google/company-news/outreach-and-initiatives/google-org/phd-fellows-2026/">Google PhD Fellow</a><strong> in NLP.'
+  },
+  {
+    date: '3 Nov 2026',
+    html: 'Gave an invited talk at the <strong><a href="https://bliss.berlin">Berlin Learning & Intelligent Systems Society</a></strong>.'
+  },
+  {
     date: '24 Sep 2026',
     html: 'Our paper <strong><a href="https://arxiv.org/abs/2605.29850"> MIRAGE: Adaptive Multimodal Gating for Whole-Brain fMRI Encoding </a></strong> has been accepted to <strong><a href="https://neurips.cc">NeurIPS 2026</a></strong>.'
   },
